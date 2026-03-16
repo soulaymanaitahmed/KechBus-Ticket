@@ -1,37 +1,27 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./CSS/App.css";
+import React, { lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
+
+import "./Styles/App.css";
+
+import SideBar from "./Components/SideBar";
+const Dashboard = lazy(() => import("./Components/Dashboard"));
+const Stats = lazy(() => import("./Components/Stats"));
+const Tikets = lazy(() => import("./Components/Tikets"));
 
 function App() {
-  const [count, setCount] = useState(0);
-  useEffect(() => {}, [count]);
-
-  function Hh() {
-    setCount((count) => count + 1);
-  }
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App">
+      <SideBar />
+      <div className="main-content">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/stats" element={<Stats />} />
+            <Route path="/tikets" element={<Tikets />} />
+          </Routes>
+        </Suspense>
       </div>
-      <h1>KechBus Ticket</h1>
-      <div className="card">
-        <button onClick={Hh}>count is {count}</button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   );
 }
 

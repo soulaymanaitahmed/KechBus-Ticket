@@ -1,0 +1,57 @@
+@import "Varibles.css";
+
+.side-bar {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  width: fit-content;
+  height: 96vh;
+  box-sizing: border-box;
+  background-color: var(--w);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 1rem;
+}
+.side-bar > *:last-child {
+  margin-top: auto;
+}
+.side-bar > *:last-child:hover {
+  background-color: #00712dab;
+  color: #fff;
+}
+.sid-item {
+  width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 0.5rem !important;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  transition: all 300ms;
+  color: var(--b1);
+}
+.sid-item:hover {
+  background-color: var(--b1);
+  color: var(--w);
+}
+#active-link {
+  background-color: var(--b2);
+  color: var(--w);
+}
+.sid-icons {
+  font-size: 1.1rem;
+  font-weight: bold !important;
+}
+.side-names {
+  padding-left: 1rem;
+  padding-right: 1.5rem;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.mar-top {
+  margin-top: 3rem;
+}
+.mar-top1 {
+  margin-top: 1rem;
+}
