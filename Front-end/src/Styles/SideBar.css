@@ -3,7 +3,7 @@
 .side-bar {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   width: fit-content;
-  height: 96vh;
+  height: 94vh;
   box-sizing: border-box;
   background-color: var(--w);
   padding: 1rem;

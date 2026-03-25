@@ -2,7 +2,7 @@
 
 .App {
   width: 100%;
-  min-height: 100vh;
+  min-height: 95vh;
   box-sizing: border-box;
   display: flex;
   justify-content: flex-start;
@@ -13,7 +13,8 @@
 }
 .main-content {
   flex-grow: 1;
-  min-height: 96vh;
+  height: 94vh;
+  overflow-y: auto;
   box-sizing: border-box;
   border-radius: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
