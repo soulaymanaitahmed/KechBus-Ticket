@@ -5,7 +5,6 @@ import { FaLayerGroup } from "react-icons/fa";
 import { BsFillGrid1X2Fill } from "react-icons/bs";
 import { FaTicketSimple } from "react-icons/fa6";
 import { IoStatsChart } from "react-icons/io5";
-import { IoLogIn } from "react-icons/io5";
 import { RiLoginBoxFill } from "react-icons/ri";
 
 import "../Styles/SideBar.css";
@@ -55,7 +54,7 @@ function SideBar() {
         {expand && <span className="side-names">Stats</span>}
       </div>
 
-      <div className="sid-item mar-top1" onClick={() => navigate("/loin")}>
+      <div className="sid-item mar-top1" onClick={() => navigate("/login")}>
         <RiLoginBoxFill className="sid-icons" />
         {expand && <span className="side-names">LogIn</span>}
       </div>
