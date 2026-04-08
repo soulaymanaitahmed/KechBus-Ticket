@@ -130,9 +130,9 @@ export default function Home() {
         <div className="lp-hero__content">
           <span className="lp-badge">🚌 Marrakech Smart City Initiative</span>
           <h1 className="lp-hero__title">
-            Your bus ticket,
+           Votre billet de bus,
             <br />
-            <em>reinvented.</em>
+            <em>réinventé.</em>
           </h1>
           <p className="lp-hero__sub">
             KechBus-Ticket replaces paper tickets with instant digital passes —
