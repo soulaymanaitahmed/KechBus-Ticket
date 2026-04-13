@@ -3,6 +3,9 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./Styles/index.css";
 import App from "./App";
+import { registerSW } from "virtual:pwa-register";
+
+registerSW({ immediate: true });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -56,7 +56,7 @@ function SideBar() {
 
       <div className="sid-item mar-top1" onClick={() => navigate("/login")}>
         <RiLoginBoxFill className="sid-icons" />
-        {expand && <span className="side-names">LogIn</span>}
+        {expand && <span className="side-names">Logout</span>}
       </div>
     </div>
   );
