@@ -128,15 +128,19 @@ export default function Home() {
           <div className="lp-hero__glow" />
         </div>
         <div className="lp-hero__content">
+          <span className="lp-badge">🚌Marrakech Smart City Initiative</span>
           <span className="lp-badge">
             🚌Initiative Ville Intelligente de Marrakech
           </span>
           <h1 className="lp-hero__title">
+           Your bus ticket,
             Votre billet de bus,
             <br />
-            <em>réinventé.</em>
+            <em>reinvented.</em>
           </h1>
           <p className="lp-hero__sub">
+          KechBus-Ticket replaces paper tickets with instant digital transport passes
+         and provides operators with the data they need to ensure smooth traffic flow in Marrakech.
             KechBus-Ticket remplace les billets papier par des titres de
             transport numériques instantanés — et fournit aux opérateurs les
             données dont ils ont besoin pour assurer la fluidité du trafic à
@@ -144,6 +148,7 @@ export default function Home() {
           </p>
           <div className="lp-hero__actions">
             <a href="#" className="lp-btn lp-btn--primary">
+             Buy a ticket <FiArrowRight />
               Acheter un billet <FiArrowRight />
             </a>
             <a href="#features" className="lp-btn lp-btn--ghost">
@@ -157,12 +162,12 @@ export default function Home() {
               <FiTruck size={18} /> KechBus-Ticket
             </div>
             <div className="lp-ticket__line">Ligne 1</div>
-            <div className="lp-ticket__route">Jamaa el-Fna → Guéliz</div>
+            <div className="lp-ticket__route">Jamaa el-Fna → Gueliz</div>
             <div className="lp-ticket__meta">
               <span>
                 <FiClock size={12} /> 08:45
               </span>
-              <span className="lp-ticket__valid">✓ Valid</span>
+              <span className="lp-ticket__valid">✓ Validate</span>
             </div>
             <div className="lp-ticket__qr">
               <div className="lp-qr-grid">
@@ -183,10 +188,11 @@ export default function Home() {
       {/* FEATURES */}
       <section className="lp-section" id="features">
         <div className="lp-container">
-          <p className="lp-eyebrow">Ce que nous proposons</p>
+          <p className="lp-eyebrow">what we offer</p>
           <h2 className="lp-section__title">
-            Conçu pour la ville.
+           Designed for the city.
             <br />
+          Designed for you.
             Pensé pour vous.
           </h2>
           <div className="lp-features__grid">
@@ -204,8 +210,10 @@ export default function Home() {
       {/* HOW IT WORKS */}
       <section className="lp-section lp-section--alt" id="how-it-works">
         <div className="lp-container">
-          <p className="lp-eyebrow">Processus simple</p>
+          <p className="lp-eyebrow">simple process</p>
           <h2 className="lp-section__title">
+            Three steps.
+
             Trois étapes.
             <br />
             Zéro tracas.
@@ -232,6 +240,9 @@ export default function Home() {
       {/* LIVE LINES */}
       <section className="lp-section" id="lines">
         <div className="lp-container">
+          <p className="lp-eyebrow">Network status</p>
+          <h2 className="lp-section__title">Live overview of routes.
+</h2>
           <p className="lp-eyebrow">État du réseau</p>
           <h2 className="lp-section__title">Aperçu des lignes en direct.</h2>
           <div className="lp-lines">
@@ -258,6 +269,11 @@ export default function Home() {
       <section className="lp-cta">
         <div className="lp-cta__glow" />
         <div className="lp-container lp-cta__inner">
+          <h2>Ready to travel smarter ?</h2>
+          <p>Join the thousands of Marrakchis who already travel paperlessly.
+      </p>
+          <Link to="/signin" className="lp-btn lp-btn--primary lp-btn--lg">
+          Create a free account <FiArrowRight />
           <h2>Prêt à voyager plus intelligemment ?</h2>
           <p>
             Rejoignez les milliers de Marrakchis qui voyagent déjà sans papier.
@@ -278,8 +294,7 @@ export default function Home() {
             </span>
           </a>
           <p className="lp-footer__copy">
-            © 2026 KechBus-Ticket · UPM — Développement Logiciel & Sécurité
-            Informatique
+           © 2026 KechBus-Ticket · UPM — Software Development & IT Security
           </p>
         </div>
       </footer>
