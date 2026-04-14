@@ -128,29 +128,24 @@ export default function Home() {
           <div className="lp-hero__glow" />
         </div>
         <div className="lp-hero__content">
-          <span className="lp-badge">🚌Marrakech Smart City Initiative</span>
           <span className="lp-badge">
-            🚌Initiative Ville Intelligente de Marrakech
+            🚌 Initiative Ville Intelligente de Marrakech
           </span>
           <h1 className="lp-hero__title">
-           Your bus ticket,
             Votre billet de bus,
             <br />
-            <em>reinvented.</em>
+            <em>Réinventé.</em>
           </h1>
           <p className="lp-hero__sub">
-          KechBus-Ticket replaces paper tickets with instant digital transport passes
-         and provides operators with the data they need to ensure smooth traffic flow in Marrakech.
             KechBus-Ticket remplace les billets papier par des titres de
             transport numériques instantanés — et fournit aux opérateurs les
             données dont ils ont besoin pour assurer la fluidité du trafic à
             Marrakech.
           </p>
           <div className="lp-hero__actions">
-            <a href="#" className="lp-btn lp-btn--primary">
-             Buy a ticket <FiArrowRight />
+            <Link to="/login" className="lp-btn lp-btn--primary">
               Acheter un billet <FiArrowRight />
-            </a>
+            </Link>
             <a href="#features" className="lp-btn lp-btn--ghost">
               Explore Features
             </a>
@@ -189,12 +184,7 @@ export default function Home() {
       <section className="lp-section" id="features">
         <div className="lp-container">
           <p className="lp-eyebrow">what we offer</p>
-          <h2 className="lp-section__title">
-           Designed for the city.
-            <br />
-          Designed for you.
-            Pensé pour vous.
-          </h2>
+          <h2 className="lp-section__title">Pensé pour vous.</h2>
           <div className="lp-features__grid">
             {FEATURES.map((f) => (
               <div className="lp-feature-card" key={f.title}>
@@ -212,25 +202,20 @@ export default function Home() {
         <div className="lp-container">
           <p className="lp-eyebrow">simple process</p>
           <h2 className="lp-section__title">
-            Three steps.
-
-            Trois étapes.
+            Trois étapes...
             <br />
             Zéro tracas.
           </h2>
           <div className="lp-steps">
             {STEPS.map((s, i) => (
               <div className="lp-step" key={s.num}>
-                <div className="lp-step__num">{s.num}</div>
                 <div className="lp-step__body">
-                  <h3>{s.title}</h3>
+                  <h3>
+                    {s.num} - {s.title}
+                  </h3>
                   <p>{s.desc}</p>
+                  <br />
                 </div>
-                {i < STEPS.length - 1 && (
-                  <div className="lp-step__arrow">
-                    <FiArrowRight />
-                  </div>
-                )}
               </div>
             ))}
           </div>
@@ -240,9 +225,6 @@ export default function Home() {
       {/* LIVE LINES */}
       <section className="lp-section" id="lines">
         <div className="lp-container">
-          <p className="lp-eyebrow">Network status</p>
-          <h2 className="lp-section__title">Live overview of routes.
-</h2>
           <p className="lp-eyebrow">État du réseau</p>
           <h2 className="lp-section__title">Aperçu des lignes en direct.</h2>
           <div className="lp-lines">
@@ -269,11 +251,6 @@ export default function Home() {
       <section className="lp-cta">
         <div className="lp-cta__glow" />
         <div className="lp-container lp-cta__inner">
-          <h2>Ready to travel smarter ?</h2>
-          <p>Join the thousands of Marrakchis who already travel paperlessly.
-      </p>
-          <Link to="/signin" className="lp-btn lp-btn--primary lp-btn--lg">
-          Create a free account <FiArrowRight />
           <h2>Prêt à voyager plus intelligemment ?</h2>
           <p>
             Rejoignez les milliers de Marrakchis qui voyagent déjà sans papier.
@@ -294,7 +271,7 @@ export default function Home() {
             </span>
           </a>
           <p className="lp-footer__copy">
-           © 2026 KechBus-Ticket · UPM — Software Development & IT Security
+            © 2026 KechBus-Ticket · UPM — Software Development & IT Security
           </p>
         </div>
       </footer>
