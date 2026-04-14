@@ -7,18 +7,29 @@ import "../Styles/Logins.css";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+
+  const handleLogin = () => {
+    console.log("Logging in with:", { email, password, remember });
+  };
 
   return (
     <div className="login-wrapper">
       <div className="login-card">
         <h1 className="login-title">Welcome back to KechBus</h1>
-        <p className="login-subtitle">Sign in to your account</p>
+        <p className="login-subtitle">Log in to your account</p>
 
         <label className="field-label">Email</label>
         <div className="input-wrapper">
           <FiMail className="input-icon" />
-          <input type="email" placeholder="Enter your email" />
+          <input
+            type="email"
+            placeholder="Enter your email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
 
         <label className="field-label">Password</label>
@@ -27,6 +38,7 @@ export default function Login() {
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <button
             className="eye-btn"
@@ -52,7 +64,7 @@ export default function Login() {
         </div>
 
         <button className="btn-signin" type="button">
-          Sign In
+          Log In
         </button>
 
         <p className="signup-text">

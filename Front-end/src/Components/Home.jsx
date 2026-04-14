@@ -107,7 +107,7 @@ export default function Home() {
               </li>
             ))}
             <li>
-              <Link to="/signin" className="lp-nav__cta">
+              <Link to="/signup" className="lp-nav__cta">
                 Get Started
               </Link>
             </li>
@@ -128,20 +128,23 @@ export default function Home() {
           <div className="lp-hero__glow" />
         </div>
         <div className="lp-hero__content">
-          <span className="lp-badge">🚌Initiative Ville Intelligente de Marrakech</span>
+          <span className="lp-badge">
+            🚌Initiative Ville Intelligente de Marrakech
+          </span>
           <h1 className="lp-hero__title">
-           Votre billet de bus,
+            Votre billet de bus,
             <br />
             <em>réinventé.</em>
           </h1>
           <p className="lp-hero__sub">
-          KechBus-Ticket remplace les billets papier par des titres de transport numériques instantanés —
-
-          et fournit aux opérateurs les données dont ils ont besoin pour assurer la fluidité du trafic à Marrakech.
+            KechBus-Ticket remplace les billets papier par des titres de
+            transport numériques instantanés — et fournit aux opérateurs les
+            données dont ils ont besoin pour assurer la fluidité du trafic à
+            Marrakech.
           </p>
           <div className="lp-hero__actions">
             <a href="#" className="lp-btn lp-btn--primary">
-             Acheter un billet <FiArrowRight />
+              Acheter un billet <FiArrowRight />
             </a>
             <a href="#features" className="lp-btn lp-btn--ghost">
               Explore Features
@@ -184,7 +187,7 @@ export default function Home() {
           <h2 className="lp-section__title">
             Conçu pour la ville.
             <br />
-           Pensé pour vous.
+            Pensé pour vous.
           </h2>
           <div className="lp-features__grid">
             {FEATURES.map((f) => (
@@ -204,10 +207,8 @@ export default function Home() {
           <p className="lp-eyebrow">Processus simple</p>
           <h2 className="lp-section__title">
             Trois étapes.
-
             <br />
-            
-          Zéro tracas.
+            Zéro tracas.
           </h2>
           <div className="lp-steps">
             {STEPS.map((s, i) => (
@@ -232,8 +233,7 @@ export default function Home() {
       <section className="lp-section" id="lines">
         <div className="lp-container">
           <p className="lp-eyebrow">État du réseau</p>
-          <h2 className="lp-section__title">Aperçu des lignes en direct.
-</h2>
+          <h2 className="lp-section__title">Aperçu des lignes en direct.</h2>
           <div className="lp-lines">
             {LINES.map((l) => (
               <div className="lp-line-card" key={l.num}>
@@ -259,10 +259,11 @@ export default function Home() {
         <div className="lp-cta__glow" />
         <div className="lp-container lp-cta__inner">
           <h2>Prêt à voyager plus intelligemment ?</h2>
-          <p>Rejoignez les milliers de Marrakchis qui voyagent déjà sans papier.
-      </p>
-          <Link to="/signin" className="lp-btn lp-btn--primary lp-btn--lg">
-           Créer un compte gratuit <FiArrowRight />
+          <p>
+            Rejoignez les milliers de Marrakchis qui voyagent déjà sans papier.
+          </p>
+          <Link to="/signup" className="lp-btn lp-btn--primary lp-btn--lg">
+            Créer un compte gratuit <FiArrowRight />
           </Link>
         </div>
       </section>

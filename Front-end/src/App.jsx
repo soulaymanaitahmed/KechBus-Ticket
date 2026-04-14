@@ -27,7 +27,7 @@ function App() {
         {/* Separated Pages (No Sidebar) */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signin />} />
 
         {/* Internal Pages (With Sidebar) */}
         <Route
