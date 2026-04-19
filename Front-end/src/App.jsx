@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import "./Styles/App.css";
 
 import SideBar from "./Components/SideBar";
+import Contact from "./Components/Contact";
 
 // Lazy Pages
 const Dashboard = lazy(() => import("./Components/Dashboard"));
@@ -52,6 +53,13 @@ function App() {
             <AppLayout>
               <Tikets />
             </AppLayout>
+          }
+          
+        />
+          <Route
+          path="/contact"
+          element={
+              <Contact />
           }
         />
 

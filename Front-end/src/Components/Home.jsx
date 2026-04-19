@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import "../Styles/Home.css";
 import { Link } from "react-router-dom";
 
-const NAV_LINKS = ["Features", "How It Works", "Lines", "Contact"];
+const NAV_LINKS = ["Features", "How It Works", "Lines"];
 
 const FEATURES = [
   {
@@ -99,13 +99,22 @@ export default function Home() {
             {NAV_LINKS.map((l) => (
               <li key={l}>
                 <a
-                  href={`#${l.toLowerCase().replace(" ", "-")}`}
+                  href={`#${l.toLowerCase().replace(/\s+/g, "-")}`}
                   onClick={() => setMenuOpen(false)}
                 >
                   {l}
                 </a>
               </li>
             ))}
+            <li>
+            
+            </li>
+
+             <li>
+              <Link to="/contact" className="lp-nav__cta">
+                contact
+              </Link>
+            </li>
             <li>
               <Link to="/signin" className="lp-nav__cta">
                 Get Started
