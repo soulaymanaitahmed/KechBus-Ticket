@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import "./Styles/App.css";
 
 import SideBar from "./Components/SideBar";
-import Contact from "./Components/Contact";
+
 
 // Lazy Pages
 const Dashboard = lazy(() => import("./Components/Dashboard"));
@@ -12,6 +12,7 @@ const Tikets = lazy(() => import("./Components/Tikets"));
 const Home = lazy(() => import("./Components/Home"));
 const Login = lazy(() => import("./Components/Login"));
 const Signin = lazy(() => import("./Components/Signin"));
+const Contact = lazy(() => import("./Components/Contact"));
 
 // A simple Layout component for the internal app
 const AppLayout = ({ children }) => (
