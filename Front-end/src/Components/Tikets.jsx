@@ -1,41 +1,59 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, lazy, Suspense } from "react";
 
 import "../Styles/Tikets.css";
+import "../Styles/LiveBusTracker.css";
+
+const LiveBusTracker = lazy(() => import("./LiveBusTracker"));
 
 import { FaTicketSimple } from "react-icons/fa6";
 import { FaBus, FaClock, FaMapMarkerAlt } from "react-icons/fa";
 import { IoPeople } from "react-icons/io5";
 import { BsCalendar3 } from "react-icons/bs";
+import { QRCodeSVG } from "qrcode.react";
 
 /** Flat demo fare per passenger, per trip */
 const TRIP_PRICE_MAD = 4;
+
+/** Colour palette for line badges — each line gets a distinct hue */
+const LINE_COLORS = {
+  5: "#2563eb",  // blue
+  24: "#d97706",  // amber
+  35: "#059669",  // emerald
+  45: "#dc2626",  // red
+  12: "#7c3aed",  // violet
+  9: "#0891b2",  // cyan
+  18: "#c026d3",  // fuchsia
+};
 
 /** Local lines — stops are neighbourhoods and districts inside Marrakech */
 const LINES = [
   {
     id: "l-gueliz-medina",
-    from: "Guéliz",
-    to: "Medina",
-    duration: "22 min",
+    line: 5,
+    from: "Medina",
+    to: "Doha Abwab Marrakech",
+    duration: "32 min",
     price: TRIP_PRICE_MAD,
     departures: ["06:30", "08:00", "10:00", "12:30", "15:00", "18:00", "20:00"],
     seatsLeft: 14,
     tag: "Popular",
   },
   {
-    id: "l-gueliz-menara",
-    from: "Guéliz",
-    to: "Menara",
+    id: "l-sidi-tameslouht",
+    line: 24,
+    from: "Sidi Mimoun",
+    to: "Tameslouht",
     duration: "18 min",
     price: TRIP_PRICE_MAD,
-    departures: ["07:00", "09:15", "11:30", "14:00", "17:45"],
+    departures: ["07:00", "09:15", "11:30", "14:00", "17:45", "19:30", "21:00"],
     seatsLeft: 22,
     tag: null,
   },
   {
-    id: "l-medina-palmeraie",
-    from: "Medina",
-    to: "Palmeraie",
+    id: "l-sidi-tahnaout",
+    line: 35,
+    from: "Sidi Mimoun",
+    to: "Tahnaout",
     duration: "35 min",
     price: TRIP_PRICE_MAD,
     departures: ["08:00", "12:00", "16:30"],
@@ -43,9 +61,10 @@ const LINES = [
     tag: "Few seats",
   },
   {
-    id: "l-hayhassani-gueliz",
-    from: "Hay Hassani",
-    to: "Guéliz",
+    id: "l-sidi-amzmiz",
+    line: 45,
+    from: "Sidi Mimoun",
+    to: "Amzmiz",
     duration: "28 min",
     price: TRIP_PRICE_MAD,
     departures: ["06:45", "10:20", "13:00", "18:30"],
@@ -53,9 +72,10 @@ const LINES = [
     tag: null,
   },
   {
-    id: "l-menara-medina",
-    from: "Menara",
-    to: "Medina",
+    id: "l-medina-mhamid",
+    line: 12,
+    from: "Medina",
+    to: "M'hamid 9",
     duration: "25 min",
     price: TRIP_PRICE_MAD,
     departures: ["07:30", "11:00", "15:15", "19:00"],
@@ -64,6 +84,7 @@ const LINES = [
   },
   {
     id: "l-sidi-gueliz",
+    line: 9,
     from: "Sidi Youssef Ben Ali",
     to: "Guéliz",
     duration: "32 min",
@@ -74,6 +95,7 @@ const LINES = [
   },
   {
     id: "l-targa-massira",
+    line: 18,
     from: "Targa",
     to: "Massira",
     duration: "40 min",
@@ -103,6 +125,12 @@ function Tikets() {
   const [travelDate, setTravelDate] = useState(todayISODate);
   const [passengers, setPassengers] = useState(1);
   const [confirmed, setConfirmed] = useState(false);
+  const [trackingId, setTrackingId] = useState(null);
+  const [bookingRef, setBookingRef] = useState("");
+
+  const toggleTracking = (lineId) => {
+    setTrackingId((prev) => (prev === lineId ? null : lineId));
+  };
 
   const filteredLines = useMemo(() => {
     return LINES.filter((line) => {
@@ -124,6 +152,8 @@ function Tikets() {
 
   const handleConfirm = () => {
     if (!selectedLine || !departure) return;
+    const ref = `KB-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    setBookingRef(ref);
     setConfirmed(true);
   };
 
@@ -206,31 +236,81 @@ function Tikets() {
                   const active = selectedId === line.id;
                   return (
                     <li key={line.id}>
-                      <button
-                        type="button"
+                      <div
                         className={`tikets-line-card${active ? " tikets-line-card--active" : ""}`}
-                        onClick={() => handleSelectLine(line)}
                       >
-                        <div className="tikets-line-top">
-                          <div className="tikets-line-route">
-                            <span className="tikets-line-city">{line.from}</span>
-                            <span className="tikets-line-arrow" aria-hidden>
-                              →
-                            </span>
-                            <span className="tikets-line-city">{line.to}</span>
+                        <button
+                          type="button"
+                          className="tikets-line-card__select"
+                          onClick={() => handleSelectLine(line)}
+                        >
+                          <div className="tikets-line-top">
+                            <div className="tikets-line-route">
+                              <span
+                                className="tikets-line-badge"
+                                style={{ background: LINE_COLORS[line.line] || "#405d72" }}
+                              >
+                                Line {line.line}
+                              </span>
+                              <span className="tikets-line-city">{line.from}</span>
+                              <span className="tikets-line-arrow" aria-hidden>
+                                →
+                              </span>
+                              <span className="tikets-line-city">{line.to}</span>
+                            </div>
+                            {line.tag && <span className="tikets-line-tag">{line.tag}</span>}
                           </div>
-                          {line.tag && <span className="tikets-line-tag">{line.tag}</span>}
+                          <div className="tikets-line-meta">
+                            <span>
+                              <FaClock aria-hidden /> {line.duration}
+                            </span>
+                            <span>
+                              From <strong>{line.price} MAD</strong>
+                            </span>
+                            <span className="tikets-line-seats">{line.seatsLeft} seats left</span>
+                          </div>
+                        </button>
+
+                        {/* Track Live toggle */}
+                        <button
+                          type="button"
+                          className={`tikets-track-btn${trackingId === line.id ? " tikets-track-btn--active" : ""
+                            }`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleTracking(line.id);
+                          }}
+                        >
+                          {trackingId === line.id ? "Hide Tracking" : "Track Live 🚍"}
+                          <span className="tikets-track-btn__chevron" aria-hidden>▼</span>
+                        </button>
+
+                        {/* Collapsible tracker */}
+                        <div
+                          className={`tikets-tracker-wrapper${trackingId === line.id ? " tikets-tracker-wrapper--open" : ""
+                            }`}
+                        >
+                          <div className="tikets-tracker-inner">
+                            {trackingId === line.id && (
+                              <Suspense
+                                fallback={
+                                  <div style={{ padding: "1rem", textAlign: "center", fontSize: "0.85rem", color: "#405d72" }}>
+                                    Loading map…
+                                  </div>
+                                }
+                              >
+                                <LiveBusTracker
+                                  from={line.from}
+                                  to={line.to}
+                                  duration={line.duration}
+                                  lineNumber={line.line}
+                                  lineColor={LINE_COLORS[line.line]}
+                                />
+                              </Suspense>
+                            )}
+                          </div>
                         </div>
-                        <div className="tikets-line-meta">
-                          <span>
-                            <FaClock aria-hidden /> {line.duration}
-                          </span>
-                          <span>
-                            From <strong>{line.price} MAD</strong>
-                          </span>
-                          <span className="tikets-line-seats">{line.seatsLeft} seats left</span>
-                        </div>
-                      </button>
+                      </div>
                     </li>
                   );
                 })}
@@ -248,11 +328,13 @@ function Tikets() {
 
             {confirmed ? (
               <div className="tikets-success">
+                <div className="tikets-success-check" aria-hidden>✓</div>
                 <p className="tikets-success-title">Booking recorded (demo)</p>
-                <p className="tikets-success-ref">Reference KB-DEMO-8492</p>
+                <p className="tikets-success-ref">{bookingRef}</p>
+
                 <ul className="tikets-success-list">
                   <li>
-                    {selectedLine.from} → {selectedLine.to}
+                    Line {selectedLine.line} · {selectedLine.from} → {selectedLine.to}
                   </li>
                   <li>
                     {travelDate} · {departure}
@@ -261,6 +343,27 @@ function Tikets() {
                     {passengers} passenger{passengers !== 1 ? "s" : ""} · {totalPrice} MAD
                   </li>
                 </ul>
+
+                <div className="tikets-qr-wrap">
+                  <QRCodeSVG
+                    value={JSON.stringify({
+                      ref: bookingRef,
+                      line: selectedLine.line,
+                      route: `${selectedLine.from} → ${selectedLine.to}`,
+                      date: travelDate,
+                      time: departure,
+                      passengers,
+                      total: `${totalPrice} MAD`,
+                    })}
+                    size={140}
+                    level="M"
+                    bgColor="#ffffff"
+                    fgColor="#222831"
+                    includeMargin={false}
+                  />
+                  <p className="tikets-qr-label">Scan to verify ticket</p>
+                </div>
+
                 <button type="button" className="tikets-btn tikets-btn--ghost" onClick={handleNewSearch}>
                   Book another trip
                 </button>
@@ -271,6 +374,12 @@ function Tikets() {
               <>
                 <div className="tikets-summary">
                   <p className="tikets-summary-route">
+                    <span
+                      className="tikets-line-badge tikets-line-badge--sm"
+                      style={{ background: LINE_COLORS[selectedLine.line] || "#405d72" }}
+                    >
+                      Line {selectedLine.line}
+                    </span>
                     {selectedLine.from} <span aria-hidden>→</span> {selectedLine.to}
                   </p>
                   <p className="tikets-summary-row">
