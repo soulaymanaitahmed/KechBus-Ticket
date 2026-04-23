@@ -68,9 +68,9 @@ const STEPS = [
 ];
 
 const LINES = [
-  { num: "L1", from: "Jamaa el-Fna", to: "Guéliz", status: "normal" },
+  { num: "L1", from: "Jamaa el-Fna", to: "Gueliz", status: "normal" },
   { num: "L8", from: "Bab Doukkala", to: "Massira", status: "busy" },
-  { num: "L18", from: "Guéliz", to: "M'hamid", status: "normal" },
+  { num: "L18", from: "Gueliz", to: "M'hamid", status: "normal" },
   { num: "L26", from: "Menara", to: "Médina", status: "busy" },
 ];
 
@@ -107,7 +107,7 @@ export default function Home() {
               </li>
             ))}
             <li>
-              <Link to="/signup" className="lp-nav__cta">
+              <Link to="/signin" className="lp-nav__cta">
                 Get Started
               </Link>
             </li>
@@ -128,24 +128,20 @@ export default function Home() {
           <div className="lp-hero__glow" />
         </div>
         <div className="lp-hero__content">
-          <span className="lp-badge">
-            🚌 Initiative Ville Intelligente de Marrakech
-          </span>
+          <span className="lp-badge">🚌Marrakech Smart City Initiative</span>
           <h1 className="lp-hero__title">
-            Votre billet de bus,
+            Your bus ticket,
             <br />
-            <em>Réinventé.</em>
+            <em>reinvented.</em>
           </h1>
           <p className="lp-hero__sub">
-            KechBus-Ticket remplace les billets papier par des titres de
-            transport numériques instantanés — et fournit aux opérateurs les
-            données dont ils ont besoin pour assurer la fluidité du trafic à
-            Marrakech.
+            KechBus-Ticket replaces paper tickets with instant digital transport passes
+            and provides operators with the data they need to ensure smooth traffic flow in Marrakech.
           </p>
           <div className="lp-hero__actions">
-            <Link to="/login" className="lp-btn lp-btn--primary">
-              Acheter un billet <FiArrowRight />
-            </Link>
+            <a href="#" className="lp-btn lp-btn--primary">
+              Buy a ticket <FiArrowRight />
+            </a>
             <a href="#features" className="lp-btn lp-btn--ghost">
               Explore Features
             </a>
@@ -184,7 +180,11 @@ export default function Home() {
       <section className="lp-section" id="features">
         <div className="lp-container">
           <p className="lp-eyebrow">what we offer</p>
-          <h2 className="lp-section__title">Pensé pour vous.</h2>
+          <h2 className="lp-section__title">
+            Designed for the city.
+            <br />
+            Designed for you.
+          </h2>
           <div className="lp-features__grid">
             {FEATURES.map((f) => (
               <div className="lp-feature-card" key={f.title}>
@@ -202,20 +202,25 @@ export default function Home() {
         <div className="lp-container">
           <p className="lp-eyebrow">simple process</p>
           <h2 className="lp-section__title">
-            Trois étapes...
+            Three steps.
+
             <br />
+
             Zéro tracas.
           </h2>
           <div className="lp-steps">
             {STEPS.map((s, i) => (
               <div className="lp-step" key={s.num}>
+                <div className="lp-step__num">{s.num}</div>
                 <div className="lp-step__body">
-                  <h3>
-                    {s.num} - {s.title}
-                  </h3>
+                  <h3>{s.title}</h3>
                   <p>{s.desc}</p>
-                  <br />
                 </div>
+                {i < STEPS.length - 1 && (
+                  <div className="lp-step__arrow">
+                    <FiArrowRight />
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -225,8 +230,9 @@ export default function Home() {
       {/* LIVE LINES */}
       <section className="lp-section" id="lines">
         <div className="lp-container">
-          <p className="lp-eyebrow">État du réseau</p>
-          <h2 className="lp-section__title">Aperçu des lignes en direct.</h2>
+          <p className="lp-eyebrow">Network status</p>
+          <h2 className="lp-section__title">Live overview of routes.
+          </h2>
           <div className="lp-lines">
             {LINES.map((l) => (
               <div className="lp-line-card" key={l.num}>
@@ -251,12 +257,11 @@ export default function Home() {
       <section className="lp-cta">
         <div className="lp-cta__glow" />
         <div className="lp-container lp-cta__inner">
-          <h2>Prêt à voyager plus intelligemment ?</h2>
-          <p>
-            Rejoignez les milliers de Marrakchis qui voyagent déjà sans papier.
+          <h2>Ready to travel smarter ?</h2>
+          <p>Join the thousands of Marrakchis who already travel paperlessly.
           </p>
-          <Link to="/signup" className="lp-btn lp-btn--primary lp-btn--lg">
-            Créer un compte gratuit <FiArrowRight />
+          <Link to="/signin" className="lp-btn lp-btn--primary lp-btn--lg">
+            Create a free account <FiArrowRight />
           </Link>
         </div>
       </section>

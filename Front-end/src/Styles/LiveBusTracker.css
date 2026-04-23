@@ -1,0 +1,250 @@
+@import "Varibles.css";
+
+/* ── Tracker container ───────────────────────────────────────────── */
+.live-tracker {
+  margin-top: 0.75rem;
+  border-radius: 0.65rem;
+  overflow: hidden;
+  border: 1px solid rgba(64, 93, 114, 0.15);
+  background: #fff;
+}
+
+/* ── Map wrapper ─────────────────────────────────────────────────── */
+.live-tracker__map-wrap {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background: #e8ecf1;
+}
+
+.live-tracker__map {
+  width: 100%;
+  height: 100%;
+  z-index: 0;               /* keep below any modals / overlays */
+}
+
+/* Override Leaflet tile layering inside our card */
+.live-tracker__map .leaflet-tile-pane { z-index: 1; }
+.live-tracker__map .leaflet-overlay-pane { z-index: 2; }
+.live-tracker__map .leaflet-marker-pane { z-index: 3; }
+
+/* ── Bus marker ──────────────────────────────────────────────────── */
+.bus-marker-icon {
+  background: none !important;
+  border: none !important;
+}
+
+.bus-marker-emoji {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+  animation: bus-bounce 1.8s ease-in-out infinite;
+}
+
+@keyframes bus-bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+/* ── Endpoint dots ───────────────────────────────────────────────── */
+.bus-endpoint-icon {
+  background: none !important;
+  border: none !important;
+}
+
+.bus-endpoint-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--b2);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transform: translate(-6px, -6px);   /* center on coordinate */
+}
+
+/* ── Info bar ─────────────────────────────────────────────────────── */
+.live-tracker__info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.6rem 0.85rem;
+  background: rgba(64, 93, 114, 0.06);
+}
+
+.live-tracker__eta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--b);
+}
+
+.live-tracker__eta-icon {
+  font-size: 0.95rem;
+}
+
+.live-tracker__eta strong {
+  font-weight: 700;
+  color: var(--b2);
+}
+
+.live-tracker__line-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.3rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+.live-tracker__status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* ── Status badge ────────────────────────────────────────────────── */
+.live-tracker__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.live-tracker__status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.live-tracker__status--ontime {
+  background: rgba(34, 139, 34, 0.12);
+  color: #1e6b2e;
+}
+
+.live-tracker__status--ontime .live-tracker__status-dot {
+  background: #27ae60;
+  box-shadow: 0 0 4px rgba(39, 174, 96, 0.5);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+.live-tracker__status--delayed {
+  background: rgba(214, 85, 50, 0.12);
+  color: #b94825;
+}
+
+.live-tracker__status--delayed .live-tracker__status-dot {
+  background: #e74c3c;
+  box-shadow: 0 0 4px rgba(231, 76, 60, 0.5);
+  animation: pulse-dot 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.6; transform: scale(1.4); }
+}
+
+/* ── Reset button ────────────────────────────────────────────────── */
+.live-tracker__reset {
+  font-size: 1rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 1px solid rgba(57, 62, 70, 0.15);
+  background: #fff;
+  color: var(--b1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.live-tracker__reset:hover {
+  background: var(--b2);
+  color: #fff;
+  border-color: var(--b2);
+}
+
+/* ── Expand / Collapse wrapper (used in Tikets.jsx) ──────────────── */
+.tikets-tracker-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+
+.tikets-tracker-wrapper--open {
+  grid-template-rows: 1fr;
+}
+
+.tikets-tracker-inner {
+  overflow: hidden;
+}
+
+/* ── Track button ────────────────────────────────────────────────── */
+.tikets-track-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.55rem;
+  padding: 0.35rem 0.7rem;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--b2);
+  background: rgba(64, 93, 114, 0.08);
+  border: 1px solid rgba(64, 93, 114, 0.18);
+  border-radius: 0.45rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.tikets-track-btn:hover {
+  background: rgba(64, 93, 114, 0.18);
+  border-color: var(--b2);
+}
+
+.tikets-track-btn--active {
+  background: var(--b2);
+  color: #fff;
+  border-color: var(--b2);
+}
+
+.tikets-track-btn--active:hover {
+  background: var(--b1);
+  color: #fff;
+}
+
+.tikets-track-btn__chevron {
+  font-size: 0.65rem;
+  transition: transform 0.3s ease;
+}
+
+.tikets-track-btn--active .tikets-track-btn__chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .live-tracker__map-wrap {
+    height: 150px;
+  }
+
+  .live-tracker__info {
+    padding: 0.5rem 0.65rem;
+  }
+}
