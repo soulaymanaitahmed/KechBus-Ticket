@@ -4,6 +4,7 @@ import "./Styles/App.css";
 
 import SideBar from "./Components/SideBar";
 
+
 // Lazy Pages
 const Dashboard = lazy(() => import("./Components/Dashboard"));
 const Stats = lazy(() => import("./Components/Stats"));
@@ -11,6 +12,7 @@ const Tikets = lazy(() => import("./Components/Tikets"));
 const Home = lazy(() => import("./Components/Home"));
 const Login = lazy(() => import("./Components/Login"));
 const Signin = lazy(() => import("./Components/Signin"));
+const Contact = lazy(() => import("./Components/Contact"));
 
 // A simple Layout component for the internal app
 const AppLayout = ({ children }) => (
@@ -27,7 +29,7 @@ function App() {
         {/* Separated Pages (No Sidebar) */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signin />} />
+        <Route path="/signin" element={<Signin />} />
 
         {/* Internal Pages (With Sidebar) */}
         <Route
@@ -52,6 +54,13 @@ function App() {
             <AppLayout>
               <Tikets />
             </AppLayout>
+          }
+          
+        />
+          <Route
+          path="/contact"
+          element={
+              <Contact />
           }
         />
 

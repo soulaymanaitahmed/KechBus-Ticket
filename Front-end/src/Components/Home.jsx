@@ -14,7 +14,7 @@ import { useState, useEffect } from "react";
 import "../Styles/Home.css";
 import { Link } from "react-router-dom";
 
-const NAV_LINKS = ["Features", "How It Works", "Lines", "Contact"];
+const NAV_LINKS = ["Features", "How It Works", "Lines" , "contact"];
 
 const FEATURES = [
   {
@@ -95,22 +95,53 @@ export default function Home() {
               Kech<strong>Bus</strong>
             </span>
           </a>
-          <ul className={`lp-nav__links${menuOpen ? " open" : ""}`}>
-            {NAV_LINKS.map((l) => (
-              <li key={l}>
-                <a
-                  href={`#${l.toLowerCase().replace(" ", "-")}`}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {l}
-                </a>
-              </li>
-            ))}
-            <li>
-              <Link to="/signin" className="lp-nav__cta">
-                Get Started
-              </Link>
-            </li>
+          <ul className={`lp-nav__links${menuOpen ? " open" : ""}`}>{NAV_LINKS.map((l) => (
+  <li key={l}>
+    {l === "contact" ? (
+      <Link to="/contact" onClick={() => setMenuOpen(false)}>
+        {l}
+      </Link>
+    ) : (
+      <a
+        href={`#${l.toLowerCase().replace(/\s+/g, "-")}`}
+        onClick={() => setMenuOpen(false)}
+      >
+        {l}
+      </a>
+    )}
+  </li>
+))}
+
+<li>
+  <Link to="/signin" className="lp-nav__cta">
+    Get Started
+  </Link>
+</li>
+                {NAV_LINKS.map((l) => (
+                  <li key={l}>
+                    {l==="contact" ?(
+                       <Link to="/contact">{l}</Link>
+                    ) : (
+                      <a
+                        href={`#${l.toLowerCase().replace(/\s+/g, "-")}`}
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {l}
+                      </a>
+
+                    )
+                    }
+                  
+                  </li>
+                ))}
+                <li>
+
+                  <Link to="/signin" className="lp-nav__cta">
+
+                    Get Started
+                  </Link>
+                </li>
+ c78af550adc1f8220aa2de69d2880b11f4307ba5
           </ul>
           <button
             className="lp-hamburger"
