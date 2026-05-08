@@ -9,10 +9,11 @@ import {
   FiMenu,
   FiX,
 } from "react-icons/fi";
-import { FaBusAlt } from "react-icons/fa";
+import { FaBusAlt, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import "../Styles/Home.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const NAV_LINKS = ["Features", "How It Works", "Lines", "contact"];
 
@@ -77,12 +78,31 @@ const LINES = [
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [clientInfo, setClientInfo] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8866/client/me")
+      .then((res) => setClientInfo(res.data))
+      .catch(() => setClientInfo(null));
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:8866/logout");
+      setClientInfo(null);
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
 
   return (
     <div className="lp-root">
@@ -113,9 +133,26 @@ export default function Home() {
               </li>
             ))}
             <li>
-              <Link to="/signin" className="lp-nav__cta">
-                Get Started
-              </Link>
+              {clientInfo ? (
+                <div className="lp-nav-user">
+                  <div className="lp-nav-user__avatar">
+                    <FaUser />
+                  </div>
+                  <span className="lp-nav-user__name">{clientInfo.c_username}</span>
+                  <button
+                    className="lp-nav-user__logout"
+                    onClick={handleLogout}
+                    title="Logout"
+                    type="button"
+                  >
+                    <FaSignOutAlt />
+                  </button>
+                </div>
+              ) : (
+                <Link to="/signin" className="lp-nav__cta">
+                  Get Started
+                </Link>
+              )}
             </li>
           </ul>
           <button
@@ -145,9 +182,9 @@ export default function Home() {
             and provides operators with the data they need to ensure smooth traffic flow in Marrakech.
           </p>
           <div className="lp-hero__actions">
-            <a href="#" className="lp-btn lp-btn--primary">
+            <Link to="/tickets" className="lp-btn lp-btn--primary">
               Buy a ticket <FiArrowRight />
-            </a>
+            </Link>
             <a href="#features" className="lp-btn lp-btn--ghost">
               Explore Features
             </a>

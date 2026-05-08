@@ -1,0 +1,693 @@
+/* ========================================================
+   Clients.css — Client Management Page
+   Follows the KechBus design system (Varibles.css tokens)
+   ======================================================== */
+
+@import "Varibles.css";
+
+/* ── Page wrapper ─────────────────────────────────────── */
+.clients-page {
+  box-sizing: border-box;
+  min-height: 100%;
+  padding: 1.5rem 1.75rem 2rem;
+  background: linear-gradient(160deg, rgba(255,255,255,0.92) 0%, rgba(238,238,238,0.98) 100%);
+  border-radius: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: cl-fadeIn 0.5s ease;
+}
+
+@keyframes cl-fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ───────────────────────────────────────────── */
+.clients-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.clients-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--b2);
+  margin: 0 0 0.35rem;
+}
+
+.clients-title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--b);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.clients-subtitle {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  color: var(--b1);
+  opacity: 0.85;
+}
+
+.clients-badge {
+  align-self: center;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(64, 93, 114, 0.1);
+  color: var(--b2);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid rgba(64, 93, 114, 0.15);
+}
+
+/* ── Search ───────────────────────────────────────────── */
+.clients-search-bar {
+  position: relative;
+  max-width: 480px;
+}
+
+.clients-search-bar .search-icon-cl {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--b1);
+  opacity: 0.5;
+  font-size: 0.95rem;
+}
+
+.clients-search-input {
+  width: 100%;
+  padding: 0.7rem 0.75rem 0.7rem 2.5rem;
+  border: 1px solid rgba(57, 62, 70, 0.15);
+  border-radius: 0.6rem;
+  background: white;
+  font-size: 0.88rem;
+  color: var(--b);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(34, 40, 49, 0.04);
+}
+
+.clients-search-input:focus {
+  outline: none;
+  border-color: var(--b2);
+  box-shadow: 0 0 0 3px rgba(64, 93, 114, 0.1);
+}
+
+/* ── Table Panel ─────────────────────────────────────── */
+.clients-panel {
+  background: var(--w);
+  border-radius: 0.85rem;
+  border: 1px solid rgba(57, 62, 70, 0.1);
+  box-shadow: 0 2px 10px rgba(34, 40, 49, 0.06);
+  overflow: hidden;
+}
+
+.clients-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(57, 62, 70, 0.1);
+  background: rgba(248, 250, 252, 0.8);
+}
+
+.clients-panel-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--b);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.clients-panel-meta {
+  font-size: 0.78rem;
+  color: var(--b1);
+  background: rgba(64, 93, 114, 0.08);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* ── Table ────────────────────────────────────────────── */
+.clients-table-wrap {
+  overflow-x: auto;
+}
+
+.clients-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.clients-table th {
+  text-align: left;
+  padding: 0.6rem 1rem;
+  color: var(--b1);
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(57, 62, 70, 0.12);
+  white-space: nowrap;
+}
+
+.clients-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(57, 62, 70, 0.07);
+  color: var(--b);
+  vertical-align: middle;
+}
+
+.clients-table tbody tr {
+  transition: background 0.15s;
+}
+
+.clients-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.clients-table tbody tr:hover {
+  background: rgba(64, 93, 114, 0.04);
+}
+
+/* ── Cells ────────────────────────────────────────────── */
+.cl-id-badge {
+  display: inline-block;
+  background: rgba(64, 93, 114, 0.08);
+  color: var(--b1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.35rem;
+  font-family: monospace;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.cl-user-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.cl-avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--b2);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.cl-username {
+  font-weight: 600;
+  color: var(--b);
+}
+
+.cl-email {
+  color: var(--b1);
+  font-size: 0.82rem;
+}
+
+.cl-type-badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cl-type-badge.premium {
+  background: rgba(249, 115, 22, 0.12);
+  color: #ea580c;
+}
+
+.cl-type-badge.standard {
+  background: rgba(64, 93, 114, 0.1);
+  color: var(--b1);
+}
+
+/* ── Action buttons ──────────────────────────────────── */
+.cl-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cl-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(57, 62, 70, 0.15);
+  background: white;
+  color: var(--b1);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.cl-action-btn:hover {
+  background: var(--b2);
+  color: white;
+  border-color: var(--b2);
+}
+
+.cl-action-btn.history-btn:hover {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+/* ── Empty state ─────────────────────────────────────── */
+.clients-empty {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--b1);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* ── Modal ────────────────────────────────────────────── */
+.cl-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: cl-fadeIn 0.25s ease;
+}
+
+.cl-modal {
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--w);
+  border-radius: 0.85rem;
+  border: 1px solid rgba(57, 62, 70, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  padding: 1.75rem;
+}
+
+/* ── History Modal (70% width) ────────────────────────── */
+.cl-modal--history {
+  max-width: 70%;
+  width: 70%;
+  min-height: 50vh;
+  max-height: 85vh;
+}
+
+.cl-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(57, 62, 70, 0.1);
+}
+
+.cl-modal-head h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--b);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cl-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: var(--b1);
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+  display: flex;
+}
+
+.cl-modal-close:hover {
+  opacity: 1;
+  color: #ef4444;
+}
+
+/* ── Modal Form ──────────────────────────────────────── */
+.cl-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.cl-form-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--b1);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cl-form-group input,
+.cl-form-group select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid rgba(57, 62, 70, 0.15);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--b);
+  background: rgba(248, 250, 252, 0.8);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cl-form-group input:focus,
+.cl-form-group select:focus {
+  outline: none;
+  border-color: var(--b2);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(64, 93, 114, 0.1);
+}
+
+.cl-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(57, 62, 70, 0.08);
+}
+
+.cl-btn-cancel {
+  padding: 0.6rem 1.25rem;
+  border: 1px solid rgba(57, 62, 70, 0.15);
+  background: white;
+  color: var(--b1);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.cl-btn-cancel:hover {
+  background: rgba(64, 93, 114, 0.06);
+}
+
+.cl-btn-save {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  background: var(--b2);
+  color: white;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(64, 93, 114, 0.2);
+}
+
+.cl-btn-save:hover {
+  background: var(--b1);
+}
+
+/* ── History Layout ──────────────────────────────────── */
+.cl-history-content {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.75rem;
+}
+
+.cl-history-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px solid rgba(57, 62, 70, 0.08);
+}
+
+.cl-history-section-head h3 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--b);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ── Month Filter ────────────────────────────────────── */
+.cl-month-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--b1);
+}
+
+.cl-month-filter select {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid rgba(57, 62, 70, 0.15);
+  border-radius: 0.4rem;
+  background: white;
+  font-size: 0.78rem;
+  color: var(--b);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.cl-month-filter select:focus {
+  outline: none;
+  border-color: var(--b2);
+}
+
+.cl-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 55vh;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.cl-history-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.cl-history-list::-webkit-scrollbar-thumb {
+  background: rgba(64, 93, 114, 0.2);
+  border-radius: 4px;
+}
+
+/* ── Ticket Cards ────────────────────────────────────── */
+.cl-ticket-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 0.85rem;
+  background: white;
+  border: 1px solid rgba(57, 62, 70, 0.08);
+  border-radius: 0.6rem;
+  transition: all 0.2s;
+}
+
+.cl-ticket-card:hover {
+  border-color: var(--b2);
+  box-shadow: 0 2px 8px rgba(64, 93, 114, 0.08);
+}
+
+.cl-ticket-left {
+  flex-shrink: 0;
+}
+
+.cl-ticket-id {
+  display: inline-block;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  padding: 0.3rem 0.55rem;
+  border-radius: 0.35rem;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.cl-ticket-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.cl-ticket-route {
+  font-weight: 600;
+  font-size: 0.83rem;
+  color: var(--b);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cl-ticket-date {
+  font-size: 0.72rem;
+  color: var(--b1);
+  opacity: 0.7;
+}
+
+.cl-ticket-right {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.cl-ticket-qty {
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--b2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Subscription Cards ──────────────────────────────── */
+.cl-sub-card {
+  padding: 0.9rem;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.04) 0%, rgba(234, 88, 12, 0.02) 100%);
+  border: 1px solid rgba(249, 115, 22, 0.15);
+  border-radius: 0.7rem;
+  transition: all 0.2s;
+}
+
+.cl-sub-card:hover {
+  border-color: rgba(249, 115, 22, 0.3);
+  box-shadow: 0 2px 10px rgba(249, 115, 22, 0.08);
+}
+
+.cl-sub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.65rem;
+}
+
+.cl-sub-plan {
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: #ea580c;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cl-sub-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cl-sub-dates {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--b1);
+}
+
+.cl-sub-dates svg {
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+.cl-sub-price {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--b);
+}
+
+/* ── Status badges ───────────────────────────────────── */
+.cl-item-status {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cl-item-status.used     { background: rgba(239, 68, 68, 0.1);  color: #dc2626; }
+.cl-item-status.active   { background: rgba(16, 185, 129, 0.1); color: #059669; }
+.cl-item-status.expired  { background: rgba(100, 116, 139, 0.1); color: #64748b; }
+
+.cl-empty-msg {
+  color: var(--b1);
+  font-style: italic;
+  font-size: 0.82rem;
+  opacity: 0.6;
+  padding: 1rem 0;
+}
+
+/* ── Loader ──────────────────────────────────────────── */
+.cl-loader-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.cl-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(64, 93, 114, 0.15);
+  border-top-color: var(--b2);
+  border-radius: 50%;
+  animation: cl-spin 0.8s linear infinite;
+}
+
+@keyframes cl-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 960px) {
+  .cl-modal--history {
+    max-width: 92%;
+    width: 92%;
+  }
+
+  .cl-history-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .clients-page { padding: 1rem; gap: 1rem; }
+
+  .clients-table th:nth-child(3),
+  .clients-table td:nth-child(3) {
+    display: none;
+  }
+}
