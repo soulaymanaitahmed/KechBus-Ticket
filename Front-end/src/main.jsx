@@ -7,11 +7,19 @@ import { registerSW } from "virtual:pwa-register";
 
 registerSW({ immediate: true });
 
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import axios from "axios";
+
+// Configure axios to always send cookies cross-origin
+axios.defaults.withCredentials = true;
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+      <Router>
+        <App />
+      </Router>
+    </GoogleOAuthProvider>
   </React.StrictMode>,
 );
