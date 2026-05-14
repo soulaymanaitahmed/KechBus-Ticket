@@ -165,9 +165,11 @@ ul {
   transition: color var(--transition);
 }
 .lp-nav__links a:hover {
-  color: var(--text);
+  color: white;
+  background-color: var(--b2) !important;
+  padding: 9px;
+  border-radius: 10px;
 }
-
 .lp-nav__cta {
   background: var(--b2) !important;
   color: #fff !important;
@@ -176,8 +178,12 @@ ul {
   font-weight: 600 !important;
   transition: background var(--transition) !important;
 }
-.lp-nav__cta:hover {
-  background: var(--accent-h) !important;
+a.lp-nav__cta:hover {
+  
+  color: var(--b2) !important;
+   background: var(--accent-light) !important;
+  backdrop-filter: blur(15px) !important;
+  border: 1px solid rgba(255,255,255,0.3);
 }
 
 .lp-nav-user {
@@ -624,6 +630,8 @@ ul {
     gap: 32px;
     font-size: 20px;
   }
+ 
+  
   .lp-nav__links.open {
     display: flex;
   }
