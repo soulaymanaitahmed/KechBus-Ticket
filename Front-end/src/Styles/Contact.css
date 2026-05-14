@@ -33,6 +33,12 @@ body {
   font-weight: bold;
   font-size: 20px;
 }
+.icon-btn {
+  background-color:  #28455a;
+  padding: 10px;
+  color: white;
+  border-radius: 10px;
+}
 
 .nav-links a {
   margin: 0 10px;
@@ -76,12 +82,17 @@ body {
 /* FORM */
 .contact {
   padding: 40px;
+  display: flex;
+  justify-content: center;
+  
+ 
 }
 
 .form {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  width: 100%;
   max-width: 600px;
 }
 
@@ -90,6 +101,11 @@ body {
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 10px;
+}
+.form textarea {
+  resize: vertical;
+   
+ 
 }
 
 button {
@@ -107,4 +123,64 @@ button {
   padding: 20px;
   margin-top: 40px;
   background: #eee;
+}
+
+@media (max-width: 768px) {
+
+  /* NAVBAR */
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 30px 20px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  /* CARDS */
+  .cards {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  /* FORM */
+  .contact {
+    padding: 20px;
+  }
+
+  .form {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .hero h1 {
+    font-size: 22px;
+  }
+
+  .hero {
+    padding: 20px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+  }
+
+  button {
+    width: 100%;
+  }
 }

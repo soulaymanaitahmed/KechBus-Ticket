@@ -1,4 +1,6 @@
-import '../Styles/Contact.css'
+import '../Styles/Contact.css';
+import { FaArrowLeft } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 function Contact() {
     return (
@@ -8,7 +10,10 @@ function Contact() {
     {/* NAV --*/}
     <nav className="navbar">
       <div className="nav-left">
-        <button className="icon-btn">☰</button>
+        
+          
+          <Link  className='icon-btn' to='/'><FaArrowLeft /></Link>
+        
         <span className="logo">KechBus</span>
       </div>
     </nav>
