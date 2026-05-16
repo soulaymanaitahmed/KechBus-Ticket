@@ -278,7 +278,14 @@ export default function Home() {
           </h2>
           <div className="lp-lines">
             {LINES.map((l) => (
-              <div className="lp-line-card" key={l.num}>
+              <div 
+                className="lp-line-card" 
+                key={l.num}
+                onClick={() => {
+                  navigate(`/track/${l.num}`);
+                }}
+                style={{ cursor: "pointer" }}
+              >
                 <div className="lp-line-card__num">{l.num}</div>
                 <div className="lp-line-card__route">
                   <span>{l.from}</span>
@@ -323,6 +330,7 @@ export default function Home() {
           </p>
         </div>
       </footer>
+
     </div>
   );
 }

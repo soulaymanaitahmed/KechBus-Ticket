@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "./Styles/index.css";
 import App from "./App";
 import { registerSW } from "virtual:pwa-register";
+import { GoogleMapsProvider } from "./providers/GoogleMapsProvider";
 
 registerSW({ immediate: true });
 
@@ -17,9 +18,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
-      <Router>
-        <App />
-      </Router>
+      <GoogleMapsProvider>
+        <Router>
+          <App />
+        </Router>
+      </GoogleMapsProvider>
     </GoogleOAuthProvider>
   </React.StrictMode>,
 );

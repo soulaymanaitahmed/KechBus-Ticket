@@ -1,0 +1,186 @@
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90vh;
+  background: var(--mobility-glass);
+  backdrop-filter: blur(20px);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 100;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  margin: 12px auto;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.sheet-handle:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.sheet-content {
+  padding: 0 24px 40px 24px;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.route-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.route-subtitle {
+  font-size: 14px;
+  opacity: 0.6;
+  margin: 0;
+}
+
+.eta-badge {
+  background: var(--mobility-accent);
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.eta-icon {
+  font-size: 14px;
+}
+
+.sheet-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.stat-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.5;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-on-time { color: #10b981; }
+.status-delayed { color: #f59e0b; }
+.status-offline { color: #ef4444; }
+
+.stations-container {
+  margin-top: 32px;
+}
+
+.stations-title {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.stations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.station-item {
+  display: flex;
+  gap: 16px;
+  padding: 12px 0;
+}
+
+.station-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20px;
+}
+
+.marker-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  z-index: 2;
+}
+
+.marker-line {
+  width: 2px;
+  flex-grow: 1;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 4px 0;
+}
+
+.station-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.station-name {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.station-state {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.station-item.active .marker-dot {
+  background: var(--mobility-accent);
+  border-color: var(--mobility-accent);
+  box-shadow: 0 0 10px var(--mobility-accent);
+}
+
+.station-item.active .station-name {
+  font-weight: 700;
+  color: var(--mobility-accent);
+}
+
+.station-item.passed .marker-dot {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.station-item.passed .station-name {
+  opacity: 0.4;
+}

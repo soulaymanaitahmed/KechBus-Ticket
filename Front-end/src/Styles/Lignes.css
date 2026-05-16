@@ -260,6 +260,15 @@
   white-space: nowrap;
 }
 
+.btn-icon.track {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.btn-icon.track:hover {
+  background: #bbdefb;
+}
+
 .btn-icon.edit {
   background: #eef2f5;
   color: #34495e;

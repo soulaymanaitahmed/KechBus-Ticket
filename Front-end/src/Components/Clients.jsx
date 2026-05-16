@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
-import { FaSearch, FaUserEdit, FaHistory, FaUsers, FaEnvelope, FaIdBadge, FaTicketAlt, FaCrown, FaTimes, FaFilter, FaCalendarAlt } from "react-icons/fa";
+import { FaSearch, FaUserEdit, FaHistory, FaUsers, FaEnvelope, FaIdBadge, FaTicketAlt, FaCrown, FaTimes, FaFilter, FaCalendarAlt }
+ from "react-icons/fa";
 import "../Styles/Clients.css";
 
 export default function Clients() {

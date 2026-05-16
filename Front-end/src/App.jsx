@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Styles/App.css";
 
+import TrackingPage from "./Pages/TrackingPage";
 import SideBar from "./Components/SideBar";
 import Statistiques from "./Components/Statistiques";
 
@@ -60,6 +61,7 @@ function App() {
         <Route path="/bus" element={<BusScanner />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signin />} />
+        <Route path="/track/:routeId" element={<TrackingPage />} />
 
         {/* Internal Pages (With Sidebar) */}
         <Route

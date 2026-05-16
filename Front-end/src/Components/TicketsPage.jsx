@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FaUser, FaTicketAlt, FaCrown, FaSignOutAlt, FaCheckCircle, FaMapMarkerAlt, FaCalendarAlt, FaBus, FaCreditCard, FaLock, FaCcVisa, FaCcMastercard, FaCcApplePay, FaTimes, FaQrcode } from "react-icons/fa";
+import { FaUser, FaTicketAlt, FaCrown, FaSignOutAlt, FaCheckCircle, FaMapMarkerAlt, FaCalendarAlt, FaBus, FaCreditCard, FaLock, FaCcVisa, FaCcMastercard, FaCcApplePay, FaTimes, FaQrcode, FaClock, FaRulerCombined } from "react-icons/fa";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { QRCodeSVG } from 'qrcode.react';
 import "../Styles/TicketsPage.css";
+import RouteMapModal from "./RouteMapModal";
+import LiveTrackerModal from "./LiveTrackerModal";
 
 const TicketsPage = () => {
     const [activeTab, setActiveTab] = useState("buy");
@@ -76,6 +78,10 @@ const TicketsPage = () => {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showProfileQrModal, setShowProfileQrModal] = useState(false);
 
+    const [isRouteModalOpen, setIsRouteModalOpen] = useState(false);
+    const [isLiveTrackerOpen, setIsLiveTrackerOpen] = useState(false);
+    const [selectedRoute, setSelectedRoute] = useState(null);
+
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
 
@@ -127,6 +133,24 @@ const TicketsPage = () => {
         } catch (err) {
             alert(err.response?.data?.error || "Update failed");
         }
+    };
+
+    const handleRouteClick = (lineId, origin, destination) => {
+        setSelectedRoute({
+            num: `L${lineId}`,
+            from: origin,
+            to: destination
+        });
+        setIsRouteModalOpen(true);
+    };
+
+    const handleTrackLive = (lineId, origin, destination) => {
+        setSelectedRoute({
+            num: `L${lineId}`,
+            from: origin,
+            to: destination
+        });
+        setIsLiveTrackerOpen(true);
     };
 
     const initiatePayment = (type, data) => {
@@ -400,6 +424,12 @@ const TicketsPage = () => {
                                         >
                                             Rechercher destination
                                         </button>
+                                        <button
+                                            className={`tp-mode-btn ${buyMode === "all" ? "active" : ""}`}
+                                            onClick={() => setBuyMode("all")}
+                                        >
+                                            Toutes les lignes
+                                        </button>
                                     </div>
 
                                     {buyMode === "direct" ? (
@@ -443,7 +473,7 @@ const TicketsPage = () => {
                                                 </button>
                                             </div>
                                         </>
-                                    ) : (
+                                    ) : buyMode === "search" ? (
                                         <>
                                             <p>Entrez vos points de départ et d'arrivée pour trouver la bonne ligne.</p>
                                             <div className="tp-search-fields">
@@ -481,7 +511,13 @@ const TicketsPage = () => {
                                                                     {l.l_price} <small>DH</small>
                                                                 </span>
                                                                 <p className="tp-plan-title">Ligne {l.l_id}</p>
-                                                                <p className="tp-plan-info">{l.l_destination1} ↔ {l.l_destination2}</p>
+                                                                <p
+                                                                    className="tp-plan-info"
+                                                                    style={{ cursor: 'pointer', color: 'var(--b2)', textDecoration: 'underline' }}
+                                                                    onClick={() => handleRouteClick(l.l_id, l.l_destination1, l.l_destination2)}
+                                                                >
+                                                                    {l.l_destination1} ↔ {l.l_destination2}
+                                                                </p>
                                                                 <div className="tp-quantity-selector-sm">
                                                                     <label>Quantité</label>
                                                                     <div className="tp-qty-controls">
@@ -502,6 +538,13 @@ const TicketsPage = () => {
                                                                     >
                                                                         Acheter {ticketQuantity > 1 ? `${ticketQuantity} Tickets` : "Ticket"}
                                                                     </button>
+                                                                    <button 
+                                                                        className="tp-btn tp-btn-secondary tp-btn-sm"
+                                                                        style={{ marginTop: '8px', width: '100%', minWidth: 'unset' }}
+                                                                        onClick={() => handleTrackLive(l.l_id, l.l_destination1, l.l_destination2)}
+                                                                    >
+                                                                        <FaBus style={{ marginRight: '8px' }} /> Track Live
+                                                                    </button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -509,6 +552,34 @@ const TicketsPage = () => {
                                                 </div>
                                             ) : null}
                                         </>
+                                    ) : (
+                                        <div className="tp-all-lines-view">
+                                            <p className="tp-view-desc">Cliquez sur une ligne pour voir son itinéraire complet.</p>
+                                            <div className="tp-all-lines-grid">
+                                                {lignes.map(l => (
+                                                    <div key={l.l_id} className="tp-line-card-mini" onClick={() => handleRouteClick(l.l_id, l.l_destination1, l.l_destination2)}>
+                                                        <div className="tp-line-card-header">
+                                                            <span className="tp-line-number">L{l.l_id}</span>
+                                                            <span className="tp-line-price-mini">{l.l_price} DH</span>
+                                                        </div>
+                                                        <div className="tp-line-route-mini">
+                                                            <span>{l.l_destination1}</span>
+                                                            <FaBus className="tp-route-icon" />
+                                                            <span>{l.l_destination2}</span>
+                                                        </div>
+                                                        <div className="tp-line-card-footer">
+                                                            <span onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handleTrackLive(l.l_id, l.l_destination1, l.l_destination2);
+                                                            }} style={{ cursor: 'pointer', color: 'var(--tp-success)' }}>
+                                                                <FaBus /> Suivre en direct
+                                                            </span>
+                                                            <FaMapMarkerAlt />
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
 
@@ -634,7 +705,23 @@ const TicketsPage = () => {
                                                     {t.t_status.toUpperCase()}
                                                 </span>
                                                 <p className="tp-plan-title">Ticket #{t.t_id.toString().padStart(6, '0')}</p>
-                                                <p className="tp-plan-info">{t.l_destination1} ↔ {t.l_destination2}</p>
+                                                <p
+                                                    className="tp-plan-info"
+                                                    style={{ cursor: 'pointer', color: 'var(--b2)', textDecoration: 'underline' }}
+                                                    onClick={() => handleRouteClick(t.l_id, t.l_destination1, t.l_destination2)}
+                                                >
+                                                    {t.l_destination1} ↔ {t.l_destination2}
+                                                </p>
+                                                <button 
+                                                    className="tp-btn tp-btn-secondary tp-btn-sm"
+                                                    style={{ marginTop: '12px', width: '100%', minWidth: 'unset' }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleTrackLive(t.l_id, t.l_destination1, t.l_destination2);
+                                                    }}
+                                                >
+                                                    <FaBus style={{ marginRight: '8px' }} /> Suivre mon bus
+                                                </button>
                                                 <ul className="tp-plan-features-list">
                                                     <li>
                                                         <span className="tp-icon-wrapper">
@@ -912,6 +999,22 @@ const TicketsPage = () => {
                         </p>
                     </div>
                 </div>
+            )}
+
+            {/* Route Map Modal */}
+            <RouteMapModal 
+                isOpen={isRouteModalOpen} 
+                onClose={() => setIsRouteModalOpen(false)} 
+                route={selectedRoute} 
+            />
+
+            {/* Live Tracker Modal */}
+            {isLiveTrackerOpen && selectedRoute && (
+                <LiveTrackerModal
+                    isOpen={isLiveTrackerOpen}
+                    onClose={() => setIsLiveTrackerOpen(false)}
+                    route={selectedRoute}
+                />
             )}
         </div>
     );
