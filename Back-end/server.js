@@ -2,8 +2,18 @@ const jwt = require("jsonwebtoken");
 const express = require("express");
 const mysql = require("mysql");
 const cookieParser = require("cookie-parser");
+const http = require("http");
+const { Server } = require("socket.io");
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -772,8 +782,68 @@ app.delete("/lignes/:id", verifyAdminToken, (req, res) => {
     res.json({ message: "Ligne deleted" });
   });
 });
+// ------------------------------------------ Socket.io Realtime ------------------------------
+const BusSimulation = require('./BusSimulation');
+
+// Simulation Data / In-memory state for tracking
+const activeBuses = new Map();
+
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+
+  socket.on("joinTracking", (routeId) => {
+    socket.join(`route_${routeId}`);
+    console.log(`User ${socket.id} joined tracking for route ${routeId}`);
+  });
+
+  socket.on("disconnect", caranya => {
+    console.log("User disconnected:", socket.id);
+  });
+});
+
+// Periodic Bus Position Simulation
+setInterval(() => {
+  const demoRoutes = ["5", "24"];
+  const drivers = ["Ahmed", "Omar", "Yassine", "Soufiane"];
+
+  demoRoutes.forEach((routeId, index) => {
+    let bus = activeBuses.get(routeId);
+    if (!bus) {
+      bus = new BusSimulation(routeId, drivers[index % drivers.length]);
+      activeBuses.set(routeId, bus);
+    }
+
+    const update = bus.tick();
+
+    io.to(`route_${routeId}`).emit("busLocationUpdate", {
+      busId: `BUS-${routeId}`,
+      lineNumber: routeId,
+      lat: update.lat,
+      lng: update.lng,
+      prevLat: update.prevLat,
+      prevLng: update.prevLng,
+      speed: bus.state === 'MOVING' ? 30 : (bus.state === 'SLOWING' ? 10 : 0),
+      heading: update.heading,
+      status: update.status,
+      currentStation: update.currentStation,
+      progress: update.progress,
+      driverName: bus.driverName,
+      updatedAt: new Date().toISOString()
+    });
+
+    // Randomly emit "Arriving" notifications if status changed to Arriving
+    if (update.status === 'Arriving at station') {
+      io.to(`route_${routeId}`).emit("smartNotification", {
+        type: "approach",
+        message: `Le bus ${routeId} arrive à la station ${update.currentStation || 'suivante'}.`,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+}, 3000);
+
 const PORT = process.env.PORT || 8866;
 
-app.listen(PORT, "0.0.0.0", () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
