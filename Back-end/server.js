@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const SALT_ROUNDS = 10;
 const express = require("express");
 const mysql = require("mysql");
 const cookieParser = require("cookie-parser");
@@ -58,18 +60,24 @@ app.post("/signup", (req, res) => {
         return res.status(409).json({ error: "This email already exists" });
       }
 
-      // Email is new, insert the client
-      db.query(
-        "INSERT INTO clients (c_username, c_email, c_password, c_type) VALUES (?, ?, ?, 1)",
-        [username, email, password],
-        (err) => {
-          if (err) {
-            return res.status(500).json({ error: "Failed to register client" });
-          }
+      // Email is new — hash the password, then insert the client
+      bcrypt.hash(password, SALT_ROUNDS, (hashErr, hashedPassword) => {
+        if (hashErr) {
+          return res.status(500).json({ error: "Failed to secure password" });
+        }
 
-          return res.status(201).json({ message: "Client registered" });
-        },
-      );
+        db.query(
+          "INSERT INTO clients (c_username, c_email, c_password, c_type) VALUES (?, ?, ?, 1)",
+          [username, email, hashedPassword],
+          (err) => {
+            if (err) {
+              return res.status(500).json({ error: "Failed to register client" });
+            }
+
+            return res.status(201).json({ message: "Client registered" });
+          },
+        );
+      });
     },
   );
 });
@@ -95,11 +103,12 @@ app.post("/login", (req, res) => {
 
       const user = results[0];
       const userType = user.c_type;
-      
-      // Checking plain text since signup doesn't hash passwords yet
-      if (user.c_password !== password) {
-        return res.status(401).json({ error: "Invalid email or password" });
-      }
+
+      // Compare submitted password against the stored bcrypt hash
+      bcrypt.compare(password, user.c_password, (compareErr, isMatch) => {
+        if (compareErr || !isMatch) {
+          return res.status(401).json({ error: "Invalid email or password" });
+        }
 
       // Generate JWT Token
       const token = jwt.sign(
@@ -115,7 +124,8 @@ app.post("/login", (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
       });
 
-      res.status(200).json({ message: "Login successful", type: userType });
+        res.status(200).json({ message: "Login successful", type: userType });
+      });
     }
   );
 });
@@ -134,36 +144,44 @@ app.post("/admin/login", (req, res) => {
     (err, results) => {
       if (err) return res.status(500).json({ error: "Database error" });
 
-      if (results.length === 0 || results[0].a_password !== password) {
+      if (results.length === 0) {
         return res.status(401).json({ error: "Invalid username or password" });
       }
 
       const admin = results[0];
 
-      // Generate JWT Token for admin
-      const token = jwt.sign(
-        { id: admin.a_id, role: admin.a_role, type: 'admin' },
-        "KECHBUS_JWT_SECRET_KEY",
-        { expiresIn: "1d" }
-      );
+      // Compare submitted password against the stored bcrypt hash
+      bcrypt.compare(password, admin.a_password, (compareErr, isMatch) => {
+        if (compareErr || !isMatch) {
+          return res.status(401).json({ error: "Invalid username or password" });
+        }
 
-      // Set Admin-specific HttpOnly Cookie
-      res.cookie("admin_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 24 * 60 * 60 * 1000,
-      });
+        // Generate JWT Token for admin
+        const token = jwt.sign(
+          { id: admin.a_id, role: admin.a_role, type: 'admin' },
+          "KECHBUS_JWT_SECRET_KEY",
+          { expiresIn: "1d" }
+        );
 
-      logAction(admin.a_id, "ADMIN_LOGIN", `Admin ${admin.a_username} logged in`);
+        // Set Admin-specific HttpOnly Cookie
+        res.cookie("admin_token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          maxAge: 24 * 60 * 60 * 1000,
+        });
 
-      res.status(200).json({ 
-        message: "Admin login successful", 
-        role: admin.a_role,
-        username: admin.a_username 
+        logAction(admin.a_id, "ADMIN_LOGIN", `Admin ${admin.a_username} logged in`);
+
+        res.status(200).json({ 
+          message: "Admin login successful", 
+          role: admin.a_role,
+          username: admin.a_username 
+        });
       });
     }
   );
 });
+
 
 // ------------------------------------------ Auth Middleware ------------------------------
 
@@ -223,21 +241,29 @@ app.put("/client/me", verifyToken, (req, res) => {
   if (password) {
     if (!currentPassword) return res.status(400).json({ error: "Current password is required to set a new one" });
     
-    // Verify current password first
+    // Verify current password against bcrypt hash first
     db.query("SELECT c_password FROM clients WHERE c_id = ?", [req.userId], (err, results) => {
       if (err) return res.status(500).json({ error: "Database error" });
-      if (results[0].c_password !== currentPassword) {
-        return res.status(401).json({ error: "Incorrect current password" });
-      }
 
-      db.query(
-        "UPDATE clients SET c_username = ?, c_email = ?, c_password = ? WHERE c_id = ?",
-        [username, email, password, req.userId],
-        (err) => {
-          if (err) return res.status(500).json({ error: "Failed to update profile" });
-          res.json({ message: "Profile updated successfully" });
+      bcrypt.compare(currentPassword, results[0].c_password, (compareErr, isMatch) => {
+        if (compareErr || !isMatch) {
+          return res.status(401).json({ error: "Incorrect current password" });
         }
-      );
+
+        // Hash the new password before storing
+        bcrypt.hash(password, SALT_ROUNDS, (hashErr, hashedPassword) => {
+          if (hashErr) return res.status(500).json({ error: "Failed to secure password" });
+
+          db.query(
+            "UPDATE clients SET c_username = ?, c_email = ?, c_password = ? WHERE c_id = ?",
+            [username, email, hashedPassword, req.userId],
+            (err) => {
+              if (err) return res.status(500).json({ error: "Failed to update profile" });
+              res.json({ message: "Profile updated successfully" });
+            }
+          );
+        });
+      });
     });
   } else {
     db.query(
