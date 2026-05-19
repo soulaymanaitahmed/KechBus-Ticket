@@ -17,6 +17,8 @@ const TicketsPage = () => {
     const [lignes, setLignes] = useState([]);
     const [selectedLigne, setSelectedLigne] = useState("");
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     // Search by Destination states
     const [searchStart, setSearchStart] = useState("");
     const [searchEnd, setSearchEnd] = useState("");
@@ -245,25 +247,68 @@ const TicketsPage = () => {
                         Kech<span>Bus</span>
                     </a>
 
-                    <div className="tp-header-actions">
-                        <div className="tp-user-profile">
-                            <div className="tp-user-avatar">
-                                <FaUser />
+                    <div className="tp-header-right-side">
+                        {/* Hamburger Sandwich button for mobile viewports */}
+                        <button
+                            className={`tp-menu-toggle ${isMenuOpen ? "active" : ""}`}
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            aria-label="Menu"
+                            type="button"
+                        >
+                            <span />
+                            <span />
+                            <span />
+                        </button>
+
+                        <div className={`tp-header-menu-block ${isMenuOpen ? "tp-open" : ""}`}>
+                            <nav className="tp-tabs">
+                                {tabs.map((tab) => (
+                                    <button
+                                        key={tab.id}
+                                        className={`tp-tab ${activeTab === tab.id ? "active" : ""}`}
+                                        onClick={() => {
+                                            setActiveTab(tab.id);
+                                            setIsMenuOpen(false); // Dismiss menu on click
+                                        }}
+                                        type="button"
+                                    >
+                                        {tab.icon}
+                                        <span>{tab.label}</span>
+                                    </button>
+                                ))}
+                            </nav>
+
+                            <div className="tp-header-actions">
+                                <div className="tp-user-profile">
+                                    <div className="tp-user-avatar">
+                                        <FaUser />
+                                    </div>
+                                    <div className="tp-user-details">
+                                        <span className="tp-user-name">{clientInfo?.c_username || "..."}</span>
+                                    </div>
+                                    <button className="tp-logout-compact" onClick={handleLogout} title="Déconnexion">
+                                        <FaSignOutAlt />
+                                    </button>
+                                </div>
+
+                                <button
+                                    className="tp-tab tp-mobile-logout-btn"
+                                    onClick={handleLogout}
+                                    type="button"
+                                >
+                                    <FaSignOutAlt />
+                                    <span>Déconnexion</span>
+                                </button>
                             </div>
-                            <div className="tp-user-details">
-                                <span className="tp-user-name">{clientInfo?.c_username || "Chargement..."}</span>
-                                <span className="tp-user-status">Client Vérifié</span>
-                            </div>
-                            <button className="tp-logout-compact" onClick={handleLogout} title="Logout">
-                                <FaSignOutAlt />
-                            </button>
                         </div>
                     </div>
                 </header>
+
                 <h1 className="h155">Voyagez simplement. Bougez plus intelligemment.</h1>
                 <p className="p55">
                     Achetez des tickets, gérez votre abonnement et consultez vos trajets dans un tableau de bord unique.
                 </p>
+
                 <section className="tp-hero">
                     <p className="tp-eyebrow">Billetterie numérique</p>
                     <div className="tp-kpis">
@@ -281,19 +326,6 @@ const TicketsPage = () => {
                         </div>
                     </div>
                 </section>
-
-                <nav className="tp-tabs">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            className={`tp-tab ${activeTab === tab.id ? "active" : ""}`}
-                            onClick={() => setActiveTab(tab.id)}
-                        >
-                            {tab.icon}
-                            <span>{tab.label}</span>
-                        </button>
-                    ))}
-                </nav>
 
                 <main className="tp-content">
                     {activeTab === "profile" && (
@@ -318,7 +350,7 @@ const TicketsPage = () => {
                                     />
                                 </button>
                                 <p className="tp-profile-qr-id">
-                                    ID Client: <strong>#{clientInfo?.c_id || "N/A"}</strong>
+                                    ID: <strong>CLIENT-{clientInfo?.c_id || "N/A"}</strong>
                                 </p>
                             </div>
 
@@ -582,108 +614,6 @@ const TicketsPage = () => {
                                         </div>
                                     )}
                                 </div>
-
-                                <div className="tp-card">
-                                    <h3>Abonnements Mensuels</h3>
-                                    <p>Voyageur fréquent ? Économisez davantage avec nos forfaits mensuels.</p>
-                                    <div className="tp-plans-grid">
-                                        <div className="tp-plan-v2 popular-v2">
-                                            <div className="tp-plan-badge-v2">Meilleur Choix</div>
-                                            <div className="tp-plan-inner">
-                                                <span className="tp-plan-pricing">
-                                                    100 <small>DH/mois</small>
-                                                </span>
-                                                <p className="tp-plan-title">Étudiant / Travailleur</p>
-                                                <p className="tp-plan-info">Idéal pour les navetteurs quotidiens ayant besoin d'un transport fiable chaque jour.</p>
-                                                <ul className="tp-plan-features-list">
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span><strong>2 Tickets</strong> par jour</span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span>Toutes lignes incluses</span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span>Valable 30 jours</span>
-                                                    </li>
-                                                </ul>
-                                                <div className="tp-plan-action">
-                                                    <button
-                                                        className="tp-plan-button"
-                                                        disabled={isSubscriptionActive}
-                                                        onClick={() => initiatePayment('sub', { plan: '2_per_day', price: 100, name: 'Plan Étudiant / Travailleur' })}
-                                                    >
-                                                        {isSubscriptionActive ? "Déjà abonné" : "S'abonner"}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="tp-plan-v2">
-                                            <div className="tp-plan-inner">
-                                                <span className="tp-plan-pricing">
-                                                    175 <small>DH/mois</small>
-                                                </span>
-                                                <p className="tp-plan-title">Premium</p>
-                                                <p className="tp-plan-info">Pour les grands voyageurs souhaitant un maximum de flexibilité.</p>
-                                                <ul className="tp-plan-features-list">
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span><strong>4 Tickets</strong> par jour</span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span>Toutes lignes incluses</span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span>Valable 30 jours</span>
-                                                    </li>
-                                                </ul>
-                                                <div className="tp-plan-action">
-                                                    <button
-                                                        className="tp-plan-button"
-                                                        disabled={isSubscriptionActive}
-                                                        onClick={() => initiatePayment('sub', { plan: '4_per_day', price: 175, name: 'Plan Premium' })}
-                                                    >
-                                                        {isSubscriptionActive ? "Déjà abonné" : "S'abonner"}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </section>
                     )}
@@ -757,41 +687,162 @@ const TicketsPage = () => {
                         <section className="tp-section">
                             <h2 className="tp-title">Mon Abonnement</h2>
                             {subscription ? (
-                                <div className="tp-plan-v2 popular-v2 tp-single-plan">
-                                    <div className="tp-plan-badge-v2">Abonnement Actif</div>
-                                    <div className="tp-plan-inner">
-                                        <span className="tp-plan-pricing">
-                                            {subscription.s_price} <small>DH</small>
-                                        </span>
-                                        <p className="tp-plan-title">{subscription.s_plan.replace('_', ' ').toUpperCase()}</p>
-                                        <p className="tp-plan-info">Vous avez un abonnement actif avec les détails suivants :</p>
-                                        <ul className="tp-plan-features-list">
-                                            <li>
-                                                <span className="tp-icon-wrapper">
-                                                    <FaCheckCircle />
-                                                </span>
-                                                <span>Statut : <strong>{subscription.s_status}</strong></span>
-                                            </li>
-                                            <li>
-                                                <span className="tp-icon-wrapper">
-                                                    <FaCalendarAlt />
-                                                </span>
-                                                <span>Début : {new Date(subscription.s_start_date).toLocaleDateString()}</span>
-                                            </li>
-                                            <li>
-                                                <span className="tp-icon-wrapper">
-                                                    <FaCalendarAlt />
-                                                </span>
-                                                <span>Fin : {new Date(subscription.s_end_date).toLocaleDateString()}</span>
-                                            </li>
-                                        </ul>
+                                <div className="tp-subscription-layout">
+                                    <div className="tp-plan-v2 popular-v2 tp-single-plan">
+                                        <div className="tp-plan-badge-v2">Abonnement Actif</div>
+                                        <div className="tp-plan-inner">
+                                            <span className="tp-plan-pricing">
+                                                {subscription.s_price} <small>DH</small>
+                                            </span>
+                                            <p className="tp-plan-title">{subscription.s_plan.replace('_', ' ').toUpperCase()}</p>
+                                            <p className="tp-plan-info">Vous avez un abonnement actif avec les détails suivants :</p>
+                                            <ul className="tp-plan-features-list">
+                                                <li>
+                                                    <span className="tp-icon-wrapper">
+                                                        <FaCheckCircle />
+                                                    </span>
+                                                    <span>Statut : <strong>{subscription.s_status}</strong></span>
+                                                </li>
+                                                <li>
+                                                    <span className="tp-icon-wrapper">
+                                                        <FaCalendarAlt />
+                                                    </span>
+                                                    <span>Début : {new Date(subscription.s_start_date).toLocaleDateString()}</span>
+                                                </li>
+                                                <li>
+                                                    <span className="tp-icon-wrapper">
+                                                        <FaCalendarAlt />
+                                                    </span>
+                                                    <span>Fin : {new Date(subscription.s_end_date).toLocaleDateString()}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="tp-card tp-other-plans-card" style={{ marginTop: '20px' }}>
+                                        <h3>Forfaits Disponibles</h3>
+                                        <p>Voici les autres forfaits disponibles pour information :</p>
+                                        <div className="tp-plans-grid">
+                                            <div className="tp-plan-v2">
+                                                <div className="tp-plan-inner">
+                                                    <span className="tp-plan-pricing">100 <small>DH/mois</small></span>
+                                                    <p className="tp-plan-title">Étudiant / Travailleur</p>
+                                                    <p className="tp-plan-info">2 tickets par jour sur toutes les lignes.</p>
+                                                </div>
+                                            </div>
+                                            <div className="tp-plan-v2">
+                                                <div className="tp-plan-inner">
+                                                    <span className="tp-plan-pricing">175 <small>DH/mois</small></span>
+                                                    <p className="tp-plan-title">Premium</p>
+                                                    <p className="tp-plan-info">4 tickets par jour sur toutes les lignes.</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="tp-empty-state tp-card">
-                                    <FaCrown size={48} color="#ccc" />
-                                    <p>Vous n'avez pas d'abonnement actif.</p>
-                                    <button className="tp-btn tp-btn-secondary tp-btn-auto" onClick={() => setActiveTab("buy")}>Voir les forfaits</button>
+                                <div className="tp-subscription-shop">
+                                    <div className="tp-card">
+                                        <h3>Abonnements Mensuels</h3>
+                                        <p>Voyageur fréquent ? Économisez davantage avec nos forfaits mensuels.</p>
+                                        <div className="tp-plans-grid">
+                                            <div className="tp-plan-v2 popular-v2">
+                                                <div className="tp-plan-badge-v2">Meilleur Choix</div>
+                                                <div className="tp-plan-inner">
+                                                    <span className="tp-plan-pricing">
+                                                        100 <small>DH/mois</small>
+                                                    </span>
+                                                    <p className="tp-plan-title">Étudiant / Travailleur</p>
+                                                    <p className="tp-plan-info">Idéal pour les navetteurs quotidiens ayant besoin d'un transport fiable chaque jour.</p>
+                                                    <ul className="tp-plan-features-list">
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span><strong>2 Tickets</strong> par jour</span>
+                                                        </li>
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span>Toutes lignes incluses</span>
+                                                        </li>
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span>Valable 30 jours</span>
+                                                        </li>
+                                                    </ul>
+                                                    <div className="tp-plan-action">
+                                                        <button
+                                                            className="tp-plan-button"
+                                                            disabled={isSubscriptionActive}
+                                                            onClick={() => initiatePayment('sub', { plan: '2_per_day', price: 100, name: 'Plan Étudiant / Travailleur' })}
+                                                        >
+                                                            {isSubscriptionActive ? "Déjà abonné" : "S'abonner"}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="tp-plan-v2">
+                                                <div className="tp-plan-inner">
+                                                    <span className="tp-plan-pricing">
+                                                        175 <small>DH/mois</small>
+                                                    </span>
+                                                    <p className="tp-plan-title">Premium</p>
+                                                    <p className="tp-plan-info">Pour les grands voyageurs souhaitant un maximum de flexibilité.</p>
+                                                    <ul className="tp-plan-features-list">
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span><strong>4 Tickets</strong> par jour</span>
+                                                        </li>
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span>Toutes lignes incluses</span>
+                                                        </li>
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span>Valable 30 jours</span>
+                                                        </li>
+                                                    </ul>
+                                                    <div className="tp-plan-action">
+                                                        <button
+                                                            className="tp-plan-button"
+                                                            disabled={isSubscriptionActive}
+                                                            onClick={() => initiatePayment('sub', { plan: '4_per_day', price: 175, name: 'Plan Premium' })}
+                                                        >
+                                                            {isSubscriptionActive ? "Déjà abonné" : "S'abonner"}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </section>

@@ -119,7 +119,7 @@ export default function Home() {
             {NAV_LINKS.map((l) => (
               <li key={l}>
                 {l === "contact" ? (
-                  <Link to="/contact" onClick={() => setMenuOpen(false)}>
+                  <Link  to="/contact" onClick={() => setMenuOpen(false)}>
                     {l}
                   </Link>
                 ) : (

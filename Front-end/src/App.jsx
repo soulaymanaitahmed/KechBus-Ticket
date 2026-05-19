@@ -22,6 +22,8 @@ const AdminLogin = lazy(() => import("./Components/AdminLogin"));
 const Logs = lazy(() => import("./Components/Logs"));
 const BusScanner = lazy(() => import("./Components/BusScanner"));
 const Clients = lazy(() => import("./Components/Clients"));
+const ForgotPassword = lazy(() => import("./Components/ForgotPassword"));
+const ResetPassword = lazy(() => import("./Components/ResetPassword"));
 
 // A Layout component for the internal app that checks authentication
 const AppLayout = ({ children }) => {
@@ -61,7 +63,8 @@ function App() {
         <Route path="/bus" element={<BusScanner />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signin />} />
-        <Route path="/track/:routeId" element={<TrackingPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* Internal Pages (With Sidebar) */}
         <Route
