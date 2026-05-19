@@ -1,3 +1,4 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const SALT_ROUNDS = 10;
@@ -8,10 +9,10 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "kech_bus",
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASS !== undefined ? process.env.DB_PASS : "",
+  database: process.env.DB_NAME || "kech_bus",
   timezone: "Z",
 });
 
@@ -21,12 +22,87 @@ db.connect((err) => {
     return;
   }
   console.log("Connected to SQL database");
+
+  // Auto-migrate clients table to support reset tokens
+  db.query("SHOW COLUMNS FROM clients LIKE 'c_reset_token'", (err, results) => {
+    if (err) {
+      console.error("Error checking columns:", err);
+      return;
+    }
+    if (results.length === 0) {
+      db.query("ALTER TABLE clients ADD COLUMN c_reset_token VARCHAR(255) NULL", (alterErr) => {
+        if (alterErr) console.error("Error adding c_reset_token:", alterErr);
+        else console.log("Added c_reset_token column to clients table");
+      });
+    }
+  });
+
+  db.query("SHOW COLUMNS FROM clients LIKE 'c_reset_expires'", (err, results) => {
+    if (err) {
+      console.error("Error checking columns:", err);
+      return;
+    }
+    if (results.length === 0) {
+      db.query("ALTER TABLE clients ADD COLUMN c_reset_expires VARCHAR(255) NULL", (alterErr) => {
+        if (alterErr) console.error("Error adding c_reset_expires:", alterErr);
+        else console.log("Added c_reset_expires column to clients table");
+      });
+    }
+  });
 });
+
+// Setup Nodemailer & Crypto
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+
+let transporter;
+
+const initMailTransporter = async () => {
+  if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+    const isSecure = process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT) === 465;
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: isSecure,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      }
+    });
+    console.log("Nodemailer configured using environment variables");
+  } else {
+    try {
+      const testAccount = await nodemailer.createTestAccount();
+      transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false,
+        auth: {
+          user: testAccount.user,
+          pass: testAccount.pass,
+        },
+      });
+      console.log(`Nodemailer fallback Ethereal Account created:`);
+      console.log(`- User: ${testAccount.user}`);
+      console.log(`- Pass: ${testAccount.pass}`);
+      console.log(`[TESTING] Reset email links will be printed in server log with direct links to view the mail!`);
+    } catch (e) {
+      console.error("Failed to configure mail developer fallback:", e);
+    }
+  }
+};
+
+initMailTransporter();
 
 app.use(express.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  }
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Methods",
