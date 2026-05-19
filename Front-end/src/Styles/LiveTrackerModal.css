@@ -1,0 +1,338 @@
+:root {
+  --mobility-bg: #0f172a;
+  --mobility-glass: rgba(15, 23, 42, 0.85);
+  --mobility-accent: #3b82f6;
+  --mobility-success: #10b981;
+  --mobility-warning: #f59e0b;
+  --mobility-text: #f8fafc;
+  --mobility-text-muted: #94a3b8;
+}
+
+.lt-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lt-modal {
+  width: 100%;
+  height: 100%;
+  background: var(--mobility-bg);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.lt-main {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.lt-map-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Floating Header */
+.lt-header-floating {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.lt-back-btn {
+  pointer-events: auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: var(--mobility-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lt-back-btn:hover {
+  background: var(--mobility-accent);
+  transform: scale(1.05);
+}
+
+/* Bottom Sheet */
+.lt-bottom-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: var(--mobility-glass);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 32px 32px 0 0;
+  padding: 24px;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lt-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  margin: -8px auto 12px;
+}
+
+.lt-sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.lt-route-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lt-route-title h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.lt-line-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--mobility-accent);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.lt-eta-badge {
+  text-align: right;
+}
+
+.lt-eta-time {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--mobility-success);
+  line-height: 1;
+}
+
+.lt-eta-label {
+  font-size: 0.8rem;
+  color: var(--mobility-text-muted);
+}
+
+/* Stats Row */
+.lt-quick-stats {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.lt-quick-stat {
+  flex: 1;
+  min-width: 100px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lt-quick-stat label {
+  font-size: 0.7rem;
+  color: var(--mobility-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lt-quick-stat span {
+  font-weight: 600;
+  color: white;
+}
+
+/* Stops Timeline */
+.lt-timeline-container {
+  overflow-y: auto;
+  max-height: 250px;
+  padding-right: 8px;
+}
+
+.lt-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.lt-timeline-item {
+  display: flex;
+  gap: 20px;
+  min-height: 60px;
+  position: relative;
+}
+
+.lt-timeline-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20px;
+}
+
+.lt-timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--mobility-text-muted);
+  border: 2px solid var(--mobility-bg);
+  z-index: 2;
+}
+
+.lt-timeline-dot.active {
+  background: var(--mobility-accent);
+  box-shadow: 0 0 12px var(--mobility-accent);
+}
+
+.lt-timeline-line {
+  width: 2px;
+  flex: 1;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 4px 0;
+}
+
+.lt-timeline-info {
+  padding-bottom: 20px;
+}
+
+.lt-timeline-info strong {
+  display: block;
+  color: white;
+  font-size: 0.95rem;
+}
+
+.lt-timeline-info span {
+  font-size: 0.75rem;
+  color: var(--mobility-text-muted);
+}
+
+/* Pulsing Indicator */
+.lt-live-pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--mobility-success);
+  border-radius: 50%;
+  margin-right: 8px;
+  position: relative;
+}
+
+.lt-live-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px solid var(--mobility-success);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Custom Scrollbar */
+.lt-timeline-container::-webkit-scrollbar {
+  width: 4px;
+}
+.lt-timeline-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+.lt-timeline-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+@media (min-width: 768px) {
+  .lt-bottom-sheet {
+    width: 400px;
+    left: 20px;
+    bottom: 20px;
+    border-radius: 24px;
+    max-height: 85vh;
+  }
+}
+
+/* Toast Notifications */
+.lt-toast-container {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.lt-toast {
+  pointer-events: auto;
+  background: var(--mobility-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 20px;
+  border-radius: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  min-width: 250px;
+}
+
+.lt-toast-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--mobility-accent);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lt-toast-content {
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+

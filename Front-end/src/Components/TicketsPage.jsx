@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FaUser, FaTicketAlt, FaCrown, FaSignOutAlt, FaCheckCircle, FaMapMarkerAlt, FaCalendarAlt, FaBus, FaCreditCard, FaLock, FaCcVisa, FaCcMastercard, FaCcApplePay, FaTimes, FaQrcode } from "react-icons/fa";
+import { FaUser, FaTicketAlt, FaCrown, FaSignOutAlt, FaCheckCircle, FaMapMarkerAlt, FaCalendarAlt, FaBus, FaCreditCard, FaLock, FaCcVisa, FaCcMastercard, FaCcApplePay, FaTimes, FaQrcode, FaClock, FaRulerCombined } from "react-icons/fa";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { QRCodeSVG } from 'qrcode.react';
 import "../Styles/TicketsPage.css";
+import RouteMapModal from "./RouteMapModal";
+import LiveTrackerModal from "./LiveTrackerModal";
 
 const TicketsPage = () => {
     const [activeTab, setActiveTab] = useState("buy");
@@ -14,6 +16,8 @@ const TicketsPage = () => {
     const [subscription, setSubscription] = useState(null);
     const [lignes, setLignes] = useState([]);
     const [selectedLigne, setSelectedLigne] = useState("");
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     // Search by Destination states
     const [searchStart, setSearchStart] = useState("");
@@ -76,6 +80,10 @@ const TicketsPage = () => {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showProfileQrModal, setShowProfileQrModal] = useState(false);
 
+    const [isRouteModalOpen, setIsRouteModalOpen] = useState(false);
+    const [isLiveTrackerOpen, setIsLiveTrackerOpen] = useState(false);
+    const [selectedRoute, setSelectedRoute] = useState(null);
+
     const navigate = useNavigate();
     axios.defaults.withCredentials = true;
 
@@ -129,6 +137,15 @@ const TicketsPage = () => {
         }
     };
 
+    const handleRouteClick = (lineId, origin, destination) => {
+        setSelectedRoute({
+            num: `L${lineId}`,
+            from: origin,
+            to: destination
+        });
+        setIsRouteModalOpen(true);
+    };
+
     const initiatePayment = (type, data) => {
         if (type === 'ticket') {
             data.totalPrice = (data.price || 0) * ticketQuantity;
@@ -158,7 +175,7 @@ const TicketsPage = () => {
                     fetchInitialData();
                     setActiveTab(pendingAction.type === "ticket" ? "tickets" : "subscription");
                 }, 2000);
-            } catch (err) {
+            } catch {
                 alert("Payment processing failed on server");
                 setShowPayment(false);
             }
@@ -221,25 +238,68 @@ const TicketsPage = () => {
                         Kech<span>Bus</span>
                     </a>
 
-                    <div className="tp-header-actions">
-                        <div className="tp-user-profile">
-                            <div className="tp-user-avatar">
-                                <FaUser />
+                    <div className="tp-header-right-side">
+                        {/* Hamburger Sandwich button for mobile viewports */}
+                        <button
+                            className={`tp-menu-toggle ${isMenuOpen ? "active" : ""}`}
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            aria-label="Menu"
+                            type="button"
+                        >
+                            <span />
+                            <span />
+                            <span />
+                        </button>
+
+                        <div className={`tp-header-menu-block ${isMenuOpen ? "tp-open" : ""}`}>
+                            <nav className="tp-tabs">
+                                {tabs.map((tab) => (
+                                    <button
+                                        key={tab.id}
+                                        className={`tp-tab ${activeTab === tab.id ? "active" : ""}`}
+                                        onClick={() => {
+                                            setActiveTab(tab.id);
+                                            setIsMenuOpen(false); // Dismiss menu on click
+                                        }}
+                                        type="button"
+                                    >
+                                        {tab.icon}
+                                        <span>{tab.label}</span>
+                                    </button>
+                                ))}
+                            </nav>
+
+                            <div className="tp-header-actions">
+                                <div className="tp-user-profile">
+                                    <div className="tp-user-avatar">
+                                        <FaUser />
+                                    </div>
+                                    <div className="tp-user-details">
+                                        <span className="tp-user-name">{clientInfo?.c_username || "..."}</span>
+                                    </div>
+                                    <button className="tp-logout-compact" onClick={handleLogout} title="Déconnexion">
+                                        <FaSignOutAlt />
+                                    </button>
+                                </div>
+
+                                <button
+                                    className="tp-tab tp-mobile-logout-btn"
+                                    onClick={handleLogout}
+                                    type="button"
+                                >
+                                    <FaSignOutAlt />
+                                    <span>Déconnexion</span>
+                                </button>
                             </div>
-                            <div className="tp-user-details">
-                                <span className="tp-user-name">{clientInfo?.c_username || "Chargement..."}</span>
-                                <span className="tp-user-status">Client Vérifié</span>
-                            </div>
-                            <button className="tp-logout-compact" onClick={handleLogout} title="Logout">
-                                <FaSignOutAlt />
-                            </button>
                         </div>
                     </div>
                 </header>
+
                 <h1 className="h155">Voyagez simplement. Bougez plus intelligemment.</h1>
                 <p className="p55">
                     Achetez des tickets, gérez votre abonnement et consultez vos trajets dans un tableau de bord unique.
                 </p>
+
                 <section className="tp-hero">
                     <p className="tp-eyebrow">Billetterie numérique</p>
                     <div className="tp-kpis">
@@ -257,19 +317,6 @@ const TicketsPage = () => {
                         </div>
                     </div>
                 </section>
-
-                <nav className="tp-tabs">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.id}
-                            className={`tp-tab ${activeTab === tab.id ? "active" : ""}`}
-                            onClick={() => setActiveTab(tab.id)}
-                        >
-                            {tab.icon}
-                            <span>{tab.label}</span>
-                        </button>
-                    ))}
-                </nav>
 
                 <main className="tp-content">
                     {activeTab === "profile" && (
@@ -294,7 +341,7 @@ const TicketsPage = () => {
                                     />
                                 </button>
                                 <p className="tp-profile-qr-id">
-                                    ID Client: <strong>#{clientInfo?.c_id || "N/A"}</strong>
+                                    ID: <strong>CLIENT-{clientInfo?.c_id || "N/A"}</strong>
                                 </p>
                             </div>
 
@@ -400,6 +447,12 @@ const TicketsPage = () => {
                                         >
                                             Rechercher destination
                                         </button>
+                                        <button
+                                            className={`tp-mode-btn ${buyMode === "all" ? "active" : ""}`}
+                                            onClick={() => setBuyMode("all")}
+                                        >
+                                            Toutes les lignes
+                                        </button>
                                     </div>
 
                                     {buyMode === "direct" ? (
@@ -443,7 +496,7 @@ const TicketsPage = () => {
                                                 </button>
                                             </div>
                                         </>
-                                    ) : (
+                                    ) : buyMode === "search" ? (
                                         <>
                                             <p>Entrez vos points de départ et d'arrivée pour trouver la bonne ligne.</p>
                                             <div className="tp-search-fields">
@@ -481,7 +534,13 @@ const TicketsPage = () => {
                                                                     {l.l_price} <small>DH</small>
                                                                 </span>
                                                                 <p className="tp-plan-title">Ligne {l.l_id}</p>
-                                                                <p className="tp-plan-info">{l.l_destination1} ↔ {l.l_destination2}</p>
+                                                                <p
+                                                                    className="tp-plan-info"
+                                                                    style={{ cursor: 'pointer', color: 'var(--b2)', textDecoration: 'underline' }}
+                                                                    onClick={() => handleRouteClick(l.l_id, l.l_destination1, l.l_destination2)}
+                                                                >
+                                                                    {l.l_destination1} ↔ {l.l_destination2}
+                                                                </p>
                                                                 <div className="tp-quantity-selector-sm">
                                                                     <label>Quantité</label>
                                                                     <div className="tp-qty-controls">
@@ -502,116 +561,36 @@ const TicketsPage = () => {
                                                                     >
                                                                         Acheter {ticketQuantity > 1 ? `${ticketQuantity} Tickets` : "Ticket"}
                                                                     </button>
-                                                                </div>
+                                                                    </div>
                                                             </div>
                                                         </div>
                                                     ))}
                                                 </div>
                                             ) : null}
                                         </>
+                                    ) : (
+                                        <div className="tp-all-lines-view">
+                                            <p className="tp-view-desc">Cliquez sur une ligne pour voir son itinéraire complet.</p>
+                                            <div className="tp-all-lines-grid">
+                                                {lignes.map(l => (
+                                                    <div key={l.l_id} className="tp-line-card-mini" onClick={() => handleRouteClick(l.l_id, l.l_destination1, l.l_destination2)}>
+                                                        <div className="tp-line-card-header">
+                                                            <span className="tp-line-number">L{l.l_id}</span>
+                                                            <span className="tp-line-price-mini">{l.l_price} DH</span>
+                                                        </div>
+                                                        <div className="tp-line-route-mini">
+                                                            <span>{l.l_destination1}</span>
+                                                            <FaBus className="tp-route-icon" />
+                                                            <span>{l.l_destination2}</span>
+                                                        </div>
+                                                        <div className="tp-line-card-footer">
+                                                            <FaMapMarkerAlt />
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
                                     )}
-                                </div>
-
-                                <div className="tp-card">
-                                    <h3>Abonnements Mensuels</h3>
-                                    <p>Voyageur fréquent ? Économisez davantage avec nos forfaits mensuels.</p>
-                                    <div className="tp-plans-grid">
-                                        <div className="tp-plan-v2 popular-v2">
-                                            <div className="tp-plan-badge-v2">Meilleur Choix</div>
-                                            <div className="tp-plan-inner">
-                                                <span className="tp-plan-pricing">
-                                                    100 <small>DH/mois</small>
-                                                </span>
-                                                <p className="tp-plan-title">Étudiant / Travailleur</p>
-                                                <p className="tp-plan-info">Idéal pour les navetteurs quotidiens ayant besoin d'un transport fiable chaque jour.</p>
-                                                <ul className="tp-plan-features-list">
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span><strong>2 Tickets</strong> par jour</span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span>Toutes lignes incluses</span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span>Valable 30 jours</span>
-                                                    </li>
-                                                </ul>
-                                                <div className="tp-plan-action">
-                                                    <button
-                                                        className="tp-plan-button"
-                                                        disabled={isSubscriptionActive}
-                                                        onClick={() => initiatePayment('sub', { plan: '2_per_day', price: 100, name: 'Plan Étudiant / Travailleur' })}
-                                                    >
-                                                        {isSubscriptionActive ? "Déjà abonné" : "S'abonner"}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="tp-plan-v2">
-                                            <div className="tp-plan-inner">
-                                                <span className="tp-plan-pricing">
-                                                    175 <small>DH/mois</small>
-                                                </span>
-                                                <p className="tp-plan-title">Premium</p>
-                                                <p className="tp-plan-info">Pour les grands voyageurs souhaitant un maximum de flexibilité.</p>
-                                                <ul className="tp-plan-features-list">
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span><strong>4 Tickets</strong> par jour</span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span>Toutes lignes incluses</span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="tp-icon-wrapper">
-                                                            <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M0 0h24v24H0z" fill="none" />
-                                                                <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span>Valable 30 jours</span>
-                                                    </li>
-                                                </ul>
-                                                <div className="tp-plan-action">
-                                                    <button
-                                                        className="tp-plan-button"
-                                                        disabled={isSubscriptionActive}
-                                                        onClick={() => initiatePayment('sub', { plan: '4_per_day', price: 175, name: 'Plan Premium' })}
-                                                    >
-                                                        {isSubscriptionActive ? "Déjà abonné" : "S'abonner"}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -634,7 +613,13 @@ const TicketsPage = () => {
                                                     {t.t_status.toUpperCase()}
                                                 </span>
                                                 <p className="tp-plan-title">Ticket #{t.t_id.toString().padStart(6, '0')}</p>
-                                                <p className="tp-plan-info">{t.l_destination1} ↔ {t.l_destination2}</p>
+                                                <p
+                                                    className="tp-plan-info"
+                                                    style={{ cursor: 'pointer', color: 'var(--b2)', textDecoration: 'underline' }}
+                                                    onClick={() => handleRouteClick(t.l_id, t.l_destination1, t.l_destination2)}
+                                                >
+                                                    {t.l_destination1} ↔ {t.l_destination2}
+                                                </p>
                                                 <ul className="tp-plan-features-list">
                                                     <li>
                                                         <span className="tp-icon-wrapper">
@@ -670,41 +655,162 @@ const TicketsPage = () => {
                         <section className="tp-section">
                             <h2 className="tp-title">Mon Abonnement</h2>
                             {subscription ? (
-                                <div className="tp-plan-v2 popular-v2 tp-single-plan">
-                                    <div className="tp-plan-badge-v2">Abonnement Actif</div>
-                                    <div className="tp-plan-inner">
-                                        <span className="tp-plan-pricing">
-                                            {subscription.s_price} <small>DH</small>
-                                        </span>
-                                        <p className="tp-plan-title">{subscription.s_plan.replace('_', ' ').toUpperCase()}</p>
-                                        <p className="tp-plan-info">Vous avez un abonnement actif avec les détails suivants :</p>
-                                        <ul className="tp-plan-features-list">
-                                            <li>
-                                                <span className="tp-icon-wrapper">
-                                                    <FaCheckCircle />
-                                                </span>
-                                                <span>Statut : <strong>{subscription.s_status}</strong></span>
-                                            </li>
-                                            <li>
-                                                <span className="tp-icon-wrapper">
-                                                    <FaCalendarAlt />
-                                                </span>
-                                                <span>Début : {new Date(subscription.s_start_date).toLocaleDateString()}</span>
-                                            </li>
-                                            <li>
-                                                <span className="tp-icon-wrapper">
-                                                    <FaCalendarAlt />
-                                                </span>
-                                                <span>Fin : {new Date(subscription.s_end_date).toLocaleDateString()}</span>
-                                            </li>
-                                        </ul>
+                                <div className="tp-subscription-layout">
+                                    <div className="tp-plan-v2 popular-v2 tp-single-plan">
+                                        <div className="tp-plan-badge-v2">Abonnement Actif</div>
+                                        <div className="tp-plan-inner">
+                                            <span className="tp-plan-pricing">
+                                                {subscription.s_price} <small>DH</small>
+                                            </span>
+                                            <p className="tp-plan-title">{subscription.s_plan.replace('_', ' ').toUpperCase()}</p>
+                                            <p className="tp-plan-info">Vous avez un abonnement actif avec les détails suivants :</p>
+                                            <ul className="tp-plan-features-list">
+                                                <li>
+                                                    <span className="tp-icon-wrapper">
+                                                        <FaCheckCircle />
+                                                    </span>
+                                                    <span>Statut : <strong>{subscription.s_status}</strong></span>
+                                                </li>
+                                                <li>
+                                                    <span className="tp-icon-wrapper">
+                                                        <FaCalendarAlt />
+                                                    </span>
+                                                    <span>Début : {new Date(subscription.s_start_date).toLocaleDateString()}</span>
+                                                </li>
+                                                <li>
+                                                    <span className="tp-icon-wrapper">
+                                                        <FaCalendarAlt />
+                                                    </span>
+                                                    <span>Fin : {new Date(subscription.s_end_date).toLocaleDateString()}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="tp-card tp-other-plans-card" style={{ marginTop: '20px' }}>
+                                        <h3>Forfaits Disponibles</h3>
+                                        <p>Voici les autres forfaits disponibles pour information :</p>
+                                        <div className="tp-plans-grid">
+                                            <div className="tp-plan-v2">
+                                                <div className="tp-plan-inner">
+                                                    <span className="tp-plan-pricing">100 <small>DH/mois</small></span>
+                                                    <p className="tp-plan-title">Étudiant / Travailleur</p>
+                                                    <p className="tp-plan-info">2 tickets par jour sur toutes les lignes.</p>
+                                                </div>
+                                            </div>
+                                            <div className="tp-plan-v2">
+                                                <div className="tp-plan-inner">
+                                                    <span className="tp-plan-pricing">175 <small>DH/mois</small></span>
+                                                    <p className="tp-plan-title">Premium</p>
+                                                    <p className="tp-plan-info">4 tickets par jour sur toutes les lignes.</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="tp-empty-state tp-card">
-                                    <FaCrown size={48} color="#ccc" />
-                                    <p>Vous n'avez pas d'abonnement actif.</p>
-                                    <button className="tp-btn tp-btn-secondary tp-btn-auto" onClick={() => setActiveTab("buy")}>Voir les forfaits</button>
+                                <div className="tp-subscription-shop">
+                                    <div className="tp-card">
+                                        <h3>Abonnements Mensuels</h3>
+                                        <p>Voyageur fréquent ? Économisez davantage avec nos forfaits mensuels.</p>
+                                        <div className="tp-plans-grid">
+                                            <div className="tp-plan-v2 popular-v2">
+                                                <div className="tp-plan-badge-v2">Meilleur Choix</div>
+                                                <div className="tp-plan-inner">
+                                                    <span className="tp-plan-pricing">
+                                                        100 <small>DH/mois</small>
+                                                    </span>
+                                                    <p className="tp-plan-title">Étudiant / Travailleur</p>
+                                                    <p className="tp-plan-info">Idéal pour les navetteurs quotidiens ayant besoin d'un transport fiable chaque jour.</p>
+                                                    <ul className="tp-plan-features-list">
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span><strong>2 Tickets</strong> par jour</span>
+                                                        </li>
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span>Toutes lignes incluses</span>
+                                                        </li>
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span>Valable 30 jours</span>
+                                                        </li>
+                                                    </ul>
+                                                    <div className="tp-plan-action">
+                                                        <button
+                                                            className="tp-plan-button"
+                                                            disabled={isSubscriptionActive}
+                                                            onClick={() => initiatePayment('sub', { plan: '2_per_day', price: 100, name: 'Plan Étudiant / Travailleur' })}
+                                                        >
+                                                            {isSubscriptionActive ? "Déjà abonné" : "S'abonner"}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="tp-plan-v2">
+                                                <div className="tp-plan-inner">
+                                                    <span className="tp-plan-pricing">
+                                                        175 <small>DH/mois</small>
+                                                    </span>
+                                                    <p className="tp-plan-title">Premium</p>
+                                                    <p className="tp-plan-info">Pour les grands voyageurs souhaitant un maximum de flexibilité.</p>
+                                                    <ul className="tp-plan-features-list">
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span><strong>4 Tickets</strong> par jour</span>
+                                                        </li>
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span>Toutes lignes incluses</span>
+                                                        </li>
+                                                        <li>
+                                                            <span className="tp-icon-wrapper">
+                                                                <svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M0 0h24v24H0z" fill="none" />
+                                                                    <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z" />
+                                                                </svg>
+                                                            </span>
+                                                            <span>Valable 30 jours</span>
+                                                        </li>
+                                                    </ul>
+                                                    <div className="tp-plan-action">
+                                                        <button
+                                                            className="tp-plan-button"
+                                                            disabled={isSubscriptionActive}
+                                                            onClick={() => initiatePayment('sub', { plan: '4_per_day', price: 175, name: 'Plan Premium' })}
+                                                        >
+                                                            {isSubscriptionActive ? "Déjà abonné" : "S'abonner"}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </section>
@@ -883,9 +989,38 @@ const TicketsPage = () => {
 
                         <div className="tp-modal-footer">
                             <p><FaBus /> Présentez ce code QR au chauffeur lors de l'embarquement.</p>
-                            <button className="tp-btn tp-btn-primary" onClick={() => window.print()}>
-                                Imprimer le ticket
-                            </button>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', marginTop: '8px' }}>
+                                <button className="tp-btn tp-btn-primary" onClick={() => window.print()}>
+                                    Imprimer le ticket
+                                </button>
+                                <button className="tp-btn" style={{
+                                    backgroundColor: '#3b82f6',
+                                    color: '#ffffff',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px',
+                                    padding: '12px',
+                                    borderRadius: '8px',
+                                    fontWeight: '600',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    transition: 'background-color 0.2s'
+                                }} onClick={() => {
+                                    const matchingLigne = lignes.find(l => l.l_id === selectedTicket.l_id);
+                                    setSelectedRoute({
+                                        id: selectedTicket.l_id,
+                                        num: `L${selectedTicket.l_id}`,
+                                        from: selectedTicket.l_destination1,
+                                        to: selectedTicket.l_destination2,
+                                        stations: matchingLigne?.l_stations || []
+                                    });
+                                    setIsLiveTrackerOpen(true);
+                                    setSelectedTicket(null); // Close ticket details modal
+                                }}>
+                                    <FaBus /> Suivre le bus en direct
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -912,6 +1047,22 @@ const TicketsPage = () => {
                         </p>
                     </div>
                 </div>
+            )}
+
+            {/* Route Map Modal */}
+            <RouteMapModal 
+                isOpen={isRouteModalOpen} 
+                onClose={() => setIsRouteModalOpen(false)} 
+                route={selectedRoute} 
+            />
+
+            {/* Live Tracker Modal */}
+            {isLiveTrackerOpen && selectedRoute && (
+                <LiveTrackerModal
+                    isOpen={isLiveTrackerOpen}
+                    onClose={() => setIsLiveTrackerOpen(false)}
+                    route={selectedRoute}
+                />
             )}
         </div>
     );

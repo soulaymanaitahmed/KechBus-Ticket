@@ -1,17 +1,28 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const SALT_ROUNDS = 10;
 const express = require("express");
 const mysql = require("mysql");
 const cookieParser = require("cookie-parser");
+const http = require("http");
+const { Server } = require("socket.io");
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "kech_bus",
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASS !== undefined ? process.env.DB_PASS : "",
+  database: process.env.DB_NAME || "kech_bus",
   timezone: "Z",
 });
 
@@ -21,12 +32,87 @@ db.connect((err) => {
     return;
   }
   console.log("Connected to SQL database");
+
+  // Auto-migrate clients table to support reset tokens
+  db.query("SHOW COLUMNS FROM clients LIKE 'c_reset_token'", (err, results) => {
+    if (err) {
+      console.error("Error checking columns:", err);
+      return;
+    }
+    if (results.length === 0) {
+      db.query("ALTER TABLE clients ADD COLUMN c_reset_token VARCHAR(255) NULL", (alterErr) => {
+        if (alterErr) console.error("Error adding c_reset_token:", alterErr);
+        else console.log("Added c_reset_token column to clients table");
+      });
+    }
+  });
+
+  db.query("SHOW COLUMNS FROM clients LIKE 'c_reset_expires'", (err, results) => {
+    if (err) {
+      console.error("Error checking columns:", err);
+      return;
+    }
+    if (results.length === 0) {
+      db.query("ALTER TABLE clients ADD COLUMN c_reset_expires VARCHAR(255) NULL", (alterErr) => {
+        if (alterErr) console.error("Error adding c_reset_expires:", alterErr);
+        else console.log("Added c_reset_expires column to clients table");
+      });
+    }
+  });
 });
+
+// Setup Nodemailer & Crypto
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+
+let transporter;
+
+const initMailTransporter = async () => {
+  if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+    const isSecure = process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT) === 465;
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: isSecure,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      }
+    });
+    console.log("Nodemailer configured using environment variables");
+  } else {
+    try {
+      const testAccount = await nodemailer.createTestAccount();
+      transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false,
+        auth: {
+          user: testAccount.user,
+          pass: testAccount.pass,
+        },
+      });
+      console.log(`Nodemailer fallback Ethereal Account created:`);
+      console.log(`- User: ${testAccount.user}`);
+      console.log(`- Pass: ${testAccount.pass}`);
+      console.log(`[TESTING] Reset email links will be printed in server log with direct links to view the mail!`);
+    } catch (e) {
+      console.error("Failed to configure mail developer fallback:", e);
+    }
+  }
+};
+
+initMailTransporter();
 
 app.use(express.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  }
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -798,8 +884,126 @@ app.delete("/lignes/:id", verifyAdminToken, (req, res) => {
     res.json({ message: "Ligne deleted" });
   });
 });
+// ------------------------------------------ Socket.io Realtime ------------------------------
+const BusSimulation = require('./BusSimulation');
+
+// Simulation Data / In-memory state for tracking
+const activeBuses = new Map();
+const activeAdminSimulations = new Map(); // maps routeId -> socket.id
+
+io.on("connection", (socket) => {
+  console.log("A user connected:", socket.id);
+
+  socket.on("joinTracking", (routeId) => {
+    socket.join(`route_${routeId}`);
+    console.log(`User ${socket.id} joined tracking for route ${routeId}`);
+  });
+
+  socket.on("leaveTracking", (routeId) => {
+    socket.leave(`route_${routeId}`);
+    console.log(`User ${socket.id} left tracking for route ${routeId}`);
+  });
+
+  socket.on("startAdminSimulation", (routeId) => {
+    activeAdminSimulations.set(routeId.toString(), socket.id);
+    console.log(`Admin ${socket.id} started simulation for route ${routeId}`);
+  });
+
+  socket.on("stopAdminSimulation", (routeId) => {
+    if (activeAdminSimulations.get(routeId.toString()) === socket.id) {
+      activeAdminSimulations.delete(routeId.toString());
+      console.log(`Admin ${socket.id} stopped simulation for route ${routeId}`);
+    }
+  });
+
+  socket.on("updateBusLocation", (data) => {
+    // Broadcast bus update to the room for that route
+    io.to(`route_${data.routeId}`).emit("busLocationUpdate", {
+      busId: data.busId,
+      lineNumber: data.routeId,
+      lat: data.lat,
+      lng: data.lng,
+      speed: data.speed,
+      heading: data.heading,
+      status: data.status,
+      currentStation: data.currentStation,
+      progress: data.progress,
+      driverName: data.driverName || `Chauffeur #${data.busId.split('-').pop()}`,
+      updatedAt: new Date().toISOString(),
+      eta: data.eta,
+      delayMin: data.delayMin
+    });
+  });
+
+  socket.on("emitNotification", (data) => {
+    io.to(`route_${data.routeId}`).emit("smartNotification", {
+      type: "approach",
+      message: data.message,
+      timestamp: new Date().toISOString()
+    });
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+    // Cleanup any active admin simulation owned by this socket
+    for (const [routeId, adminSocketId] of activeAdminSimulations.entries()) {
+      if (adminSocketId === socket.id) {
+        activeAdminSimulations.delete(routeId);
+        console.log(`Admin ${socket.id} disconnected. Removed simulation for route ${routeId}`);
+      }
+    }
+  });
+});
+
+// Periodic Bus Position Simulation
+setInterval(() => {
+  const demoRoutes = ["5", "24"];
+  const drivers = ["Ahmed", "Omar", "Yassine", "Soufiane"];
+
+  demoRoutes.forEach((routeId, index) => {
+    // Skip if an admin is currently simulating this route in real-time
+    if (activeAdminSimulations.has(routeId)) {
+      return;
+    }
+
+    let bus = activeBuses.get(routeId);
+    if (!bus) {
+      bus = new BusSimulation(routeId, drivers[index % drivers.length]);
+      activeBuses.set(routeId, bus);
+    }
+
+    const update = bus.tick();
+
+    io.to(`route_${routeId}`).emit("busLocationUpdate", {
+      busId: `BUS-${routeId}`,
+      lineNumber: routeId,
+      lat: update.lat,
+      lng: update.lng,
+      prevLat: update.prevLat,
+      prevLng: update.prevLng,
+      speed: bus.state === 'MOVING' ? 30 : (bus.state === 'SLOWING' ? 10 : 0),
+      heading: update.heading,
+      status: update.status,
+      currentStation: update.currentStation,
+      progress: update.progress,
+      driverName: bus.driverName,
+      updatedAt: new Date().toISOString()
+    });
+
+    // Randomly emit "Arriving" notifications if status changed to Arriving
+    if (update.status === 'Arriving at station') {
+      io.to(`route_${routeId}`).emit("smartNotification", {
+        type: "approach",
+        message: `Le bus ${routeId} arrive à la station ${update.currentStation || 'suivante'}.`,
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+}, 3000);
+
+
 const PORT = process.env.PORT || 8866;
 
-app.listen(PORT, "0.0.0.0", () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on http://0.0.0.0:${PORT}`);
 });

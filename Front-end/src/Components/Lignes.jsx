@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaSearch, FaPlus, FaEdit, FaTrash, FaMapMarkerAlt, FaRoute, FaBus } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { FaSearch, FaPlus, FaEdit, FaTrash, FaMapMarkerAlt, FaRoute, FaBus, FaEye } from "react-icons/fa";
 import { MdOutlineAirlineSeatReclineExtra } from "react-icons/md";
 import "../Styles/Lignes.css";
 
@@ -10,6 +11,7 @@ export default function Lignes() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingLine, setEditingLine] = useState(null);
   const [lineToDelete, setLineToDelete] = useState(null);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     destination1: "",
@@ -181,6 +183,9 @@ export default function Lignes() {
             </div>
 
             <div className="card-footer">
+              <button className="btn-icon track" onClick={() => navigate(`/admin/track/${line.id}`)}>
+                <FaEye /> Track
+              </button>
               <button className="btn-icon edit" onClick={() => openModal(line)}>
                 <FaEdit /> Éditer
               </button>

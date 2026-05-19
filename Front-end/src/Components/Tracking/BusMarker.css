@@ -1,0 +1,49 @@
+.bus-marker-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.bus-icon-wrapper {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  transition: transform 0.3s ease-out;
+  color: var(--mobility-accent);
+  filter: drop-shadow(0 0 8px var(--mobility-accent));
+}
+
+.bus-svg {
+  position: relative;
+  z-index: 2;
+}
+
+.bus-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background: var(--mobility-accent);
+  border-radius: 50%;
+  opacity: 0.4;
+  z-index: 1;
+  animation: bus-pulse-animation 2s infinite;
+}
+
+@keyframes bus-pulse-animation {
+  0% {
+    width: 32px;
+    height: 32px;
+    opacity: 0.6;
+  }
+  100% {
+    width: 60px;
+    height: 60px;
+    opacity: 0;
+  }
+}
