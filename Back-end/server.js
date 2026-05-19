@@ -1,4 +1,7 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const SALT_ROUNDS = 10;
 const express = require("express");
 const mysql = require("mysql");
 const cookieParser = require("cookie-parser");
@@ -6,10 +9,10 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "kech_bus",
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASS !== undefined ? process.env.DB_PASS : "",
+  database: process.env.DB_NAME || "kech_bus",
   timezone: "Z",
 });
 
@@ -19,12 +22,87 @@ db.connect((err) => {
     return;
   }
   console.log("Connected to SQL database");
+
+  // Auto-migrate clients table to support reset tokens
+  db.query("SHOW COLUMNS FROM clients LIKE 'c_reset_token'", (err, results) => {
+    if (err) {
+      console.error("Error checking columns:", err);
+      return;
+    }
+    if (results.length === 0) {
+      db.query("ALTER TABLE clients ADD COLUMN c_reset_token VARCHAR(255) NULL", (alterErr) => {
+        if (alterErr) console.error("Error adding c_reset_token:", alterErr);
+        else console.log("Added c_reset_token column to clients table");
+      });
+    }
+  });
+
+  db.query("SHOW COLUMNS FROM clients LIKE 'c_reset_expires'", (err, results) => {
+    if (err) {
+      console.error("Error checking columns:", err);
+      return;
+    }
+    if (results.length === 0) {
+      db.query("ALTER TABLE clients ADD COLUMN c_reset_expires VARCHAR(255) NULL", (alterErr) => {
+        if (alterErr) console.error("Error adding c_reset_expires:", alterErr);
+        else console.log("Added c_reset_expires column to clients table");
+      });
+    }
+  });
 });
+
+// Setup Nodemailer & Crypto
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+
+let transporter;
+
+const initMailTransporter = async () => {
+  if (process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS) {
+    const isSecure = process.env.SMTP_SECURE === 'true' || Number(process.env.SMTP_PORT) === 465;
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: isSecure,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      }
+    });
+    console.log("Nodemailer configured using environment variables");
+  } else {
+    try {
+      const testAccount = await nodemailer.createTestAccount();
+      transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false,
+        auth: {
+          user: testAccount.user,
+          pass: testAccount.pass,
+        },
+      });
+      console.log(`Nodemailer fallback Ethereal Account created:`);
+      console.log(`- User: ${testAccount.user}`);
+      console.log(`- Pass: ${testAccount.pass}`);
+      console.log(`[TESTING] Reset email links will be printed in server log with direct links to view the mail!`);
+    } catch (e) {
+      console.error("Failed to configure mail developer fallback:", e);
+    }
+  }
+};
+
+initMailTransporter();
 
 app.use(express.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  }
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -58,18 +136,24 @@ app.post("/signup", (req, res) => {
         return res.status(409).json({ error: "This email already exists" });
       }
 
-      // Email is new, insert the client
-      db.query(
-        "INSERT INTO clients (c_username, c_email, c_password, c_type) VALUES (?, ?, ?, 1)",
-        [username, email, password],
-        (err) => {
-          if (err) {
-            return res.status(500).json({ error: "Failed to register client" });
-          }
+      // Email is new — hash the password, then insert the client
+      bcrypt.hash(password, SALT_ROUNDS, (hashErr, hashedPassword) => {
+        if (hashErr) {
+          return res.status(500).json({ error: "Failed to secure password" });
+        }
 
-          return res.status(201).json({ message: "Client registered" });
-        },
-      );
+        db.query(
+          "INSERT INTO clients (c_username, c_email, c_password, c_type) VALUES (?, ?, ?, 1)",
+          [username, email, hashedPassword],
+          (err) => {
+            if (err) {
+              return res.status(500).json({ error: "Failed to register client" });
+            }
+
+            return res.status(201).json({ message: "Client registered" });
+          },
+        );
+      });
     },
   );
 });
@@ -95,11 +179,12 @@ app.post("/login", (req, res) => {
 
       const user = results[0];
       const userType = user.c_type;
-      
-      // Checking plain text since signup doesn't hash passwords yet
-      if (user.c_password !== password) {
-        return res.status(401).json({ error: "Invalid email or password" });
-      }
+
+      // Compare submitted password against the stored bcrypt hash
+      bcrypt.compare(password, user.c_password, (compareErr, isMatch) => {
+        if (compareErr || !isMatch) {
+          return res.status(401).json({ error: "Invalid email or password" });
+        }
 
       // Generate JWT Token
       const token = jwt.sign(
@@ -115,7 +200,131 @@ app.post("/login", (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
       });
 
-      res.status(200).json({ message: "Login successful", type: userType });
+        res.status(200).json({ message: "Login successful", type: userType });
+      });
+    }
+  );
+});
+
+// ------------------------------------------ Forgot / Reset Password ------------------------------
+
+app.post("/forgot-password", (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({ error: "L'adresse e-mail est requise." });
+  }
+
+  db.query(
+    "SELECT * FROM clients WHERE c_email = ?",
+    [email],
+    async (err, results) => {
+      if (err) return res.status(500).json({ error: "Database error" });
+      if (results.length === 0) {
+        return res.status(200).json({
+          message: "Si un compte correspond à cet e-mail, un lien de réinitialisation y a été envoyé.",
+        });
+      }
+
+      const client = results[0];
+      const token = crypto.randomBytes(32).toString("hex");
+      const expires = Date.now() + 3600000; // 1 hour
+
+      db.query(
+        "UPDATE clients SET c_reset_token = ?, c_reset_expires = ? WHERE c_id = ?",
+        [token, String(expires), client.c_id],
+        async (updateErr) => {
+          if (updateErr) return res.status(500).json({ error: "Failed to set reset token" });
+
+          const resetUrl = `http://localhost:5173/reset-password?token=${token}`;
+
+          const mailOptions = {
+            from: process.env.SMTP_FROM || '"KechBus Support" <support@kechbus.ma>',
+            to: client.c_email,
+            subject: "Réinitialisation de votre mot de passe - KechBus",
+            html: `
+              <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #eef1f6; border-radius: 12px; background-color: #ffffff;">
+                <div style="text-align: center; margin-bottom: 24px;">
+                  <h1 style="color: #405d72; margin: 0; font-size: 26px; font-weight: 700;">Kech<span style="color: #5a8aad;">Bus</span></h1>
+                </div>
+                <h2 style="color: #1a1f27; font-size: 18px; font-weight: 600; margin-bottom: 12px;">Bonjour ${client.c_username || 'Client'},</h2>
+                <p style="color: #5a6e7f; font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
+                  Vous avez demandé la réinitialisation de votre mot de passe pour votre compte KechBus. Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe (valable pendant 1 heure) :
+                </p>
+                <div style="text-align: center; margin-bottom: 28px;">
+                  <a href="${resetUrl}" style="background-color: #405d72; color: #ffffff; text-decoration: none; padding: 12px 28px; border-radius: 8px; font-size: 15px; font-weight: 600; display: inline-block;">
+                    Réinitialiser mon mot de passe
+                  </a>
+                </div>
+                <p style="color: #94a3b8; font-size: 13px; line-height: 1.5; margin-bottom: 0;">
+                  Si vous n'avez pas demandé ce changement, vous pouvez ignorer cet e-mail en toute sécurité. Votre mot de passe restera inchangé.
+                </p>
+                <hr style="border: 0; border-top: 1px solid #eef1f6; margin: 24px 0;" />
+                <p style="color: #94a3b8; font-size: 11px; text-align: center; margin: 0;">
+                  © ${new Date().getFullYear()} KechBus Marrakech. Tous droits réservés.
+                </p>
+              </div>
+            `,
+          };
+
+          try {
+            if (!transporter) {
+              await initMailTransporter();
+            }
+            
+            const info = await transporter.sendMail(mailOptions);
+            const previewUrl = nodemailer.getTestMessageUrl(info);
+            if (previewUrl) {
+              console.log(`[TESTING] Password reset link sent to ${client.c_email}`);
+              console.log(`[TESTING] View email preview: ${previewUrl}`);
+            }
+
+            return res.status(200).json({
+              message: "Si un compte correspond à cet e-mail, un lien de réinitialisation y a été envoyé.",
+            });
+          } catch (mailErr) {
+            console.error("Mail send error:", mailErr);
+            return res.status(500).json({ error: "Failed to send reset email" });
+          }
+        }
+      );
+    }
+  );
+});
+
+app.post("/reset-password", (req, res) => {
+  const { token, password } = req.body;
+  if (!token || !password) {
+    return res.status(400).json({ error: "Le jeton de réinitialisation et le nouveau mot de passe sont requis." });
+  }
+
+  db.query(
+    "SELECT * FROM clients WHERE c_reset_token = ?",
+    [token],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: "Database error" });
+      if (results.length === 0) {
+        return res.status(400).json({ error: "Jeton de réinitialisation invalide ou expiré." });
+      }
+
+      const client = results[0];
+      const expiry = Number(client.c_reset_expires);
+
+      if (Date.now() > expiry) {
+        return res.status(400).json({ error: "Le jeton de réinitialisation a expiré." });
+      }
+
+      bcrypt.hash(password, SALT_ROUNDS, (hashErr, hashedPassword) => {
+        if (hashErr) return res.status(500).json({ error: "Failed to secure password" });
+
+        db.query(
+          "UPDATE clients SET c_password = ?, c_reset_token = NULL, c_reset_expires = NULL WHERE c_id = ?",
+          [hashedPassword, client.c_id],
+          (updateErr) => {
+            if (updateErr) return res.status(500).json({ error: "Failed to reset password" });
+            return res.status(200).json({ message: "Votre mot de passe a été réinitialisé avec succès." });
+          }
+        );
+      });
     }
   );
 });
@@ -134,36 +343,44 @@ app.post("/admin/login", (req, res) => {
     (err, results) => {
       if (err) return res.status(500).json({ error: "Database error" });
 
-      if (results.length === 0 || results[0].a_password !== password) {
+      if (results.length === 0) {
         return res.status(401).json({ error: "Invalid username or password" });
       }
 
       const admin = results[0];
 
-      // Generate JWT Token for admin
-      const token = jwt.sign(
-        { id: admin.a_id, role: admin.a_role, type: 'admin' },
-        "KECHBUS_JWT_SECRET_KEY",
-        { expiresIn: "1d" }
-      );
+      // Compare submitted password against the stored bcrypt hash
+      bcrypt.compare(password, admin.a_password, (compareErr, isMatch) => {
+        if (compareErr || !isMatch) {
+          return res.status(401).json({ error: "Invalid username or password" });
+        }
 
-      // Set Admin-specific HttpOnly Cookie
-      res.cookie("admin_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 24 * 60 * 60 * 1000,
-      });
+        // Generate JWT Token for admin
+        const token = jwt.sign(
+          { id: admin.a_id, role: admin.a_role, type: 'admin' },
+          "KECHBUS_JWT_SECRET_KEY",
+          { expiresIn: "1d" }
+        );
 
-      logAction(admin.a_id, "ADMIN_LOGIN", `Admin ${admin.a_username} logged in`);
+        // Set Admin-specific HttpOnly Cookie
+        res.cookie("admin_token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          maxAge: 24 * 60 * 60 * 1000,
+        });
 
-      res.status(200).json({ 
-        message: "Admin login successful", 
-        role: admin.a_role,
-        username: admin.a_username 
+        logAction(admin.a_id, "ADMIN_LOGIN", `Admin ${admin.a_username} logged in`);
+
+        res.status(200).json({ 
+          message: "Admin login successful", 
+          role: admin.a_role,
+          username: admin.a_username 
+        });
       });
     }
   );
 });
+
 
 // ------------------------------------------ Auth Middleware ------------------------------
 
@@ -223,21 +440,29 @@ app.put("/client/me", verifyToken, (req, res) => {
   if (password) {
     if (!currentPassword) return res.status(400).json({ error: "Current password is required to set a new one" });
     
-    // Verify current password first
+    // Verify current password against bcrypt hash first
     db.query("SELECT c_password FROM clients WHERE c_id = ?", [req.userId], (err, results) => {
       if (err) return res.status(500).json({ error: "Database error" });
-      if (results[0].c_password !== currentPassword) {
-        return res.status(401).json({ error: "Incorrect current password" });
-      }
 
-      db.query(
-        "UPDATE clients SET c_username = ?, c_email = ?, c_password = ? WHERE c_id = ?",
-        [username, email, password, req.userId],
-        (err) => {
-          if (err) return res.status(500).json({ error: "Failed to update profile" });
-          res.json({ message: "Profile updated successfully" });
+      bcrypt.compare(currentPassword, results[0].c_password, (compareErr, isMatch) => {
+        if (compareErr || !isMatch) {
+          return res.status(401).json({ error: "Incorrect current password" });
         }
-      );
+
+        // Hash the new password before storing
+        bcrypt.hash(password, SALT_ROUNDS, (hashErr, hashedPassword) => {
+          if (hashErr) return res.status(500).json({ error: "Failed to secure password" });
+
+          db.query(
+            "UPDATE clients SET c_username = ?, c_email = ?, c_password = ? WHERE c_id = ?",
+            [username, email, hashedPassword, req.userId],
+            (err) => {
+              if (err) return res.status(500).json({ error: "Failed to update profile" });
+              res.json({ message: "Profile updated successfully" });
+            }
+          );
+        });
+      });
     });
   } else {
     db.query(
