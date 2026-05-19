@@ -1,9 +1,6 @@
-import { useMemo, useState, lazy, Suspense } from "react";
+import { useMemo, useState } from "react";
 
 import "../Styles/Tikets.css";
-import "../Styles/LiveBusTracker.css";
-
-const LiveBusTracker = lazy(() => import("./LiveBusTracker"));
 
 import { FaTicketSimple } from "react-icons/fa6";
 import { FaBus, FaClock, FaMapMarkerAlt } from "react-icons/fa";
@@ -125,12 +122,7 @@ function Tikets() {
   const [travelDate, setTravelDate] = useState(todayISODate);
   const [passengers, setPassengers] = useState(1);
   const [confirmed, setConfirmed] = useState(false);
-  const [trackingId, setTrackingId] = useState(null);
   const [bookingRef, setBookingRef] = useState("");
-
-  const toggleTracking = (lineId) => {
-    setTrackingId((prev) => (prev === lineId ? null : lineId));
-  };
 
   const filteredLines = useMemo(() => {
     return LINES.filter((line) => {
@@ -271,45 +263,6 @@ function Tikets() {
                           </div>
                         </button>
 
-                        {/* Track Live toggle */}
-                        <button
-                          type="button"
-                          className={`tikets-track-btn${trackingId === line.id ? " tikets-track-btn--active" : ""
-                            }`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleTracking(line.id);
-                          }}
-                        >
-                          {trackingId === line.id ? "Hide Tracking" : "Track Live 🚍"}
-                          <span className="tikets-track-btn__chevron" aria-hidden>▼</span>
-                        </button>
-
-                        {/* Collapsible tracker */}
-                        <div
-                          className={`tikets-tracker-wrapper${trackingId === line.id ? " tikets-tracker-wrapper--open" : ""
-                            }`}
-                        >
-                          <div className="tikets-tracker-inner">
-                            {trackingId === line.id && (
-                              <Suspense
-                                fallback={
-                                  <div style={{ padding: "1rem", textAlign: "center", fontSize: "0.85rem", color: "#405d72" }}>
-                                    Loading map…
-                                  </div>
-                                }
-                              >
-                                <LiveBusTracker
-                                  from={line.from}
-                                  to={line.to}
-                                  duration={line.duration}
-                                  lineNumber={line.line}
-                                  lineColor={LINE_COLORS[line.line]}
-                                />
-                              </Suspense>
-                            )}
-                          </div>
-                        </div>
                       </div>
                     </li>
                   );

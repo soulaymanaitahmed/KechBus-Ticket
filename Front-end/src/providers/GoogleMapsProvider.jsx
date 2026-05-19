@@ -3,7 +3,7 @@ import { useJsApiLoader } from '@react-google-maps/api';
 
 const GoogleMapsContext = createContext(null);
 
-const libraries = ["places"];
+const libraries = ["maps", "places", "geometry", "marker"];
 
 export const GoogleMapsProvider = ({ children }) => {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || import.meta.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "AIzaSyCyL7-Jr6hg6Lugty-YbEoFtf7dAlWPIdQ";

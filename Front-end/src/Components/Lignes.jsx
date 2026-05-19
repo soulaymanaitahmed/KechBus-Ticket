@@ -183,7 +183,7 @@ export default function Lignes() {
             </div>
 
             <div className="card-footer">
-              <button className="btn-icon track" onClick={() => navigate(`/track/${line.id}`)}>
+              <button className="btn-icon track" onClick={() => navigate(`/admin/track/${line.id}`)}>
                 <FaEye /> Track
               </button>
               <button className="btn-icon edit" onClick={() => openModal(line)}>

@@ -146,15 +146,6 @@ const TicketsPage = () => {
         setIsRouteModalOpen(true);
     };
 
-    const handleTrackLive = (lineId, origin, destination) => {
-        setSelectedRoute({
-            num: `L${lineId}`,
-            from: origin,
-            to: destination
-        });
-        setIsLiveTrackerOpen(true);
-    };
-
     const initiatePayment = (type, data) => {
         if (type === 'ticket') {
             data.totalPrice = (data.price || 0) * ticketQuantity;
@@ -184,7 +175,7 @@ const TicketsPage = () => {
                     fetchInitialData();
                     setActiveTab(pendingAction.type === "ticket" ? "tickets" : "subscription");
                 }, 2000);
-            } catch (err) {
+            } catch {
                 alert("Payment processing failed on server");
                 setShowPayment(false);
             }
@@ -570,14 +561,7 @@ const TicketsPage = () => {
                                                                     >
                                                                         Acheter {ticketQuantity > 1 ? `${ticketQuantity} Tickets` : "Ticket"}
                                                                     </button>
-                                                                    <button 
-                                                                        className="tp-btn tp-btn-secondary tp-btn-sm"
-                                                                        style={{ marginTop: '8px', width: '100%', minWidth: 'unset' }}
-                                                                        onClick={() => handleTrackLive(l.l_id, l.l_destination1, l.l_destination2)}
-                                                                    >
-                                                                        <FaBus style={{ marginRight: '8px' }} /> Track Live
-                                                                    </button>
-                                                                </div>
+                                                                    </div>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -600,12 +584,6 @@ const TicketsPage = () => {
                                                             <span>{l.l_destination2}</span>
                                                         </div>
                                                         <div className="tp-line-card-footer">
-                                                            <span onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                handleTrackLive(l.l_id, l.l_destination1, l.l_destination2);
-                                                            }} style={{ cursor: 'pointer', color: 'var(--tp-success)' }}>
-                                                                <FaBus /> Suivre en direct
-                                                            </span>
                                                             <FaMapMarkerAlt />
                                                         </div>
                                                     </div>
@@ -642,16 +620,6 @@ const TicketsPage = () => {
                                                 >
                                                     {t.l_destination1} ↔ {t.l_destination2}
                                                 </p>
-                                                <button 
-                                                    className="tp-btn tp-btn-secondary tp-btn-sm"
-                                                    style={{ marginTop: '12px', width: '100%', minWidth: 'unset' }}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleTrackLive(t.l_id, t.l_destination1, t.l_destination2);
-                                                    }}
-                                                >
-                                                    <FaBus style={{ marginRight: '8px' }} /> Suivre mon bus
-                                                </button>
                                                 <ul className="tp-plan-features-list">
                                                     <li>
                                                         <span className="tp-icon-wrapper">
@@ -1021,9 +989,38 @@ const TicketsPage = () => {
 
                         <div className="tp-modal-footer">
                             <p><FaBus /> Présentez ce code QR au chauffeur lors de l'embarquement.</p>
-                            <button className="tp-btn tp-btn-primary" onClick={() => window.print()}>
-                                Imprimer le ticket
-                            </button>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', marginTop: '8px' }}>
+                                <button className="tp-btn tp-btn-primary" onClick={() => window.print()}>
+                                    Imprimer le ticket
+                                </button>
+                                <button className="tp-btn" style={{
+                                    backgroundColor: '#3b82f6',
+                                    color: '#ffffff',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px',
+                                    padding: '12px',
+                                    borderRadius: '8px',
+                                    fontWeight: '600',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    transition: 'background-color 0.2s'
+                                }} onClick={() => {
+                                    const matchingLigne = lignes.find(l => l.l_id === selectedTicket.l_id);
+                                    setSelectedRoute({
+                                        id: selectedTicket.l_id,
+                                        num: `L${selectedTicket.l_id}`,
+                                        from: selectedTicket.l_destination1,
+                                        to: selectedTicket.l_destination2,
+                                        stations: matchingLigne?.l_stations || []
+                                    });
+                                    setIsLiveTrackerOpen(true);
+                                    setSelectedTicket(null); // Close ticket details modal
+                                }}>
+                                    <FaBus /> Suivre le bus en direct
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -889,6 +889,7 @@ const BusSimulation = require('./BusSimulation');
 
 // Simulation Data / In-memory state for tracking
 const activeBuses = new Map();
+const activeAdminSimulations = new Map(); // maps routeId -> socket.id
 
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
@@ -898,8 +899,59 @@ io.on("connection", (socket) => {
     console.log(`User ${socket.id} joined tracking for route ${routeId}`);
   });
 
-  socket.on("disconnect", caranya => {
+  socket.on("leaveTracking", (routeId) => {
+    socket.leave(`route_${routeId}`);
+    console.log(`User ${socket.id} left tracking for route ${routeId}`);
+  });
+
+  socket.on("startAdminSimulation", (routeId) => {
+    activeAdminSimulations.set(routeId.toString(), socket.id);
+    console.log(`Admin ${socket.id} started simulation for route ${routeId}`);
+  });
+
+  socket.on("stopAdminSimulation", (routeId) => {
+    if (activeAdminSimulations.get(routeId.toString()) === socket.id) {
+      activeAdminSimulations.delete(routeId.toString());
+      console.log(`Admin ${socket.id} stopped simulation for route ${routeId}`);
+    }
+  });
+
+  socket.on("updateBusLocation", (data) => {
+    // Broadcast bus update to the room for that route
+    io.to(`route_${data.routeId}`).emit("busLocationUpdate", {
+      busId: data.busId,
+      lineNumber: data.routeId,
+      lat: data.lat,
+      lng: data.lng,
+      speed: data.speed,
+      heading: data.heading,
+      status: data.status,
+      currentStation: data.currentStation,
+      progress: data.progress,
+      driverName: data.driverName || `Chauffeur #${data.busId.split('-').pop()}`,
+      updatedAt: new Date().toISOString(),
+      eta: data.eta,
+      delayMin: data.delayMin
+    });
+  });
+
+  socket.on("emitNotification", (data) => {
+    io.to(`route_${data.routeId}`).emit("smartNotification", {
+      type: "approach",
+      message: data.message,
+      timestamp: new Date().toISOString()
+    });
+  });
+
+  socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
+    // Cleanup any active admin simulation owned by this socket
+    for (const [routeId, adminSocketId] of activeAdminSimulations.entries()) {
+      if (adminSocketId === socket.id) {
+        activeAdminSimulations.delete(routeId);
+        console.log(`Admin ${socket.id} disconnected. Removed simulation for route ${routeId}`);
+      }
+    }
   });
 });
 
@@ -909,6 +961,11 @@ setInterval(() => {
   const drivers = ["Ahmed", "Omar", "Yassine", "Soufiane"];
 
   demoRoutes.forEach((routeId, index) => {
+    // Skip if an admin is currently simulating this route in real-time
+    if (activeAdminSimulations.has(routeId)) {
+      return;
+    }
+
     let bus = activeBuses.get(routeId);
     if (!bus) {
       bus = new BusSimulation(routeId, drivers[index % drivers.length]);
@@ -943,6 +1000,7 @@ setInterval(() => {
     }
   });
 }, 3000);
+
 
 const PORT = process.env.PORT || 8866;
 

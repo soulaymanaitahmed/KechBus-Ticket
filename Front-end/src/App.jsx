@@ -3,7 +3,8 @@ import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Styles/App.css";
 
-import TrackingPage from "./Pages/TrackingPage";
+
+import SmartNavigator from "./Pages/SmartNavigator";
 import SideBar from "./Components/SideBar";
 import Statistiques from "./Components/Statistiques";
 
@@ -22,8 +23,11 @@ const AdminLogin = lazy(() => import("./Components/AdminLogin"));
 const Logs = lazy(() => import("./Components/Logs"));
 const BusScanner = lazy(() => import("./Components/BusScanner"));
 const Clients = lazy(() => import("./Components/Clients"));
+
 const ForgotPassword = lazy(() => import("./Components/ForgotPassword"));
 const ResetPassword = lazy(() => import("./Components/ResetPassword"));
+
+const AdminLiveTrackerPage = lazy(() => import("./Pages/AdminLiveTrackerPage"));
 
 // A Layout component for the internal app that checks authentication
 const AppLayout = ({ children }) => {
@@ -63,8 +67,11 @@ function App() {
         <Route path="/bus" element={<BusScanner />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signin />} />
+
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+
+        <Route path="/navigate" element={<SmartNavigator />} />
 
         {/* Internal Pages (With Sidebar) */}
         <Route
@@ -96,6 +103,14 @@ function App() {
           element={
             <AppLayout>
               <Lignes />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/admin/track/:lineId"
+          element={
+            <AppLayout>
+              <AdminLiveTrackerPage />
             </AppLayout>
           }
         />
