@@ -1,0 +1,534 @@
+Last login: Mon Jun  1 12:59:16 on console
+louarainiabderrahmane@Air-de-cash ~ % docker --version
+Docker version 27.5.1, build 9f9e405
+louarainiabderrahmane@Air-de-cash ~ % pip3 install localstack --break-system-packages
+Collecting localstack
+  Downloading localstack-4.13.1.tar.gz (6.0 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Collecting localstack-core (from localstack)
+  Using cached localstack_core-3.8.1-py3-none-any.whl.metadata (5.4 kB)
+INFO: pip is looking at multiple versions of localstack to determine which version is compatible with other requirements. This could take a while.
+Collecting localstack
+  Downloading localstack-4.13.0.tar.gz (6.0 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.12.0.tar.gz (5.9 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.11.1.tar.gz (5.9 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.11.0.tar.gz (5.9 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.10.0.tar.gz (5.9 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.9.2.tar.gz (5.9 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.9.1.tar.gz (5.9 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+INFO: pip is still looking at multiple versions of localstack to determine which version is compatible with other requirements. This could take a while.
+  Downloading localstack-4.9.0.tar.gz (5.9 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.8.1.tar.gz (5.9 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.8.0.tar.gz (5.9 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.7.0.tar.gz (5.8 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.6.0.tar.gz (5.8 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+  Downloading localstack-4.5.0.tar.gz (5.8 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.4.0.tar.gz (5.8 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.3.0.tar.gz (5.8 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.2.0.tar.gz (5.8 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.1.1.tar.gz (5.8 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.1.0.tar.gz (5.8 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.0.3.tar.gz (5.7 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.0.2.tar.gz (5.7 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.0.1.tar.gz (5.7 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-4.0.0.tar.gz (5.7 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+  Downloading localstack-3.8.1.tar.gz (5.7 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Collecting localstack-ext==3.8.1 (from localstack)
+  Downloading localstack_ext-3.8.1.tar.gz (7.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.8/7.8 MB 180.5 kB/s eta 0:00:00
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Collecting dill>=0.3.2 (from localstack-ext==3.8.1->localstack)
+  Using cached dill-0.4.0-py3-none-any.whl.metadata (10 kB)
+Collecting dnslib>=0.9.10 (from localstack-ext==3.8.1->localstack)
+  Using cached dnslib-0.9.26-py3-none-any.whl.metadata (19 kB)
+Collecting dnspython>=1.16.0 (from localstack-ext==3.8.1->localstack)
+  Using cached dnspython-2.6.1-py3-none-any.whl.metadata (5.8 kB)
+Collecting packaging (from localstack-ext==3.8.1->localstack)
+  Using cached packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+Collecting build (from localstack-ext==3.8.1->localstack)
+  Downloading build-1.2.2.post1-py3-none-any.whl.metadata (6.5 kB)
+Collecting plux>=1.10.0 (from localstack-ext==3.8.1->localstack)
+  Using cached plux-1.13.0-py3-none-any.whl.metadata (10 kB)
+Collecting pyaes>=1.6.0 (from localstack-ext==3.8.1->localstack)
+  Using cached pyaes-1.6.1.tar.gz (28 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Collecting pyotp>=2.9.0 (from localstack-ext==3.8.1->localstack)
+  Downloading pyotp-2.9.0-py3-none-any.whl.metadata (9.8 kB)
+Collecting python-jose>=3.1.0 (from python-jose[cryptography]>=3.1.0->localstack-ext==3.8.1->localstack)
+  Using cached python_jose-3.4.0-py2.py3-none-any.whl.metadata (5.5 kB)
+Collecting requests>=2.20.0 (from localstack-ext==3.8.1->localstack)
+  Using cached requests-2.32.4-py3-none-any.whl.metadata (4.9 kB)
+Collecting python-dateutil>=2.8 (from localstack-ext==3.8.1->localstack)
+  Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Collecting tabulate (from localstack-ext==3.8.1->localstack)
+  Using cached tabulate-0.9.0-py3-none-any.whl.metadata (34 kB)
+Collecting click>=7.1 (from localstack-core->localstack)
+  Using cached click-8.1.8-py3-none-any.whl.metadata (2.3 kB)
+Collecting cachetools>=5.0 (from localstack-core->localstack)
+  Using cached cachetools-5.5.2-py3-none-any.whl.metadata (5.4 kB)
+Collecting cryptography (from localstack-core->localstack)
+  Using cached cryptography-47.0.0-cp38-abi3-macosx_10_9_universal2.whl.metadata (4.5 kB)
+Collecting dill>=0.3.2 (from localstack-ext==3.8.1->localstack)
+  Using cached dill-0.3.6-py3-none-any.whl.metadata (9.8 kB)
+Collecting psutil>=5.4.8 (from localstack-core->localstack)
+  Downloading psutil-7.2.2-cp36-abi3-macosx_10_9_x86_64.whl.metadata (22 kB)
+Collecting python-dotenv>=0.19.1 (from localstack-core->localstack)
+  Using cached python_dotenv-1.0.1-py3-none-any.whl.metadata (23 kB)
+Collecting pyyaml>=5.1 (from localstack-core->localstack)
+  Using cached PyYAML-6.0.3-cp38-cp38-macosx_10_13_x86_64.whl.metadata (2.1 kB)
+Collecting rich>=12.3.0 (from localstack-core->localstack)
+  Using cached rich-14.3.4-py3-none-any.whl.metadata (18 kB)
+Collecting semver>=2.10 (from localstack-core->localstack)
+  Using cached semver-3.0.4-py3-none-any.whl.metadata (6.8 kB)
+Collecting tailer>=0.4.1 (from localstack-core->localstack)
+  Using cached tailer-0.4.1.tar.gz (7.5 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Collecting six>=1.5 (from python-dateutil>=2.8->localstack-ext==3.8.1->localstack)
+  Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting ecdsa!=0.15 (from python-jose>=3.1.0->python-jose[cryptography]>=3.1.0->localstack-ext==3.8.1->localstack)
+  Using cached ecdsa-0.19.2-py2.py3-none-any.whl.metadata (29 kB)
+Collecting rsa!=4.1.1,!=4.4,<5.0,>=4.0 (from python-jose>=3.1.0->python-jose[cryptography]>=3.1.0->localstack-ext==3.8.1->localstack)
+  Using cached rsa-4.9.1-py3-none-any.whl.metadata (5.6 kB)
+Collecting pyasn1<0.5.0,>=0.4.1 (from python-jose>=3.1.0->python-jose[cryptography]>=3.1.0->localstack-ext==3.8.1->localstack)
+  Using cached pyasn1-0.4.8-py2.py3-none-any.whl.metadata (1.5 kB)
+Collecting cffi>=1.14 (from cryptography->localstack-core->localstack)
+  Using cached cffi-1.17.1-cp38-cp38-macosx_10_9_x86_64.whl.metadata (1.5 kB)
+Collecting typing-extensions>=4.13.2 (from cryptography->localstack-core->localstack)
+  Using cached typing_extensions-4.13.2-py3-none-any.whl.metadata (3.0 kB)
+Collecting charset_normalizer<4,>=2 (from requests>=2.20.0->localstack-ext==3.8.1->localstack)
+  Downloading charset_normalizer-3.4.7-cp38-cp38-macosx_10_9_universal2.whl.metadata (40 kB)
+Collecting idna<4,>=2.5 (from requests>=2.20.0->localstack-ext==3.8.1->localstack)
+  Downloading idna-3.15-py3-none-any.whl.metadata (7.7 kB)
+Collecting urllib3<3,>=1.21.1 (from requests>=2.20.0->localstack-ext==3.8.1->localstack)
+  Downloading urllib3-2.2.3-py3-none-any.whl.metadata (6.5 kB)
+Collecting certifi>=2017.4.17 (from requests>=2.20.0->localstack-ext==3.8.1->localstack)
+  Downloading certifi-2026.5.20-py3-none-any.whl.metadata (2.5 kB)
+Collecting markdown-it-py>=2.2.0 (from rich>=12.3.0->localstack-core->localstack)
+  Downloading markdown_it_py-3.0.0-py3-none-any.whl.metadata (6.9 kB)
+Collecting pygments<3.0.0,>=2.13.0 (from rich>=12.3.0->localstack-core->localstack)
+  Downloading pygments-2.19.2-py3-none-any.whl.metadata (2.5 kB)
+Collecting pyproject_hooks (from build->localstack-ext==3.8.1->localstack)
+  Downloading pyproject_hooks-1.2.0-py3-none-any.whl.metadata (1.3 kB)
+Collecting importlib-metadata>=4.6 (from build->localstack-ext==3.8.1->localstack)
+  Downloading importlib_metadata-8.5.0-py3-none-any.whl.metadata (4.8 kB)
+Collecting tomli>=1.1.0 (from build->localstack-ext==3.8.1->localstack)
+  Using cached tomli-2.4.1-py3-none-any.whl.metadata (10 kB)
+Collecting pycparser (from cffi>=1.14->cryptography->localstack-core->localstack)
+  Downloading pycparser-2.23-py3-none-any.whl.metadata (993 bytes)
+Collecting zipp>=3.20 (from importlib-metadata>=4.6->build->localstack-ext==3.8.1->localstack)
+  Downloading zipp-3.20.2-py3-none-any.whl.metadata (3.7 kB)
+Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=12.3.0->localstack-core->localstack)
+  Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+Downloading localstack_core-3.8.1-py3-none-any.whl (2.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.4/2.4 MB 282.9 kB/s eta 0:00:00
+Downloading dill-0.3.6-py3-none-any.whl (110 kB)
+Downloading cachetools-5.5.2-py3-none-any.whl (10 kB)
+Downloading click-8.1.8-py3-none-any.whl (98 kB)
+Downloading dnslib-0.9.26-py3-none-any.whl (64 kB)
+Downloading dnspython-2.6.1-py3-none-any.whl (307 kB)
+Using cached plux-1.13.0-py3-none-any.whl (35 kB)
+Downloading psutil-7.2.2-cp36-abi3-macosx_10_9_x86_64.whl (129 kB)
+Downloading pyotp-2.9.0-py3-none-any.whl (13 kB)
+Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Downloading python_dotenv-1.0.1-py3-none-any.whl (19 kB)
+Downloading python_jose-3.4.0-py2.py3-none-any.whl (34 kB)
+Downloading cryptography-47.0.0-cp38-abi3-macosx_10_9_universal2.whl (7.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.9/7.9 MB 282.7 kB/s eta 0:00:00
+Downloading PyYAML-6.0.3-cp38-cp38-macosx_10_13_x86_64.whl (186 kB)
+Downloading requests-2.32.4-py3-none-any.whl (64 kB)
+Downloading rich-14.3.4-py3-none-any.whl (310 kB)
+Downloading semver-3.0.4-py3-none-any.whl (17 kB)
+Downloading build-1.2.2.post1-py3-none-any.whl (22 kB)
+Using cached packaging-26.2-py3-none-any.whl (100 kB)
+Downloading tabulate-0.9.0-py3-none-any.whl (35 kB)
+Downloading certifi-2026.5.20-py3-none-any.whl (134 kB)
+Downloading cffi-1.17.1-cp38-cp38-macosx_10_9_x86_64.whl (182 kB)
+Downloading charset_normalizer-3.4.7-cp38-cp38-macosx_10_9_universal2.whl (283 kB)
+Downloading ecdsa-0.19.2-py2.py3-none-any.whl (150 kB)
+Downloading idna-3.15-py3-none-any.whl (72 kB)
+Downloading importlib_metadata-8.5.0-py3-none-any.whl (26 kB)
+Downloading markdown_it_py-3.0.0-py3-none-any.whl (87 kB)
+Downloading pyasn1-0.4.8-py2.py3-none-any.whl (77 kB)
+Downloading pygments-2.19.2-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 271.9 kB/s eta 0:00:00
+Downloading rsa-4.9.1-py3-none-any.whl (34 kB)
+Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+Using cached tomli-2.4.1-py3-none-any.whl (14 kB)
+Using cached typing_extensions-4.13.2-py3-none-any.whl (45 kB)
+Downloading urllib3-2.2.3-py3-none-any.whl (126 kB)
+Downloading pyproject_hooks-1.2.0-py3-none-any.whl (10 kB)
+Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Downloading zipp-3.20.2-py3-none-any.whl (9.2 kB)
+Downloading pycparser-2.23-py3-none-any.whl (118 kB)
+Building wheels for collected packages: localstack, localstack-ext, pyaes, tailer
+  Building wheel for localstack (pyproject.toml) ... done
+  Created wheel for localstack: filename=localstack-3.8.1-py3-none-any.whl size=1705 sha256=0aa158b3afe4ad6e9768f43fa57a22f5f21545444d6783f99db9f72a99936fb7
+  Stored in directory: /Users/louarainiabderrahmane/Library/Caches/pip/wheels/d8/5a/f9/4e5797e31503821140164f12cc4c9209c81924d559683aecd0
+  Building wheel for localstack-ext (pyproject.toml) ... done
+  Created wheel for localstack-ext: filename=localstack_ext-3.8.1-py3-none-any.whl size=6234525 sha256=a49877036465c61dcd2cbc706f321999d7d91ccc5cc228919e7dfe9dadb6748f
+  Stored in directory: /Users/louarainiabderrahmane/Library/Caches/pip/wheels/a2/1b/b5/d51630b0cd05909261e601fda49007dbfa3992f42e2ca919e7
+  Building wheel for pyaes (pyproject.toml) ... done
+  Created wheel for pyaes: filename=pyaes-1.6.1-py3-none-any.whl size=26345 sha256=63e7efe0ae7aa3b7acdcbfc7845022ffbd62b28aeba2df3c76c94c778691d7fe
+  Stored in directory: /Users/louarainiabderrahmane/Library/Caches/pip/wheels/aa/ca/9c/8a3c00512585c703edc457db81c066b9609d76758c74f72ac6
+  Building wheel for tailer (pyproject.toml) ... done
+  Created wheel for tailer: filename=tailer-0.4.1-py3-none-any.whl size=5397 sha256=4aff701aaf74e93e6a7b84695f475ada8ada688a93dd9bd3d63309b4debe3185
+  Stored in directory: /Users/louarainiabderrahmane/Library/Caches/pip/wheels/98/8e/3c/28b6cfba2f70883c3b25a618f908670b2be4f7e9dc62c21810
+Successfully built localstack localstack-ext pyaes tailer
+Installing collected packages: tailer, pyasn1, pyaes, dnslib, zipp, urllib3, typing-extensions, tomli, tabulate, six, semver, rsa, pyyaml, python-dotenv, pyproject_hooks, pyotp, pygments, pycparser, psutil, plux, packaging, mdurl, idna, dnspython, dill, click, charset_normalizer, certifi, cachetools, requests, python-dateutil, markdown-it-py, importlib-metadata, ecdsa, cffi, rich, python-jose, cryptography, build, localstack-core, localstack-ext, localstack
+Successfully installed build-1.2.2.post1 cachetools-5.5.2 certifi-2026.5.20 cffi-1.17.1 charset_normalizer-3.4.7 click-8.1.8 cryptography-47.0.0 dill-0.3.6 dnslib-0.9.26 dnspython-2.6.1 ecdsa-0.19.2 idna-3.15 importlib-metadata-8.5.0 localstack-3.8.1 localstack-core-3.8.1 localstack-ext-3.8.1 markdown-it-py-3.0.0 mdurl-0.1.2 packaging-26.2 plux-1.13.0 psutil-7.2.2 pyaes-1.6.1 pyasn1-0.4.8 pycparser-2.23 pygments-2.19.2 pyotp-2.9.0 pyproject_hooks-1.2.0 python-dateutil-2.9.0.post0 python-dotenv-1.0.1 python-jose-3.4.0 pyyaml-6.0.3 requests-2.32.4 rich-14.3.4 rsa-4.9.1 semver-3.0.4 six-1.17.0 tabulate-0.9.0 tailer-0.4.1 tomli-2.4.1 typing-extensions-4.13.2 urllib3-2.2.3 zipp-3.20.2
+louarainiabderrahmane@Air-de-cash ~ % localstack --version
+LocalStack CLI 2026.5.0
+louarainiabderrahmane@Air-de-cash ~ % curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
+aws --version
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 52.8M  100 52.8M    0     0   352k      0  0:02:33  0:02:33 --:--:--  514k
+Password:
+installer: Package name is AWS Command Line Interface
+installer: Upgrading at base path /
+installer: The upgrade was successful.
+aws-cli/2.34.57 Python/3.14.5 Darwin/21.6.0 exe/x86_64
+louarainiabderrahmane@Air-de-cash ~ % aws configure
+AWS Access Key ID [****************test]: test
+AWS Secret Access Key [****************test]: test
+Default region name [us-east-1]: us-east-1
+Default output format [json]: json
+louarainiabderrahmane@Air-de-cash ~ % localstack start -d
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[13:43:49] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+ERROR: '['docker', 'ps']': exit code 1; output: b'Cannot connect to the Docker daemon at unix:///Users/louarainiabderrahmane/.docker/run/docker.sock. Is the docker daemon running?\n'
+
+2026-06-01T13:43:50.744  INFO --- [  MainThread] l.utils.bootstrap          : Execution of "prepare_host" took 1307.44ms
+❌ Error: 
+===============================================
+License activation failed! 🔑❌
+
+Reason: No credentials were found in the environment. Please make sure to either set the LOCALSTACK_AUTH_TOKEN variable to a valid auth token. If you are using the CLI, you can also run `localstack auth set-token`.
+
+Due to this error, Localstack has quit. LocalStack pro features can only be used with a valid license.
+
+- Please check that your credentials are set up correctly and that you have an active license.
+  You can find your credentials in our webapp at https://app.localstack.cloud.
+- If you want to continue using LocalStack without pro features, set `LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1` during the grace period.
+
+louarainiabderrahmane@Air-de-cash ~ % localstack start -d
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[13:45:04] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-01T13:45:07.127  INFO --- [  MainThread] l.utils.bootstrap          : Execution of "prepare_host" took 2609.39ms
+❌ Error: 
+===============================================
+License activation failed! 🔑❌
+
+Reason: No credentials were found in the environment. Please make sure to either set the LOCALSTACK_AUTH_TOKEN variable to a valid auth token. If you are using the CLI, you can also run `localstack auth set-token`.
+
+Due to this error, Localstack has quit. LocalStack pro features can only be used with a valid license.
+
+- Please check that your credentials are set up correctly and that you have an active license.
+  You can find your credentials in our webapp at https://app.localstack.cloud.
+- If you want to continue using LocalStack without pro features, set `LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1` during the grace period.
+
+louarainiabderrahmane@Air-de-cash ~ % localstack start -d LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1
+Usage: localstack start [OPTIONS]
+Try 'localstack start --help' for help.
+
+Error: Got unexpected extra argument (LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1)
+louarainiabderrahmane@Air-de-cash ~ % LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1
+louarainiabderrahmane@Air-de-cash ~ % localstack start -d                                             
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[13:46:07] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-01T13:46:08.837  INFO --- [  MainThread] l.utils.bootstrap          : Execution of "prepare_host" took 1683.01ms
+❌ Error: 
+===============================================
+License activation failed! 🔑❌
+
+Reason: No credentials were found in the environment. Please make sure to either set the LOCALSTACK_AUTH_TOKEN variable to a valid auth token. If you are using the CLI, you can also run `localstack auth set-token`.
+
+Due to this error, Localstack has quit. LocalStack pro features can only be used with a valid license.
+
+- Please check that your credentials are set up correctly and that you have an active license.
+  You can find your credentials in our webapp at https://app.localstack.cloud.
+- If you want to continue using LocalStack without pro features, set `LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1` during the grace period.
+
+louarainiabderrahmane@Air-de-cash ~ % localstack status services
+❌ Error: could not connect to LocalStack health endpoint at http://localhost.localstack.cloud:4566
+louarainiabderrahmane@Air-de-cash ~ % brew install localstack/tap/localstack-cli
+==> Auto-updating Homebrew...
+Adjust how often this is run with `$HOMEBREW_AUTO_UPDATE_SECS` or disable with
+`$HOMEBREW_NO_AUTO_UPDATE=1`. Hide these hints with `$HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+==> Auto-updated Homebrew!
+Updated 2 taps (homebrew/core and homebrew/cask).
+==> New Formulae
+cc-switch-cli: All-in-one assistant tool for Claude Code, Codex, Gemini, OpenCode and OpenClaw
+cozypkg: CLI for managing Cozystack packages
+ghcitty: Fast, friendly GHCi
+libredwg: DWG utilities
+quien: Better WHOIS and domain intelligence toolkit
+ratty: GPU-rendered terminal emulator with inline 3D graphics
+sanity: Command-line interface for Sanity
+sdl2-compat: SDL2 compatibility layer that uses SDL3 behind the scenes
+sdl3_net: Simple cross-platform wrapper over TCP/IP sockets
+tdf: TUI-based PDF viewer
+telegram-send: Command-line tool to send Telegram messages
+wl-clipboard: Command-line copy/paste utilities for Wayland
+==> New Casks
+auto-subs: Subtitle generator for audio and video files
+choragus: Sonos controller
+dbx: Database management tool
+devin-cli: Coding agent with Devin Cloud integration
+facescreen: Camera and text overlay for presentations and screen sharing
+font-montenegrin-gothic-one
+font-xiaolai
+font-xiaolai-mono
+ghostvm: Native macOS Virtual Machines for Apple Silicon
+harvest: Time tracking application
+mactools: Menu bar toolbox
+meetily: Meeting transcription and analysis application
+mirai: Inference engine for AI models
+openpencil: Open-source design editor compatible with Figma
+speechify-ai-assistant: AI-powered reading and voice assistant
+vmlx: Run local AI models on Apple Silicon
+whatcable: Menu bar app for USB-C cable diagnostics
+yojam: Open links in selected browser, profiles, or apps
+
+You have 2 outdated formulae installed.
+
+Warning: localstack/tap/localstack-cli 2026.5.0 is already installed, it's just not linked.
+To link this version, run:
+  brew link localstack/tap/localstack-cli
+louarainiabderrahmane@Air-de-cash ~ %  brew link localstack/tap/localstack-cli
+Linking /usr/local/Cellar/localstack-cli/2026.5.0... 
+Error: Could not symlink share/fish/vendor_completions.d/localstack.fish
+/usr/local/share/fish/vendor_completions.d is not writable.
+louarainiabderrahmane@Air-de-cash ~ % localstack status services
+❌ Error: could not connect to LocalStack health endpoint at http://localhost.localstack.cloud:4566
+louarainiabderrahmane@Air-de-cash ~ % localstack start -d                       
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[14:00:58] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-01T14:01:00.935  INFO --- [  MainThread] l.utils.bootstrap          : Execution of "prepare_host" took 2384.04ms
+❌ Error: 
+===============================================
+License activation failed! 🔑❌
+
+Reason: No credentials were found in the environment. Please make sure to either set the LOCALSTACK_AUTH_TOKEN variable to a valid auth token. If you are using the CLI, you can also run `localstack auth set-token`.
+
+Due to this error, Localstack has quit. LocalStack pro features can only be used with a valid license.
+
+- Please check that your credentials are set up correctly and that you have an active license.
+  You can find your credentials in our webapp at https://app.localstack.cloud.
+- If you want to continue using LocalStack without pro features, set `LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1` during the grace period.
+
+louarainiabderrahmane@Air-de-cash ~ % localstack start -d       
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[14:01:06] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-01T14:01:08.140  INFO --- [  MainThread] l.utils.bootstrap          : Execution of "prepare_host" took 1437.94ms
+❌ Error: 
+===============================================
+License activation failed! 🔑❌
+
+Reason: No credentials were found in the environment. Please make sure to either set the LOCALSTACK_AUTH_TOKEN variable to a valid auth token. If you are using the CLI, you can also run `localstack auth set-token`.
+
+Due to this error, Localstack has quit. LocalStack pro features can only be used with a valid license.
+
+- Please check that your credentials are set up correctly and that you have an active license.
+  You can find your credentials in our webapp at https://app.localstack.cloud.
+- If you want to continue using LocalStack without pro features, set `LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1` during the grace period.
+
+louarainiabderrahmane@Air-de-cash ~ % export LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1
+localstack start -d
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[14:04:57] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-01T14:04:59.917  INFO --- [  MainThread] l.utils.bootstrap          : Execution of "prepare_host" took 2594.84ms
+❌ Error: ===============================================
+LocalStack requires an account to run.
+
+==> Have an account? Learn how to set LOCALSTACK_AUTH_TOKEN: https://app.localstack.cloud/settings/auth-tokens
+==> Need an account? Get started: https://www.localstack.cloud/pricing
+
+louarainiabderrahmane@Air-de-cash ~ % LOCALSTACK_ACKNOWLEDGE_ACCOUNT_REQUIREMENT=1 localstack start -d
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[14:05:31] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-01T14:05:34.103  INFO --- [  MainThread] l.utils.bootstrap          : Execution of "prepare_host" took 2556.50ms
+❌ Error: ===============================================
+LocalStack requires an account to run.
+
+==> Have an account? Learn how to set LOCALSTACK_AUTH_TOKEN: https://app.localstack.cloud/settings/auth-tokens
+==> Need an account? Get started: https://www.localstack.cloud/pricing
+
+louarainiabderrahmane@Air-de-cash ~ % localstack auth set-token ls-SIsuyELu-rIse-4773-0518-YijEhafib6f1
+Token configured successfully
+louarainiabderrahmane@Air-de-cash ~ % localstack start -d
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[14:06:24] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-01T14:06:26.602  INFO --- [  MainThread] l.p.c.b.licensingv2        : Successfully requested and activated new license 6038ea62-d355-4a77-918f-a52a91a66bd6:trial 🔑✅
+2026-06-01T14:06:26.607  INFO --- [  MainThread] l.utils.bootstrap          : Execution of "prepare_host" took 1722.50ms
+[14:06:26] preparing environment                                                                                                                                                            bootstrap.py:437
+[14:06:34] configuring container                                                                                                                                                            bootstrap.py:440
+           container image not found on host                                                                                                                                                bootstrap.py:434
+[14:06:36] download complete                                                                                                                                                                bootstrap.py:435
+           starting container                                                                                                                                                               bootstrap.py:440
+[14:06:40] detaching                                                                                                                                                                        bootstrap.py:440
+louarainiabderrahmane@Air-de-cash ~ % sudo chown -R $(whoami) /usr/local/share/fish/vendor_completions.d
+Password:
+louarainiabderrahmane@Air-de-cash ~ % sudo chown -R $(whoami) /usr/local/share/fish/vendor_completions.d
+louarainiabderrahmane@Air-de-cash ~ % brew link --overwrite localstack/tap/localstack-cli
+Linking /usr/local/Cellar/localstack-cli/2026.5.0... 4 symlinks created.
+louarainiabderrahmane@Air-de-cash ~ % 
