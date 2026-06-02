@@ -7,7 +7,9 @@ const mysql = require("mysql");
 const cookieParser = require("cookie-parser");
 const http = require("http");
 const { Server } = require("socket.io");
+require('@dotenvx/dotenvx').config()
 
+console.log(`HELLO: ${process.env.HELLO}`)
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {

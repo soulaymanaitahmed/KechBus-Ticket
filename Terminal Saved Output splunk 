@@ -1,0 +1,1325 @@
+Last login: Tue Jun  2 11:43:33 on console
+louarainiabderrahmane@Air-de-cash ~ % cd desktop
+louarainiabderrahmane@Air-de-cash desktop % cd kechbus-ticket
+louarainiabderrahmane@Air-de-cash kechbus-ticket % mkdir -p security 
+louarainiabderrahmane@Air-de-cash kechbus-ticket % localstack start -d 
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[13:07:43] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-02T13:07:43.409  INFO --- [  MainThread] l.p.c.b.licensingv2        : Successfully activated cached license 6038ea62-d355-4a77-918f-a52a91a66bd6:trial from /Users/louarainiabderrahmane/Library/Caches/localstack-cli/license.json 🔑✅
+           preparing environment                                                                                                                                                            bootstrap.py:437
+ERROR: '['docker', 'ps']': exit code 1; output: b'Cannot connect to the Docker daemon at unix:///Users/louarainiabderrahmane/.docker/run/docker.sock. Is the docker daemon running?\n'
+❌ Error: Docker could not be found on the system.
+Please make sure that you have a working docker environment on your machine.
+louarainiabderrahmane@Air-de-cash kechbus-ticket % localstack start -d 
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[13:08:59] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-02T13:08:59.962  INFO --- [  MainThread] l.p.c.b.licensingv2        : Successfully activated cached license 6038ea62-d355-4a77-918f-a52a91a66bd6:trial from /Users/louarainiabderrahmane/Library/Caches/localstack-cli/license.json 🔑✅
+           preparing environment                                                                                                                                                            bootstrap.py:437
+[13:09:00] configuring container                                                                                                                                                            bootstrap.py:440
+           starting container                                                                                                                                                               bootstrap.py:440
+[13:09:03] detaching                                                                                                                                                                        bootstrap.py:440
+louarainiabderrahmane@Air-de-cash kechbus-ticket % sudo chown -R $(whoami) /usr/local/share/fish/vendor_completions.d
+
+Password:
+louarainiabderrahmane@Air-de-cash kechbus-ticket % sudo chown -R $(whoami) /usr/local/share/fish/vendor_completions.d
+
+louarainiabderrahmane@Air-de-cash kechbus-ticket % brew link --overwrite localstack/tap/localstack-cli
+Linking /usr/local/Cellar/localstack-cli/2026.5.0..
+Warning: Already linked: /usr/local/Cellar/localstack-cli/2026.5.0
+To relink, run:
+  brew unlink localstack-cli && brew link localstack-cli
+zsh: command not found: Linking
+louarainiabderrahmane@Air-de-cash kechbus-ticket % brew unlink localstack-cli && brew link localstack-cli
+Unlinking /usr/local/Cellar/localstack-cli/2026.5.0... 4 symlinks removed.
+Linking /usr/local/Cellar/localstack-cli/2026.5.0... 4 symlinks created.
+louarainiabderrahmane@Air-de-cash kechbus-ticket % localstack status services
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃ Service                  ┃ Status      ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ account                  │ ✔ available │
+│ acm                      │ ✔ available │
+│ acm-pca                  │ ✔ available │
+│ amplify                  │ ✔ available │
+│ apigateway               │ ✔ available │
+│ apigatewaymanagementapi  │ ✔ available │
+│ apigatewayv2             │ ✔ available │
+│ appconfig                │ ✔ available │
+│ appconfigdata            │ ✔ available │
+│ application-autoscaling  │ ✔ available │
+│ appsync                  │ ✔ available │
+│ athena                   │ ✔ available │
+│ autoscaling              │ ✔ available │
+│ backup                   │ ✔ available │
+│ batch                    │ ✔ available │
+│ bedrock                  │ ✔ available │
+│ bedrock-runtime          │ ✔ available │
+│ ce                       │ ✔ available │
+│ cloudcontrol             │ ✔ available │
+│ cloudformation           │ ✔ available │
+│ cloudfront               │ ✔ available │
+│ cloudtrail               │ ✔ available │
+│ cloudwatch               │ ✔ available │
+│ codeartifact             │ ✔ available │
+│ codebuild                │ ✔ available │
+│ codecommit               │ ✔ available │
+│ codeconnections          │ ✔ available │
+│ codedeploy               │ ✔ available │
+│ codepipeline             │ ✔ available │
+│ codestar-connections     │ ✔ available │
+│ cognito-identity         │ ✔ available │
+│ cognito-idp              │ ✔ available │
+│ config                   │ ✔ available │
+│ dms                      │ ✔ available │
+│ docdb                    │ ✔ available │
+│ dynamodb                 │ ✔ available │
+│ dynamodbstreams          │ ✔ available │
+│ ec2                      │ ✔ available │
+│ ecr                      │ ✔ available │
+│ ecs                      │ ✔ available │
+│ efs                      │ ✔ available │
+│ eks                      │ ✔ available │
+│ eks-auth                 │ ✔ available │
+│ elasticache              │ ✔ available │
+│ elasticbeanstalk         │ ✔ available │
+│ elb                      │ ✔ available │
+│ elbv2                    │ ✔ available │
+│ emr                      │ ✔ available │
+│ emr-serverless           │ ✔ available │
+│ es                       │ ✔ available │
+│ events                   │ ✔ available │
+│ firehose                 │ ✔ available │
+│ fis                      │ ✔ available │
+│ glacier                  │ ✔ available │
+│ glue                     │ ✔ available │
+│ iam                      │ ✔ available │
+│ identitystore            │ ✔ available │
+│ iot                      │ ✔ available │
+│ iot-data                 │ ✔ available │
+│ iotwireless              │ ✔ available │
+│ kafka                    │ ✔ available │
+│ kinesis                  │ ✔ available │
+│ kinesisanalyticsv2       │ ✔ available │
+│ kms                      │ ✔ available │
+│ lakeformation            │ ✔ available │
+│ lambda                   │ ✔ available │
+│ logs                     │ ✔ available │
+│ managedblockchain        │ ✔ available │
+│ mediaconvert             │ ✔ available │
+│ memorydb                 │ ✔ available │
+│ mq                       │ ✔ available │
+│ mwaa                     │ ✔ available │
+│ neptune                  │ ✔ available │
+│ opensearch               │ ✔ available │
+│ organizations            │ ✔ available │
+│ pinpoint                 │ ✔ available │
+│ pipes                    │ ✔ available │
+│ ram                      │ ✔ available │
+│ rds                      │ ✔ available │
+│ rds-data                 │ ✔ available │
+│ redshift                 │ ✔ available │
+│ redshift-data            │ ✔ available │
+│ resource-groups          │ ✔ available │
+│ resourcegroupstaggingapi │ ✔ available │
+│ route53                  │ ✔ available │
+│ route53resolver          │ ✔ available │
+│ s3                       │ ✔ available │
+│ s3control                │ ✔ available │
+│ s3tables                 │ ✔ available │
+│ sagemaker                │ ✔ available │
+│ sagemaker-runtime        │ ✔ available │
+│ scheduler                │ ✔ available │
+│ secretsmanager           │ ✔ available │
+│ serverlessrepo           │ ✔ available │
+│ servicediscovery         │ ✔ available │
+│ ses                      │ ✔ available │
+│ sesv2                    │ ✔ available │
+│ shield                   │ ✔ available │
+│ sns                      │ ✔ available │
+│ sqs                      │ ✔ available │
+│ ssm                      │ ✔ available │
+│ sso-admin                │ ✔ available │
+│ stepfunctions            │ ✔ available │
+│ sts                      │ ✔ available │
+│ support                  │ ✔ available │
+│ swf                      │ ✔ available │
+│ textract                 │ ✔ available │
+│ timestream-query         │ ✔ available │
+│ timestream-write         │ ✔ available │
+│ transcribe               │ ✔ available │
+│ transfer                 │ ✔ available │
+│ verifiedpermissions      │ ✔ available │
+│ wafv2                    │ ✔ available │
+│ xray                     │ ✔ available │
+└──────────────────────────┴─────────────┘
+louarainiabderrahmane@Air-de-cash kechbus-ticket % awslocal iam create-user --user-name db-admin
+zsh: command not found: awslocal
+louarainiabderrahmane@Air-de-cash kechbus-ticket % brew link --overwrite localstack/tap/localstack-cli
+Warning: Already linked: /usr/local/Cellar/localstack-cli/2026.5.0
+To relink, run:
+  brew unlink localstack-cli && brew link localstack-cli
+louarainiabderrahmane@Air-de-cash kechbus-ticket % awslocal iam create-user --user-name db-admin
+zsh: command not found: awslocal
+louarainiabderrahmane@Air-de-cash kechbus-ticket % pip3 install localstack --break-system-packages
+Requirement already satisfied: localstack in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (3.8.1)
+Requirement already satisfied: localstack-core in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack) (3.8.1)
+Requirement already satisfied: localstack-ext==3.8.1 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack) (3.8.1)
+Requirement already satisfied: dill>=0.3.2 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (0.3.6)
+Requirement already satisfied: dnslib>=0.9.10 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (0.9.26)
+Requirement already satisfied: dnspython>=1.16.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (2.6.1)
+Requirement already satisfied: packaging in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (26.2)
+Requirement already satisfied: build in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (1.2.2.post1)
+Requirement already satisfied: plux>=1.10.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (1.13.0)
+Requirement already satisfied: pyaes>=1.6.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (1.6.1)
+Requirement already satisfied: pyotp>=2.9.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (2.9.0)
+Requirement already satisfied: python-jose>=3.1.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from python-jose[cryptography]>=3.1.0->localstack-ext==3.8.1->localstack) (3.4.0)
+Requirement already satisfied: requests>=2.20.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (2.32.4)
+Requirement already satisfied: python-dateutil>=2.8 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (2.9.0.post0)
+Requirement already satisfied: tabulate in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-ext==3.8.1->localstack) (0.9.0)
+Requirement already satisfied: click>=7.1 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-core->localstack) (8.1.8)
+Requirement already satisfied: cachetools>=5.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-core->localstack) (5.5.2)
+Requirement already satisfied: cryptography in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-core->localstack) (47.0.0)
+Requirement already satisfied: psutil>=5.4.8 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-core->localstack) (7.2.2)
+Requirement already satisfied: python-dotenv>=0.19.1 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-core->localstack) (1.0.1)
+Requirement already satisfied: pyyaml>=5.1 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-core->localstack) (6.0.3)
+Requirement already satisfied: rich>=12.3.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-core->localstack) (14.3.4)
+Requirement already satisfied: semver>=2.10 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-core->localstack) (3.0.4)
+Requirement already satisfied: tailer>=0.4.1 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from localstack-core->localstack) (0.4.1)
+Requirement already satisfied: six>=1.5 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from python-dateutil>=2.8->localstack-ext==3.8.1->localstack) (1.17.0)
+Requirement already satisfied: ecdsa!=0.15 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from python-jose>=3.1.0->python-jose[cryptography]>=3.1.0->localstack-ext==3.8.1->localstack) (0.19.2)
+Requirement already satisfied: rsa!=4.1.1,!=4.4,<5.0,>=4.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from python-jose>=3.1.0->python-jose[cryptography]>=3.1.0->localstack-ext==3.8.1->localstack) (4.9.1)
+Requirement already satisfied: pyasn1<0.5.0,>=0.4.1 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from python-jose>=3.1.0->python-jose[cryptography]>=3.1.0->localstack-ext==3.8.1->localstack) (0.4.8)
+Requirement already satisfied: cffi>=1.14 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from cryptography->localstack-core->localstack) (1.17.1)
+Requirement already satisfied: typing-extensions>=4.13.2 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from cryptography->localstack-core->localstack) (4.13.2)
+Requirement already satisfied: charset_normalizer<4,>=2 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from requests>=2.20.0->localstack-ext==3.8.1->localstack) (3.4.7)
+Requirement already satisfied: idna<4,>=2.5 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from requests>=2.20.0->localstack-ext==3.8.1->localstack) (3.15)
+Requirement already satisfied: urllib3<3,>=1.21.1 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from requests>=2.20.0->localstack-ext==3.8.1->localstack) (2.2.3)
+Requirement already satisfied: certifi>=2017.4.17 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from requests>=2.20.0->localstack-ext==3.8.1->localstack) (2026.5.20)
+Requirement already satisfied: markdown-it-py>=2.2.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from rich>=12.3.0->localstack-core->localstack) (3.0.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from rich>=12.3.0->localstack-core->localstack) (2.19.2)
+Requirement already satisfied: pyproject_hooks in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from build->localstack-ext==3.8.1->localstack) (1.2.0)
+Requirement already satisfied: importlib-metadata>=4.6 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from build->localstack-ext==3.8.1->localstack) (8.5.0)
+Requirement already satisfied: tomli>=1.1.0 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from build->localstack-ext==3.8.1->localstack) (2.4.1)
+Requirement already satisfied: pycparser in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from cffi>=1.14->cryptography->localstack-core->localstack) (2.23)
+Requirement already satisfied: zipp>=3.20 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from importlib-metadata>=4.6->build->localstack-ext==3.8.1->localstack) (3.20.2)
+Requirement already satisfied: mdurl~=0.1 in /Library/Frameworks/Python.framework/Versions/3.8/lib/python3.8/site-packages (from markdown-it-py>=2.2.0->rich>=12.3.0->localstack-core->localstack) (0.1.2)
+louarainiabderrahmane@Air-de-cash kechbus-ticket % localstack --version
+LocalStack CLI 2026.5.0
+louarainiabderrahmane@Air-de-cash kechbus-ticket % curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /
+aws --version
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 52.8M  100 52.8M    0     0   497k      0  0:01:48  0:01:48 --:--:--  582k
+Password:
+installer: Package name is AWS Command Line Interface
+installer: Upgrading at base path /
+installer: The upgrade was successful.
+aws-cli/2.34.58 Python/3.14.5 Darwin/21.6.0 exe/x86_64
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws configure
+
+AWS Secret Access Key [****************cret]: test
+Default region name [us-east-1]: us-east-1
+Default output format [json]: json
+louarainiabderrahmane@Air-de-cash kechbus-ticket % mkdir -p security
+localstack start -d
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[13:26:45] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-02T13:26:45.945  INFO --- [  MainThread] l.p.c.b.licensingv2        : Successfully activated cached license 6038ea62-d355-4a77-918f-a52a91a66bd6:trial from /Users/louarainiabderrahmane/Library/Caches/localstack-cli/license.json 🔑✅
+           preparing environment                                                                                                                                                            bootstrap.py:437
+LocalStack container named "localstack-main" is already running
+louarainiabderrahmane@Air-de-cash kechbus-ticket % localstack status services
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃ Service                  ┃ Status      ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ account                  │ ✔ available │
+│ acm                      │ ✔ available │
+│ acm-pca                  │ ✔ available │
+│ amplify                  │ ✔ available │
+│ apigateway               │ ✔ available │
+│ apigatewaymanagementapi  │ ✔ available │
+│ apigatewayv2             │ ✔ available │
+│ appconfig                │ ✔ available │
+│ appconfigdata            │ ✔ available │
+│ application-autoscaling  │ ✔ available │
+│ appsync                  │ ✔ available │
+│ athena                   │ ✔ available │
+│ autoscaling              │ ✔ available │
+│ backup                   │ ✔ available │
+│ batch                    │ ✔ available │
+│ bedrock                  │ ✔ available │
+│ bedrock-runtime          │ ✔ available │
+│ ce                       │ ✔ available │
+│ cloudcontrol             │ ✔ available │
+│ cloudformation           │ ✔ available │
+│ cloudfront               │ ✔ available │
+│ cloudtrail               │ ✔ available │
+│ cloudwatch               │ ✔ available │
+│ codeartifact             │ ✔ available │
+│ codebuild                │ ✔ available │
+│ codecommit               │ ✔ available │
+│ codeconnections          │ ✔ available │
+│ codedeploy               │ ✔ available │
+│ codepipeline             │ ✔ available │
+│ codestar-connections     │ ✔ available │
+│ cognito-identity         │ ✔ available │
+│ cognito-idp              │ ✔ available │
+│ config                   │ ✔ available │
+│ dms                      │ ✔ available │
+│ docdb                    │ ✔ available │
+│ dynamodb                 │ ✔ available │
+│ dynamodbstreams          │ ✔ available │
+│ ec2                      │ ✔ available │
+│ ecr                      │ ✔ available │
+│ ecs                      │ ✔ available │
+│ efs                      │ ✔ available │
+│ eks                      │ ✔ available │
+│ eks-auth                 │ ✔ available │
+│ elasticache              │ ✔ available │
+│ elasticbeanstalk         │ ✔ available │
+│ elb                      │ ✔ available │
+│ elbv2                    │ ✔ available │
+│ emr                      │ ✔ available │
+│ emr-serverless           │ ✔ available │
+│ es                       │ ✔ available │
+│ events                   │ ✔ available │
+│ firehose                 │ ✔ available │
+│ fis                      │ ✔ available │
+│ glacier                  │ ✔ available │
+│ glue                     │ ✔ available │
+│ iam                      │ ✔ available │
+│ identitystore            │ ✔ available │
+│ iot                      │ ✔ available │
+│ iot-data                 │ ✔ available │
+│ iotwireless              │ ✔ available │
+│ kafka                    │ ✔ available │
+│ kinesis                  │ ✔ available │
+│ kinesisanalyticsv2       │ ✔ available │
+│ kms                      │ ✔ available │
+│ lakeformation            │ ✔ available │
+│ lambda                   │ ✔ available │
+│ logs                     │ ✔ available │
+│ managedblockchain        │ ✔ available │
+│ mediaconvert             │ ✔ available │
+│ memorydb                 │ ✔ available │
+│ mq                       │ ✔ available │
+│ mwaa                     │ ✔ available │
+│ neptune                  │ ✔ available │
+│ opensearch               │ ✔ available │
+│ organizations            │ ✔ available │
+│ pinpoint                 │ ✔ available │
+│ pipes                    │ ✔ available │
+│ ram                      │ ✔ available │
+│ rds                      │ ✔ available │
+│ rds-data                 │ ✔ available │
+│ redshift                 │ ✔ available │
+│ redshift-data            │ ✔ available │
+│ resource-groups          │ ✔ available │
+│ resourcegroupstaggingapi │ ✔ available │
+│ route53                  │ ✔ available │
+│ route53resolver          │ ✔ available │
+│ s3                       │ ✔ available │
+│ s3control                │ ✔ available │
+│ s3tables                 │ ✔ available │
+│ sagemaker                │ ✔ available │
+│ sagemaker-runtime        │ ✔ available │
+│ scheduler                │ ✔ available │
+│ secretsmanager           │ ✔ available │
+│ serverlessrepo           │ ✔ available │
+│ servicediscovery         │ ✔ available │
+│ ses                      │ ✔ available │
+│ sesv2                    │ ✔ available │
+│ shield                   │ ✔ available │
+│ sns                      │ ✔ available │
+│ sqs                      │ ✔ available │
+│ ssm                      │ ✔ available │
+│ sso-admin                │ ✔ available │
+│ stepfunctions            │ ✔ available │
+│ sts                      │ ✔ available │
+│ support                  │ ✔ available │
+│ swf                      │ ✔ available │
+│ textract                 │ ✔ available │
+│ timestream-query         │ ✔ available │
+│ timestream-write         │ ✔ available │
+│ transcribe               │ ✔ available │
+│ transfer                 │ ✔ available │
+│ verifiedpermissions      │ ✔ available │
+│ wafv2                    │ ✔ available │
+│ xray                     │ ✔ available │
+└──────────────────────────┴─────────────┘
+louarainiabderrahmane@Air-de-cash kechbus-ticket % awslocal iam create-user --user-name db-admin
+zsh: command not found: awslocal
+louarainiabderrahmane@Air-de-cash kechbus-ticket % sudo chown -R $(whoami) /usr/local/share/fish/vendor_completions.d
+Password:
+louarainiabderrahmane@Air-de-cash kechbus-ticket % brew link --overwrite localstack/tap/localstack-cli
+Warning: Already linked: /usr/local/Cellar/localstack-cli/2026.5.0
+To relink, run:
+  brew unlink localstack-cli && brew link localstack-cli
+louarainiabderrahmane@Air-de-cash kechbus-ticket % brew install awscli
+✔︎ JSON API cask.jws.json                                                                                                                                                         Downloaded   16.9MB/ 16.9MB
+✔︎ JSON API formula.jws.json                                                                                                                                                      Downloaded   33.2MB/ 33.2MB
+Warning: You are using macOS 12.
+We (and Apple) do not provide support for this old version.
+You may have better luck with MacPorts which supports older versions of macOS:
+  https://www.macports.org
+
+This is a Tier 3 configuration:
+  https://docs.brew.sh/Support-Tiers#tier-3
+You can report issues with Tier 3 configurations to Homebrew/* repositories!
+Read the above document before opening any issues or PRs.
+
+Inspect the formula dependency plan before installing with `brew install --ask`.
+Enable ask mode by setting `HOMEBREW_ASK=1`.
+Hide these hints with `HOMEBREW_NO_ENV_HINTS=1` (see `man brew`).
+==> Fetching downloads for: awscli
+✔︎ API Source awscli.rb                                                                                                                                                           Verified      6.1KB/  6.1KB
+==> Downloading https://raw.githubusercontent.com/Homebrew/homebrew-core/c961bd2ad2c2581ef30a4883c1d113e8ba1efc86/Formula/o/openssl@3.rb
+Already downloaded: /Users/louarainiabderrahmane/Library/Caches/Homebrew/downloads/1f5098a53aa4b3bd26c39608df8f1b9cb023336a4397470fef0fb2b3af3b1b06--openssl@3.rb
+==> Downloading https://raw.githubusercontent.com/Homebrew/homebrew-core/c961bd2ad2c2581ef30a4883c1d113e8ba1efc86/Formula/m/mpdecimal.rb
+Already downloaded: /Users/louarainiabderrahmane/Library/Caches/Homebrew/downloads/6294da89c240415a19a6c7775bd549ff59498c6530a7687df7050edcf581d67e--mpdecimal.rb
+==> Downloading https://raw.githubusercontent.com/Homebrew/homebrew-core/c961bd2ad2c2581ef30a4883c1d113e8ba1efc86/Formula/s/sqlite.rb
+Already downloaded: /Users/louarainiabderrahmane/Library/Caches/Homebrew/downloads/2ab79d7d7d5d5eb5e7098953fbea74360d551accf41969f0e5311fec87d9c227--sqlite.rb
+==> Downloading https://raw.githubusercontent.com/Homebrew/homebrew-core/c961bd2ad2c2581ef30a4883c1d113e8ba1efc86/Formula/x/xz.rb
+Already downloaded: /Users/louarainiabderrahmane/Library/Caches/Homebrew/downloads/b9843347d8c8904fd0cc396b60034be72ff14d767123a874ec67cbc6e46fb12a--xz.rb
+==> Downloading https://raw.githubusercontent.com/Homebrew/homebrew-core/c961bd2ad2c2581ef30a4883c1d113e8ba1efc86/Formula/z/zstd.rb
+Already downloaded: /Users/louarainiabderrahmane/Library/Caches/Homebrew/downloads/6ff649a7d72b202374707851e6b7ff4824c6a83e712177b37883542a821eab6c--zstd.rb
+==> Downloading https://raw.githubusercontent.com/Homebrew/homebrew-core/c961bd2ad2c2581ef30a4883c1d113e8ba1efc86/Formula/p/pkgconf.rb
+Already downloaded: /Users/louarainiabderrahmane/Library/Caches/Homebrew/downloads/2897b656149d0fc549c792a1e95a1fcd369e70b620eb41b38a41534200930e18--pkgconf.rb
+==> Downloading https://raw.githubusercontent.com/Homebrew/homebrew-core/c961bd2ad2c2581ef30a4883c1d113e8ba1efc86/Formula/e/expat.rb
+Already downloaded: /Users/louarainiabderrahmane/Library/Caches/Homebrew/downloads/5933f6418ede587ef1713c47b83295e6a16d7eed85b9e3bfe401df0dbc51abec--expat.rb
+==> Downloading https://raw.githubusercontent.com/Homebrew/homebrew-core/c961bd2ad2c2581ef30a4883c1d113e8ba1efc86/Formula/p/python@3.14.rb
+Already downloaded: /Users/louarainiabderrahmane/Library/Caches/Homebrew/downloads/7a9e82dd58f47689e83b0e14e74983a907f3777edd3dd436af6cdc9db13a0593--python@3.14.rb
+✔︎ API Source openssl@3.rb                                                                                                                                                        Verified      7.6KB/  7.6KB
+✔︎ Formula openssl@3 (3.6.2)                                                                                                                                                      Verified     54.9MB/ 54.9MB
+✔︎ API Source mpdecimal.rb                                                                                                                                                        Verified      2.7KB/  2.7KB
+✔︎ Formula mpdecimal (4.0.1)                                                                                                                                                      Verified    316.3KB/316.3KB
+✔︎ API Source sqlite.rb                                                                                                                                                           Verified      3.4KB/  3.4KB
+✔︎ Formula sqlite (3.53.1)                                                                                                                                                        Verified      3.3MB/  3.3MB
+✔︎ API Source xz.rb                                                                                                                                                               Verified      2.5KB/  2.5KB
+✔︎ Formula xz (5.8.3)                                                                                                                                                             Verified      2.8MB/  2.8MB
+✔︎ Bottle lz4 (1.10.0)                                                                                                                                                            Downloaded  308.5KB/308.5KB
+✔︎ API Source zstd.rb                                                                                                                                                             Verified      3.6KB/  3.6KB
+✔︎ Formula zstd (1.5.7)                                                                                                                                                           Verified      2.5MB/  2.5MB
+✔︎ API Source pkgconf.rb                                                                                                                                                          Verified      4.2KB/  4.2KB
+✔︎ Formula pkgconf (2.5.1)                                                                                                                                                        Verified    328.1KB/328.1KB
+✔︎ API Source expat.rb                                                                                                                                                            Verified      2.8KB/  2.8KB
+✔︎ Formula expat (2.8.1)                                                                                                                                                          Verified    512.2KB/512.2KB
+✔︎ API Source python@3.14.rb                                                                                                                                                      Verified     24.0KB/ 24.0KB
+✔︎ Resource python@3.14--flit-core                                                                                                                                                Verified     53.7KB/ 53.7KB
+✔︎ Resource python@3.14--packaging                                                                                                                                                Verified    228.1KB/228.1KB
+✔︎ Resource python@3.14--pip                                                                                                                                                      Verified      1.8MB/  1.8MB
+✔︎ Resource python@3.14--wheel                                                                                                                                                    Verified     63.9KB/ 63.9KB
+✔︎ Patch 3.13-sysconfig.diff                                                                                                                                                      Verified      1.8KB/  1.8KB
+✔︎ Formula python@3.14 (3.14.5)                                                                                                                                                   Verified     31.2MB/ 31.2MB
+✔︎ Resource awscli--awscrt                                                                                                                                                        Verified     36.9MB/ 36.9MB
+✔︎ Resource awscli--colorama                                                                                                                                                      Verified     27.7KB/ 27.7KB
+✔︎ Resource awscli--distro                                                                                                                                                        Verified     59.4KB/ 59.4KB
+✔︎ Resource awscli--jmespath                                                                                                                                                      Verified     25.8KB/ 25.8KB
+✔︎ Resource awscli--docutils                                                                                                                                                      Verified      2.1MB/  2.1MB
+✔︎ Resource awscli--prompt-toolkit                                                                                                                                                Verified    428.9KB/428.9KB
+✔︎ Resource awscli--python-dateutil                                                                                                                                               Verified    343.0KB/343.0KB
+✔︎ Resource awscli--ruamel-yaml                                                                                                                                                   Verified    142.7KB/142.7KB
+✔︎ Resource awscli--ruamel-yaml-clib                                                                                                                                              Verified    225.8KB/225.8KB
+✔︎ Resource awscli--six                                                                                                                                                           Verified     34.0KB/ 34.0KB
+✔︎ Resource awscli--urllib3                                                                                                                                                       Verified    435.6KB/435.6KB
+✔︎ Resource awscli--wcwidth                                                                                                                                                       Verified    102.3KB/102.3KB
+✔︎ Formula awscli (2.34.58)                                                                                                                                                       Verified     18.4MB/ 18.4MB
+==> Installing dependencies for awscli: openssl@3, mpdecimal, sqlite, xz, lz4, zstd, pkgconf, expat and python@3.14
+==> Installing awscli dependency: openssl@3
+==> perl ./Configure --prefix=/usr/local/Cellar/openssl@3/3.6.2 --openssldir=/usr/local/etc/openssl@3 --libdir=lib no-ssl3 no-ssl3-method no-zlib darwin64-x86_64-cc enable-ec_nistp_64_gcc_128
+==> make
+==> make install MANDIR=/usr/local/Cellar/openssl@3/3.6.2/share/man MANSUFFIX=ssl
+Last 15 lines from /Users/louarainiabderrahmane/Library/Logs/Homebrew/openssl@3/03.make.log:
+link /usr/local/Cellar/openssl@3/3.6.2/lib/libcrypto.dylib -> /usr/local/Cellar/openssl@3/3.6.2/lib/libcrypto.3.dylib
+link /usr/local/Cellar/openssl@3/3.6.2/lib/libssl.dylib -> /usr/local/Cellar/openssl@3/3.6.2/lib/libssl.3.dylib
+created directory `/usr/local/Cellar/openssl@3/3.6.2/lib/pkgconfig'
+install exporters/libcrypto.pc -> /usr/local/Cellar/openssl@3/3.6.2/lib/pkgconfig/libcrypto.pc
+install exporters/libssl.pc -> /usr/local/Cellar/openssl@3/3.6.2/lib/pkgconfig/libssl.pc
+install exporters/openssl.pc -> /usr/local/Cellar/openssl@3/3.6.2/lib/pkgconfig/openssl.pc
+created directory `/usr/local/Cellar/openssl@3/3.6.2/lib/cmake'
+created directory `/usr/local/Cellar/openssl@3/3.6.2/lib/cmake/OpenSSL'
+install exporters/OpenSSLConfig.cmake -> /usr/local/Cellar/openssl@3/3.6.2/lib/cmake/OpenSSL/OpenSSLConfig.cmake
+install exporters/OpenSSLConfigVersion.cmake -> /usr/local/Cellar/openssl@3/3.6.2/lib/cmake/OpenSSL/OpenSSLConfigVersion.cmake
+/Library/Developer/CommandLineTools/usr/bin/make install_ssldirs
+install apps/CA.pl -> /usr/local/etc/openssl@3/misc/CA.pl
+cp: /usr/local/etc/openssl@3/misc/CA.pl.new: Permission denied
+make[1]: *** [install_ssldirs] Error 1
+make: *** [install] Error 2
+
+
+
+Error: You are using macOS 12.
+We (and Apple) do not provide support for this old version.
+You may have better luck with MacPorts which supports older versions of macOS:
+  https://www.macports.org
+
+This is a Tier 3 configuration:
+  https://docs.brew.sh/Support-Tiers#tier-3
+You can report issues with Tier 3 configurations to Homebrew/* repositories!
+Read the above document before opening any issues or PRs.
+
+This build failure was expected, as this is not a Tier 1 configuration:
+  https://docs.brew.sh/Support-Tiers
+Do not report any issues to Homebrew/* repositories!
+Read the above document instead before opening any issues or PRs.
+louarainiabderrahmane@Air-de-cash kechbus-ticket % curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 52.8M  100 52.8M    0     0   453k      0  0:01:59  0:01:59 --:--:--  611k
+louarainiabderrahmane@Air-de-cash kechbus-ticket % sudo installer -pkg AWSCLIV2.pkg -target /
+Password:
+installer: Package name is AWS Command Line Interface
+installer: Upgrading at base path /
+installer: The upgrade was successful.
+louarainiabderrahmane@Air-de-cash kechbus-ticket % rm AWSCLIV2.pkg
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --version
+aws-cli/2.34.58 Python/3.14.5 Darwin/21.6.0 exe/x86_64
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws configure set aws_access_key_id mock_key
+aws configure set aws_secret_access_key mock_secret
+aws configure set region us-east-1
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:4566 iam create-user --user-name db-admin
+
+aws: [ERROR]: Could not connect to the endpoint URL: "http://localhost:4566/"
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:5173/ iam create-user --user-name db-admin 
+
+aws: [ERROR]: Unable to parse response (no element found: line 1, column 0), invalid XML received. Further retries may succeed:
+b''
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:5173/ iam create-user --user-name db-admin
+
+aws: [ERROR]: Unable to parse response (no element found: line 1, column 0), invalid XML received. Further retries may succeed:
+b''
+louarainiabderrahmane@Air-de-cash kechbus-ticket % localstack stop
+localstack start -d
+ERROR: '['docker', 'stop', '--timeout', '10', 'localstack-main']': exit code 125; output: b"unknown flag: --timeout\nSee 'docker stop --help'.\n"
+❌ Error: Docker process returned with errorcode 125
+
+     __                     _______ __             __
+    / /   ____  _________ _/ / ___// /_____ ______/ /__
+   / /   / __ \/ ___/ __ `/ /\__ \/ __/ __ `/ ___/ //_/
+  / /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<
+ /_____/\____/\___/\__,_/_//____/\__/\__,_/\___/_/|_|
+
+- LocalStack CLI: 2026.5.0
+- Profile: default
+- App: https://app.localstack.cloud
+
+[14:41:22] starting LocalStack in Docker mode 🐳                                                                                                                                           localstack.py:172
+2026-06-02T14:41:25.334  INFO --- [  MainThread] l.p.c.b.licensingv2        : Successfully requested and activated new license 2ad268cb-94b5-4a58-8ce5-dc25f8474385:trial 🔑✅
+2026-06-02T14:41:25.342  INFO --- [  MainThread] l.utils.bootstrap          : Execution of "prepare_host" took 3082.11ms
+[14:41:25] preparing environment                                                                                                                                                            bootstrap.py:437
+[14:41:34] configuring container                                                                                                                                                            bootstrap.py:440
+           starting container                                                                                                                                                               bootstrap.py:440
+[14:41:37] detaching                                                                                                                                                                        bootstrap.py:440
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:4566 iam create-user --user-name db-admin
+
+aws: [ERROR]: Connection was closed before we received a valid response from endpoint URL: "http://localhost:4566/".
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker logs localstack-main
+
+LocalStack version: 2026.5.1
+LocalStack build date: 2026-05-27
+LocalStack build git hash: 47762951c
+
+2026-06-02T13:41:49.954  INFO --- [  MainThread] l.p.c.b.licensingv2        : Successfully activated cached license 2ad268cb-94b5-4a58-8ce5-dc25f8474385:trial from /etc/localstack/conf.d/license.json 🔑✅
+2026-06-02T13:41:56.022  INFO --- [  MainThread] l.p.c.extensions.plugins   : loaded 0 extensions
+Ready.
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:4566 iam create-user --user-name db-admin
+{
+    "User": {
+        "Path": "/",
+        "UserName": "db-admin",
+        "UserId": "AIDAQAAAAAAAGAZVQKUZ4",
+        "Arn": "arn:aws:iam::000000000000:user/db-admin",
+        "CreateDate": "2026-06-02T13:44:41.361757+00:00"
+    }
+}
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:4566 iam create-policy --policy-name DBMinimalAccess --policy-document '{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "rds:DescribeDBInstances",
+        "rds:Connect"
+      ],
+      "Resource": "*"
+    }
+  ]
+}'
+{
+    "Policy": {
+        "PolicyName": "DBMinimalAccess",
+        "PolicyId": "AQKK8OX9XLKLUXCQD915I",
+        "Arn": "arn:aws:iam::000000000000:policy/DBMinimalAccess",
+        "Path": "/",
+        "DefaultVersionId": "v1",
+        "AttachmentCount": 0,
+        "PermissionsBoundaryUsageCount": 0,
+        "IsAttachable": true,
+        "CreateDate": "2026-06-02T13:46:16.739393+00:00",
+        "UpdateDate": "2026-06-02T13:46:16.739393+00:00"
+    }
+}
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:4566 iam attach-user-policy --user-name db-admin --policy-arn arn:aws:iam::000000000000:policy/DBMinimalAccess
+louarainiabderrahmane@Air-de-cash kechbus-ticket % VPC_ID=$(aws --endpoint-url=http://localhost:4566 ec2 create-vpc --cidr-block 10.0.0.0/16 --query 'Vpc.VpcId' --output text)
+echo "Votre VPC ID est : $VPC_ID"
+Votre VPC ID est : vpc-806427e9114b7e3ea
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:4566 ec2 create-subnet --vpc-id $VPC_ID --cidr-block 10.0.1.0/24
+{
+    "Subnet": {
+        "AvailabilityZoneId": "use1-az3",
+        "OwnerId": "000000000000",
+        "AssignIpv6AddressOnCreation": false,
+        "Ipv6CidrBlockAssociationSet": [],
+        "Tags": [],
+        "SubnetArn": "arn:aws:ec2:us-east-1:000000000000:subnet/subnet-d75218ca4693f1e79",
+        "Ipv6Native": false,
+        "PrivateDnsNameOptionsOnLaunch": {
+            "HostnameType": "ip-name",
+            "EnableResourceNameDnsARecord": false,
+            "EnableResourceNameDnsAAAARecord": false
+        },
+        "SubnetId": "subnet-d75218ca4693f1e79",
+        "State": "available",
+        "VpcId": "vpc-806427e9114b7e3ea",
+        "CidrBlock": "10.0.1.0/24",
+        "AvailableIpAddressCount": 251,
+        "AvailabilityZone": "us-east-1e",
+        "DefaultForAz": false,
+        "MapPublicIpOnLaunch": false
+    }
+}
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:4566 wafv2 create-web-acl \
+    --name SecurityWebACL \
+    --scope REGIONAL \
+    --default-action Allow={} \
+    --visibility-config CloudWatchMetricsEnabled=true,MetricName=WAF,SampledRequestsEnabled=true
+{
+    "Summary": {
+        "Name": "SecurityWebACL",
+        "Id": "4403c560-2d03-40ef-b2da-4b68a68d06bc",
+        "Description": "",
+        "LockToken": "85ebd772-7f8c-4f8f-8c5e-d9f35663bb3b",
+        "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/webacl/SecurityWebACL/4403c560-2d03-40ef-b2da-4b68a68d06bc"
+    }
+}
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:4566 secretsmanager create-secret \
+    --name myapp/production/credentials \
+    --secret-string '{
+        "db_username": "admin_prod",
+        "db_password": "SuperSecurePassword2026!"
+    }'
+{
+    "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:myapp/production/credentials-PgCXdz",
+    "Name": "myapp/production/credentials",
+    "VersionId": "c24cec3b-be49-48c2-9b97-38a1b0fe3cf1"
+}
+louarainiabderrahmane@Air-de-cash kechbus-ticket % aws --endpoint-url=http://localhost:4566 secretsmanager list-secrets
+{
+    "SecretList": [
+        {
+            "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:myapp/production/credentials-PgCXdz",
+            "Name": "myapp/production/credentials",
+            "LastChangedDate": "2026-06-02T14:47:53.132340+01:00",
+            "SecretVersionsToStages": {
+                "c24cec3b-be49-48c2-9b97-38a1b0fe3cf1": [
+                    "AWSCURRENT"
+                ]
+            },
+            "CreatedDate": "2026-06-02T14:47:53.132340+01:00"
+        }
+    ]
+}
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker run -d -p 8000:8000 -p 8089:8089 -p 9997:9997 \
+  -e "SPLUNK_START_ARGS=--accept-license" \
+  -e "SPLUNK_PASSWORD=KechbusSplunkSecure2026!" \
+  --name kechbus-siem \
+  splunk/splunk:latest
+dquote> ok
+dquote> ok
+dquote> 
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker run -d -p 8000:8000 -p 8089:8089 -p 9997:9997 -e 'SPLUNK_START_ARGS=--accept-license' -e 'SPLUNK_PASSWORD=KechbusSplunkSecure2026!' --name kechbus-siem splunk/splunk:latest
+Unable to find image 'splunk/splunk:latest' locally
+latest: Pulling from splunk/splunk
+64c9936c6c47: Download complete 
+91faa99097db: Download complete 
+5b4211aabf6a: Download complete 
+650bb8b143f7: Download complete 
+4f4fb700ef54: Already exists 
+c7edcefbb98c: Download complete 
+5eccf75f60ee: Download complete 
+4f72860c4aab: Download complete 
+80a10755cf94: Download complete 
+90152afa9099: Download complete 
+680eacda8087: Download complete 
+Digest: sha256:5fef7b0d2c83f6e8b3fe3cda5885e2a01e3a6eb99d8502e6333aaa64e7021f62
+Status: Downloaded newer image for splunk/splunk:latest
+62101e8aca35798ad1aa1552298e91ce6f40e4faf92cc3656dc90b4ea01e6579
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker logs -f kechbus-siem                                 
+License not accepted, please adjust SPLUNK_GENERAL_TERMS and/or SPLUNK_START_ARGS to indicate you have accepted the current/latest version of the license.
+The license you are accepting is the current/latest version of the Splunk General Terms, available here: https://www.splunk.com/en_us/legal/splunk-general-terms.html, as may be updated from time to time.
+Unless you have jointly executed with Splunk a negotiated version of these General Terms that explicitly supersedes this agreement, by accessing or using Splunk software, you are agreeing to the Splunk General Terms posted at the time of your access and use and acknowledging its applicability to the Splunk software.
+Please read and make sure you agree to the Splunk General Terms before you access or use this software.
+Only after doing so should you include the '--accept-sgt-current-at-splunk-com' and '--accept-license' flags to indicate your acceptance of the Splunk General Terms and launch this software.
+For example: docker run -e SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com -e SPLUNK_START_ARGS=--accept-license -e SPLUNK_PASSWORD splunk/splunk
+
+For additional information and examples, see the help: docker run -it splunk/splunk help
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker ps -a --filter name=kechbus-siem
+CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS                      PORTS     NAMES
+62101e8aca35   splunk/splunk:latest   "/sbin/entrypoint.sh…"   29 minutes ago   Exited (1) 29 minutes ago             kechbus-siem
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker ps -a --filter name=kechbus-siem
+CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS                      PORTS     NAMES
+62101e8aca35   splunk/splunk:latest   "/sbin/entrypoint.sh…"   34 minutes ago   Exited (1) 24 seconds ago             kechbus-siem
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker run -d -p 8000:8000 -p 8089:8089 -p 9997:9997 -e 'SPLUNK_START_ARGS=--accept-license' -e 'SPLUNK_PASSWORD=KechbusSplunkSecure2026!' --name kechbus-siem splunk/splunk:latest
+docker: Error response from daemon: Conflict. The container name "/kechbus-siem" is already in use by container "62101e8aca35798ad1aa1552298e91ce6f40e4faf92cc3656dc90b4ea01e6579". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker run --help
+
+Usage:  docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+Create and run a new container from an image
+
+Aliases:
+  docker container run, docker run
+
+Options:
+      --add-host list                    Add a custom host-to-IP mapping (host:ip)
+      --annotation map                   Add an annotation to the container (passed through to the OCI runtime) (default map[])
+  -a, --attach list                      Attach to STDIN, STDOUT or STDERR
+      --blkio-weight uint16              Block IO (relative weight), between 10 and 1000, or 0 to disable (default 0)
+      --blkio-weight-device list         Block IO weight (relative device weight) (default [])
+      --cap-add list                     Add Linux capabilities
+      --cap-drop list                    Drop Linux capabilities
+      --cgroup-parent string             Optional parent cgroup for the container
+      --cgroupns string                  Cgroup namespace to use (host|private)
+                                         'host':    Run the container in the Docker host's cgroup namespace
+                                         'private': Run the container in its own private cgroup namespace
+                                         '':        Use the cgroup namespace as configured by the
+                                                    default-cgroupns-mode option on the daemon (default)
+      --cidfile string                   Write the container ID to the file
+      --cpu-period int                   Limit CPU CFS (Completely Fair Scheduler) period
+      --cpu-quota int                    Limit CPU CFS (Completely Fair Scheduler) quota
+      --cpu-rt-period int                Limit CPU real-time period in microseconds
+      --cpu-rt-runtime int               Limit CPU real-time runtime in microseconds
+  -c, --cpu-shares int                   CPU shares (relative weight)
+      --cpus decimal                     Number of CPUs
+      --cpuset-cpus string               CPUs in which to allow execution (0-3, 0,1)
+      --cpuset-mems string               MEMs in which to allow execution (0-3, 0,1)
+  -d, --detach                           Run container in background and print container ID
+      --detach-keys string               Override the key sequence for detaching a container
+      --device list                      Add a host device to the container
+      --device-cgroup-rule list          Add a rule to the cgroup allowed devices list
+      --device-read-bps list             Limit read rate (bytes per second) from a device (default [])
+      --device-read-iops list            Limit read rate (IO per second) from a device (default [])
+      --device-write-bps list            Limit write rate (bytes per second) to a device (default [])
+      --device-write-iops list           Limit write rate (IO per second) to a device (default [])
+      --disable-content-trust            Skip image verification (default true)
+      --dns list                         Set custom DNS servers
+      --dns-option list                  Set DNS options
+      --dns-search list                  Set custom DNS search domains
+      --domainname string                Container NIS domain name
+      --entrypoint string                Overwrite the default ENTRYPOINT of the image
+  -e, --env list                         Set environment variables
+      --env-file list                    Read in a file of environment variables
+      --expose list                      Expose a port or a range of ports
+      --gpus gpu-request                 GPU devices to add to the container ('all' to pass all GPUs)
+      --group-add list                   Add additional groups to join
+      --health-cmd string                Command to run to check health
+      --health-interval duration         Time between running the check (ms|s|m|h) (default 0s)
+      --health-retries int               Consecutive failures needed to report unhealthy
+      --health-start-interval duration   Time between running the check during the start period (ms|s|m|h) (default 0s)
+      --health-start-period duration     Start period for the container to initialize before starting health-retries countdown (ms|s|m|h) (default 0s)
+      --health-timeout duration          Maximum time to allow one check to run (ms|s|m|h) (default 0s)
+      --help                             Print usage
+  -h, --hostname string                  Container host name
+      --init                             Run an init inside the container that forwards signals and reaps processes
+  -i, --interactive                      Keep STDIN open even if not attached
+      --ip string                        IPv4 address (e.g., 172.30.100.104)
+      --ip6 string                       IPv6 address (e.g., 2001:db8::33)
+      --ipc string                       IPC mode to use
+      --isolation string                 Container isolation technology
+      --kernel-memory bytes              Kernel memory limit
+  -l, --label list                       Set meta data on a container
+      --label-file list                  Read in a line delimited file of labels
+      --link list                        Add link to another container
+      --link-local-ip list               Container IPv4/IPv6 link-local addresses
+      --log-driver string                Logging driver for the container
+      --log-opt list                     Log driver options
+      --mac-address string               Container MAC address (e.g., 92:d0:c6:0a:29:33)
+  -m, --memory bytes                     Memory limit
+      --memory-reservation bytes         Memory soft limit
+      --memory-swap bytes                Swap limit equal to memory plus swap: '-1' to enable unlimited swap
+      --memory-swappiness int            Tune container memory swappiness (0 to 100) (default -1)
+      --mount mount                      Attach a filesystem mount to the container
+      --name string                      Assign a name to the container
+      --network network                  Connect a container to a network
+      --network-alias list               Add network-scoped alias for the container
+      --no-healthcheck                   Disable any container-specified HEALTHCHECK
+      --oom-kill-disable                 Disable OOM Killer
+      --oom-score-adj int                Tune host's OOM preferences (-1000 to 1000)
+      --pid string                       PID namespace to use
+      --pids-limit int                   Tune container pids limit (set -1 for unlimited)
+      --platform string                  Set platform if server is multi-platform capable
+      --privileged                       Give extended privileges to this container
+  -p, --publish list                     Publish a container's port(s) to the host
+  -P, --publish-all                      Publish all exposed ports to random ports
+      --pull string                      Pull image before running ("always", "missing", "never") (default "missing")
+  -q, --quiet                            Suppress the pull output
+      --read-only                        Mount the container's root filesystem as read only
+      --restart string                   Restart policy to apply when a container exits (default "no")
+      --rm                               Automatically remove the container and its associated anonymous volumes when it exits
+      --runtime string                   Runtime to use for this container
+      --security-opt list                Security Options
+      --shm-size bytes                   Size of /dev/shm
+      --sig-proxy                        Proxy received signals to the process (default true)
+      --stop-signal string               Signal to stop the container
+      --stop-timeout int                 Timeout (in seconds) to stop a container
+      --storage-opt list                 Storage driver options for the container
+      --sysctl map                       Sysctl options (default map[])
+      --tmpfs list                       Mount a tmpfs directory
+  -t, --tty                              Allocate a pseudo-TTY
+      --ulimit ulimit                    Ulimit options (default [])
+  -u, --user string                      Username or UID (format: <name|uid>[:<group|gid>])
+      --userns string                    User namespace to use
+      --uts string                       UTS namespace to use
+  -v, --volume list                      Bind mount a volume
+      --volume-driver string             Optional volume driver for the container
+      --volumes-from list                Mount volumes from the specified container(s)
+  -w, --workdir string                   Working directory inside the container
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker ps -a --filter name=kechbus-siem
+CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS                          PORTS     NAMES
+62101e8aca35   splunk/splunk:latest   "/sbin/entrypoint.sh…"   36 minutes ago   Exited (1) About a minute ago             kechbus-siem
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker logs -f kechbus-siem
+License not accepted, please adjust SPLUNK_GENERAL_TERMS and/or SPLUNK_START_ARGS to indicate you have accepted the current/latest version of the license.
+The license you are accepting is the current/latest version of the Splunk General Terms, available here: https://www.splunk.com/en_us/legal/splunk-general-terms.html, as may be updated from time to time.
+Unless you have jointly executed with Splunk a negotiated version of these General Terms that explicitly supersedes this agreement, by accessing or using Splunk software, you are agreeing to the Splunk General Terms posted at the time of your access and use and acknowledging its applicability to the Splunk software.
+Please read and make sure you agree to the Splunk General Terms before you access or use this software.
+Only after doing so should you include the '--accept-sgt-current-at-splunk-com' and '--accept-license' flags to indicate your acceptance of the Splunk General Terms and launch this software.
+For example: docker run -e SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com -e SPLUNK_START_ARGS=--accept-license -e SPLUNK_PASSWORD splunk/splunk
+
+For additional information and examples, see the help: docker run -it splunk/splunk help
+License not accepted, please adjust SPLUNK_GENERAL_TERMS and/or SPLUNK_START_ARGS to indicate you have accepted the current/latest version of the license.
+The license you are accepting is the current/latest version of the Splunk General Terms, available here: https://www.splunk.com/en_us/legal/splunk-general-terms.html, as may be updated from time to time.
+Unless you have jointly executed with Splunk a negotiated version of these General Terms that explicitly supersedes this agreement, by accessing or using Splunk software, you are agreeing to the Splunk General Terms posted at the time of your access and use and acknowledging its applicability to the Splunk software.
+Please read and make sure you agree to the Splunk General Terms before you access or use this software.
+Only after doing so should you include the '--accept-sgt-current-at-splunk-com' and '--accept-license' flags to indicate your acceptance of the Splunk General Terms and launch this software.
+For example: docker run -e SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com -e SPLUNK_START_ARGS=--accept-license -e SPLUNK_PASSWORD splunk/splunk
+
+For additional information and examples, see the help: docker run -it splunk/splunk help
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker rm -f kechbus-siem
+kechbus-siem
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker run -d --name kechbus-siem --platform linux/amd64 -p 8000:8000 -p 9997:9997 -e 'SPLUNK_START_ARGS=--accept-license' -e 'SPLUNK_PASSWORD=KechbusSplunkSecure2026!' splunk/splunk:latest
+390d781eda368a5462d1f2d7ec661109665464020d6636e1ad3c7624ed6d9fbc
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker logs -f kechbus-siem
+License not accepted, please adjust SPLUNK_GENERAL_TERMS and/or SPLUNK_START_ARGS to indicate you have accepted the current/latest version of the license.
+The license you are accepting is the current/latest version of the Splunk General Terms, available here: https://www.splunk.com/en_us/legal/splunk-general-terms.html, as may be updated from time to time.
+Unless you have jointly executed with Splunk a negotiated version of these General Terms that explicitly supersedes this agreement, by accessing or using Splunk software, you are agreeing to the Splunk General Terms posted at the time of your access and use and acknowledging its applicability to the Splunk software.
+Please read and make sure you agree to the Splunk General Terms before you access or use this software.
+Only after doing so should you include the '--accept-sgt-current-at-splunk-com' and '--accept-license' flags to indicate your acceptance of the Splunk General Terms and launch this software.
+For example: docker run -e SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com -e SPLUNK_START_ARGS=--accept-license -e SPLUNK_PASSWORD splunk/splunk
+
+For additional information and examples, see the help: docker run -it splunk/splunk help
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker logs -f kechbus-siem
+License not accepted, please adjust SPLUNK_GENERAL_TERMS and/or SPLUNK_START_ARGS to indicate you have accepted the current/latest version of the license.
+The license you are accepting is the current/latest version of the Splunk General Terms, available here: https://www.splunk.com/en_us/legal/splunk-general-terms.html, as may be updated from time to time.
+Unless you have jointly executed with Splunk a negotiated version of these General Terms that explicitly supersedes this agreement, by accessing or using Splunk software, you are agreeing to the Splunk General Terms posted at the time of your access and use and acknowledging its applicability to the Splunk software.
+Please read and make sure you agree to the Splunk General Terms before you access or use this software.
+Only after doing so should you include the '--accept-sgt-current-at-splunk-com' and '--accept-license' flags to indicate your acceptance of the Splunk General Terms and launch this software.
+For example: docker run -e SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com -e SPLUNK_START_ARGS=--accept-license -e SPLUNK_PASSWORD splunk/splunk
+
+For additional information and examples, see the help: docker run -it splunk/splunk help
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker logs -f kechbus-siem 
+License not accepted, please adjust SPLUNK_GENERAL_TERMS and/or SPLUNK_START_ARGS to indicate you have accepted the current/latest version of the license.
+The license you are accepting is the current/latest version of the Splunk General Terms, available here: https://www.splunk.com/en_us/legal/splunk-general-terms.html, as may be updated from time to time.
+Unless you have jointly executed with Splunk a negotiated version of these General Terms that explicitly supersedes this agreement, by accessing or using Splunk software, you are agreeing to the Splunk General Terms posted at the time of your access and use and acknowledging its applicability to the Splunk software.
+Please read and make sure you agree to the Splunk General Terms before you access or use this software.
+Only after doing so should you include the '--accept-sgt-current-at-splunk-com' and '--accept-license' flags to indicate your acceptance of the Splunk General Terms and launch this software.
+For example: docker run -e SPLUNK_GENERAL_TERMS=--accept-sgt-current-at-splunk-com -e SPLUNK_START_ARGS=--accept-license -e SPLUNK_PASSWORD splunk/splunk
+
+For additional information and examples, see the help: docker run -it splunk/splunk help
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker rm -f kechbus-siem
+kechbus-siem
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker run -d --name kechbus-siem --platform linux/amd64 -p 8888:8000 -p 9997:9997 -e 'SPLUNK_START_ARGS=--accept-license' -e 'SPLUNK_PASSWORD=KechbusSplunkSecure2026!' splunk/splunk:9.1.0
+Unable to find image 'splunk/splunk:9.1.0' locally
+docker: Error response from daemon: failed to resolve reference "docker.io/splunk/splunk:9.1.0": docker.io/splunk/splunk:9.1.0: not found.
+See 'docker run --help'.
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker rm -f kechbus-siem 2>/dev/null && docker system prune -f
+Deleted Containers:
+19ca0e98dcc7ba1d2b3c1432cb78ddab928ea63ca941007d4a0e3e014c251f61
+
+Deleted Networks:
+localstack-ec2-link-local
+
+Total reclaimed space: 81.41MB
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker run -d --name kechbus-siem -p 9000:8000 -p 9997:9997 --ulimit nofile=65535:65535 -e 'SPLUNK_START_ARGS=--accept-license' -e 'SPLUNK_PASSWORD=KechbusSplunkSecure2026!' splunk/splunk:9.0
+Unable to find image 'splunk/splunk:9.0' locally
+9.0: Pulling from splunk/splunk
+a3494b1c8e0a: Download complete 
+535e67bb9901: Download complete 
+c9f92dbc740e: Download complete 
+2e5a390b2079: Download complete 
+9d1e46e9c622: Download complete 
+b4944b67b6df: Download complete 
+4f4fb700ef54: Already exists 
+a15b996d0c1b: Download complete 
+9f920b80d69e: Download complete 
+0af7709b4410: Download complete 
+e7bf1f726a97: Download complete 
+Digest: sha256:ee5fdbd213878737b6368446c93faff1b1391f1f06243a4d0b00879bd0a4aa4f
+Status: Downloaded newer image for splunk/splunk:9.0
+54c62aac1471c053ffa47f4e6173e156e9b22c9bceac251e1d225ce165cb82e4
+louarainiabderrahmane@Air-de-cash kechbus-ticket % docker logs -f kechbus-siem
+
+PLAY [Run default Splunk provisioning] *****************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [Provision role] **********************************************************
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/get_facts.yml for localhost
+
+TASK [splunk_common : Set privilege escalation user] ***************************
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Check for scloud] ****************************************
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Check for existing installation] *************************
+ok: [localhost]
+
+TASK [splunk_common : Set splunk install fact] *********************************
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Check for existing splunk secret] ************************
+ok: [localhost]
+
+TASK [splunk_common : Set first run fact] **************************************
+ok: [localhost]
+
+TASK [splunk_common : Set splunk_build_type fact] ******************************
+included: /opt/ansible/roles/splunk_common/tasks/get_facts_build_type.yml for localhost
+
+TASK [splunk_common : Set target version fact] *********************************
+included: /opt/ansible/roles/splunk_common/tasks/get_facts_target_version.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Find manifests] ******************************************
+ok: [localhost]
+
+TASK [splunk_common : Set current version fact] ********************************
+ok: [localhost]
+
+TASK [splunk_common : Setting upgrade fact] ************************************
+ok: [localhost]
+
+TASK [splunk_common : Setting indexer cluster fact from config] ****************
+ok: [localhost]
+
+TASK [splunk_common : Setting search head cluster fact from config] ************
+ok: [localhost]
+
+TASK [splunk_common : Detect service name] *************************************
+included: /opt/ansible/roles/splunk_common/tasks/get_facts_service_name.yml for localhost
+
+TASK [splunk_common : Setting service_name fact from config] *******************
+ok: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/install_python_requirements.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Check if requests_unixsocket exists] *********************
+changed: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/change_splunk_directory_owner.yml for localhost
+
+TASK [splunk_common : Update Splunk directory owner] ***************************
+ok: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/update_etc.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Check if /sbin/updateetc.sh exists] **********************
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Update /opt/splunk/etc] **********************************
+changed: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/remove_first_login.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Create .ui_login] ****************************************
+changed: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/set_splunk_secret.yml for localhost
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/enable_admin_auth.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Hash the password] ***************************************
+changed: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Generate user-seed.conf (Linux)] *************************
+changed: [localhost] => (item=USERNAME)
+changed: [localhost] => (item=HASHED_PASSWORD)
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/configure_mgmt_port.yml for localhost
+
+TASK [splunk_common : set version fact] ****************************************
+ok: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/pre_splunk_start_commands.yml for localhost
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/enable_s2s.yml for localhost
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/s2s/configure_splunktcp.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Enable splunktcp input] **********************************
+changed: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Remove splunktcp-ssl input] ******************************
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Remove input SSL settings] *******************************
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Reset root CA] *******************************************
+ok: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/trigger_restart.yml for localhost
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/get_splunk_status.yml for localhost
+
+TASK [splunk_common : Restrict permissions on splunk.key for Status] ***********
+included: /opt/ansible/roles/splunk_common/tasks/restrict_permissions.yml for localhost => (item=/opt/splunk/var/lib/splunk/kvstore/mongo/splunk.key)
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Check if /opt/splunk/var/lib/splunk/kvstore/mongo/splunk.key exists] ***
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Get Splunk status] ***************************************
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Trigger restart] *****************************************
+ok: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/set_mgmt_port.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Set mgmt port] *******************************************
+changed: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/enable_splunkd_ssl.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Enable Splunkd SSL] **************************************
+ok: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/start_splunk.yml for localhost
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/get_splunk_status.yml for localhost
+
+TASK [splunk_common : Restrict permissions on splunk.key for Status] ***********
+included: /opt/ansible/roles/splunk_common/tasks/restrict_permissions.yml for localhost => (item=/opt/splunk/var/lib/splunk/kvstore/mongo/splunk.key)
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Check if /opt/splunk/var/lib/splunk/kvstore/mongo/splunk.key exists] ***
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Get Splunk status] ***************************************
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Cleanup Splunk runtime files] ****************************
+ok: [localhost] => (item=/opt/splunk/var/run/splunk/splunkd.pid)
+ok: [localhost] => (item=/opt/splunk/var/lib/splunk/kvstore/mongo/mongod.lock)
+
+TASK [splunk_common : Restrict permissions on splunk.key] **********************
+included: /opt/ansible/roles/splunk_common/tasks/restrict_permissions.yml for localhost => (item=/opt/splunk/var/lib/splunk/kvstore/mongo/splunk.key)
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Check if /opt/splunk/var/lib/splunk/kvstore/mongo/splunk.key exists] ***
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Start Splunk via CLI] ************************************
+changed: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/check_uds_file.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Check if UDS file exists] ********************************
+ok: [localhost]
+
+TASK [splunk_common : Set UDS enabled/disabled] ********************************
+ok: [localhost]
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Wait for splunkd management port] ************************
+ok: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/set_certificate_prefix.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Test basic https endpoint] *******************************
+ok: [localhost]
+
+TASK [splunk_common : Set url prefix for future REST calls] ********************
+ok: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/clean_user_seed.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Remove user-seed.conf] ***********************************
+ok: [localhost]
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/add_splunk_license.yml for localhost
+
+TASK [splunk_common : Initialize licenses array] *******************************
+ok: [localhost]
+
+TASK [splunk_common : Determine available licenses] ****************************
+ok: [localhost] => (item=splunk.lic)
+
+TASK [splunk_common : Apply licenses] ******************************************
+included: /opt/ansible/roles/splunk_common/tasks/apply_licenses.yml for localhost => (item=splunk.lic)
+
+TASK [splunk_common : include_tasks] *******************************************
+included: /opt/ansible/roles/splunk_common/tasks/licenses/add_license.yml for localhost => (item=(censored due to no_log))
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_common : Ensure license path] *************************************
+ok: [localhost]
+
+TASK [splunk_standalone : include_tasks] ***************************************
+included: /opt/ansible/roles/splunk_standalone/tasks/../../splunk_common/tasks/set_as_hec_receiver.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_standalone : Get existing HEC token] ******************************
+changed: [localhost]
+
+TASK [splunk_standalone : Attempt] *********************************************
+ok: [localhost] => {}
+
+MSG:
+
+404
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_standalone : Setup global HEC] ************************************
+changed: [localhost]
+
+TASK [splunk_standalone : include_tasks] ***************************************
+included: /opt/ansible/roles/splunk_standalone/tasks/../../splunk_common/tasks/check_for_required_restarts.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [splunk_standalone : Check for required restarts] *************************
+ok: [localhost]
+
+TASK [Check all instances for required restarts] *******************************
+included: /opt/ansible/roles/splunk_common/tasks/check_for_required_restarts.yml for localhost
+[WARNING]: Using world-readable permissions for temporary files Ansible needs
+to create when becoming an unprivileged user. This may be insecure. For
+information on securing this, see https://docs.ansible.com/ansible-
+core/2.15/playbook_guide/playbooks_privilege_escalation.html#risks-of-becoming-
+an-unprivileged-user#risks-of-becoming-an-unprivileged-user
+
+TASK [Check for required restarts] *********************************************
+ok: [localhost]
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=81   changed=10   unreachable=0    failed=0    skipped=78   rescued=0    ignored=0   
+
+===============================================================================
+
+Ansible playbook complete, will begin streaming splunkd_stderr.log
+
