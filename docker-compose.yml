@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  splunk-siem:
+    image: splunk/splunk:9.0
+    container_name: kechbus-siem
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=KechbusSplunkSecure2026!
+    ports:
+      - "9000:8000"  # Interface Web
+      - "9997:9997"  # Ingestion des logs
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
