@@ -1,0 +1,2 @@
+"src_ip",echecs,"utilisateurs_vises","alert_level",description
+"192.168.1.50",12,1,High,"Attaque par Brute Force détectée sur l'API Kechbus"

@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Rapport d'Audit de Sécurité - Phase 6 SIEM</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm 20mm 15mm;
+            @bottom-right {
+                content: "Page " counter(page) " sur " counter(pages);
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 8pt;
+                color: #64748b;
+            }
+            @bottom-left {
+                content: "Kechbus Ticket — Phase 6 : SIEM & Corrélation";
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 8pt;
+                color: #64748b;
+                font-weight: bold;
+            }
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            background-color: #ffffff;
+            line-height: 1.5;
+            font-size: 10.5pt;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header-banner {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 25px 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .header-banner h1 {
+            font-size: 20pt;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #a855f7;
+        }
+        
+        .header-banner subtitle {
+            font-size: 12pt;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .meta-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+        }
+
+        .meta-table td {
+            padding: 10px 12px;
+            font-size: 9.5pt;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .meta-table td.label {
+            font-weight: bold;
+            color: #475569;
+            width: 25%;
+            background-color: #f1f5f9;
+        }
+        
+        .meta-table td.value {
+            color: #0f172a;
+        }
+
+        h2 {
+            font-size: 14pt;
+            color: #0f172a;
+            border-left: 4px solid #a855f7;
+            padding-left: 10px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            font-size: 11.5pt;
+            color: #1e293b;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            page-break-inside: avoid;
+        }
+
+        table.data-table th {
+            background-color: #1e293b;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: left;
+            padding: 10px 12px;
+            font-size: 9.5pt;
+            border: 1px solid #1e293b;
+        }
+
+        table.data-table td {
+            padding: 9px 12px;
+            font-size: 9.5pt;
+            border: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+
+        table.data-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            font-weight: bold;
+            font-size: 8pt;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .status-success {
+            background-color: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        .status-warning {
+            background-color: #fef9c3;
+            color: #a16207;
+            border: 1px solid #fef08a;
+        }
+
+        pre {
+            background-color: #0f172a;
+            color: #e9d5ff;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 8.5pt;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            border-left: 3px solid #a855f7;
+        }
+
+        .callout {
+            background-color: #faf5ff;
+            border-left: 4px solid #a855f7;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .callout-title {
+            font-weight: bold;
+            color: #581c87;
+            margin-bottom: 4px;
+            font-size: 10pt;
+        }
+
+        .callout-body {
+            font-size: 9.5pt;
+            color: #6b21a8;
+        }
+
+        ul {
+            margin-top: 0;
+            margin-bottom: 12px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <h1>Rapport de Centralisation & Corrélation SIEM</h1>
+        <subtitle>Déploiement de Splunk Enterprise & Établissement des Règles SOC — Phase 6 sur 6</subtitle>
+        <div style="font-size: 9pt; color: #cbd5e1;">Projet de Fin d'Études (PFE) : Cyber Threat Intelligence & Application Security</div>
+    </div>
+
+    <table class="meta-table">
+        <tr>
+            <td class="label">Projet</td>
+            <td class="value">Kechbus Ticket — Application Cloud de Réservation de Bus Interurbains</td>
+            <td class="label">Phase du Projet</td>
+            <td class="value">Phase 6 / 6 — Centralisation SIEM & Règles SIEM (SPL)</td>
+        </tr>
+        <tr>
+            <td class="label">Outils utilisés</td>
+            <td class="value">Splunk Enterprise v9.3.0 / Docker Core / Zsh Shell Engine</td>
+            <td class="label">Environnement</td>
+            <td class="value">macOS 12.7.6 (Monterey) / Architecture Intel x86_64</td>
+        </tr>
+        <tr>
+            <td class="label">Périmètre Supervisé</td>
+            <td class="value">Logs Applicatifs Express, Événements AWS WAFv2 et Appels IAM (LocalStack)</td>
+            <td class="label">Instance SIEM</td>
+            <td class="value">Conteneur local (<code>kechbus-siem</code>) ouvert sur le Port 8000</td>
+        </tr>
+        <tr>
+            <td class="label">Date de Clôture</td>
+            <td class="value">02 Juin 2026</td>
+            <td class="label">Ingénieur SOC Référent</td>
+            <td class="value">Louaraini Abderrahmane</td>
+        </tr>
+        <tr>
+            <td class="label">Niveau de Couverture</td>
+            <td class="value"><span class="status-badge status-success">OPÉRATIONNEL</span> (3 Cas d'usage implémentés)</td>
+            <td class="label">Statut Validation</td>
+            <td class="value">100% Validé via simulations SPL</td>
+        </tr>
+    </table>
+
+    <h2>1. Objectifs de la Phase 6 et Architecture SOC</h2>
+    <p>
+        La sixième et dernière phase du projet <strong>Kechbus Ticket</strong> finalise le volet <i>SecOps / Guardrails</i> en dotant l'infrastructure d'une capacité autonome de détection des menaces. Suite au déploiement des composants Cloud émulés (Phase 5), il s'agissait de centraliser les traces d'activité (logs) applicatives, réseau et d'infrastructure au sein d'un <strong>SIEM (Security Information and Event Management)</strong>.
+    </p>
+    <p>
+        L'outil retenu est <strong>Splunk Enterprise</strong>, instancié de manière isolée au sein de l'environnement Docker du MacBook Air. Cette phase met en œuvre la corrélation d'événements pour identifier en temps réel les prémices d'attaques complexes et lever des alertes qualifiées.
+    </p>
+
+    <h2>2. Déploiement Technologique du SIEM</h2>
+    <p>
+        Le moteur de centralisation a été provisionné via une image officielle Splunk optimisée. La commande suivante a permis d'instancier l'environnement de supervision tout en contournant les restrictions syntaxiques liées à la gestion des caractères spéciaux sous l'interpréteur Zsh :
+    </p>
+    <pre>docker run -d   -p 8000:8000 -p 8089:8089 -p 9997:9997   -e 'SPLUNK_START_ARGS=--accept-license'   -e 'SPLUNK_PASSWORD=KechbusSplunkSecure2026!'   --name kechbus-siem   splunk/splunk:latest</pre>
+    <p>
+        Le conteneur expose trois ports stratégiques : le port <strong>8000</strong> pour l'accès à l'interface graphique d'administration, le port <strong>8089</strong> pour les requêtes API programmatiques, et le port <strong>9997</strong> configuré pour la réception des flux de logs bruts provenant des Forwarders applicatifs.
+    </p>
+
+    <h2>3. Règles de Corrélation et Cas d'Usage de Sécurité (SPL)</h2>
+    <p>
+        Trois règles de corrélation majeures écrites en <strong>SPL (Search Processing Language)</strong> ont été définies pour couvrir les couches Applicative, Réseau et Cloud de Kechbus Ticket.
+    </p>
+
+    <h3>Cas d'Usage 1 : Détection d'Attaque par Force Brute (Couche Applicative)</h3>
+    <p>
+        <strong>Scénario :</strong> Un attaquant tente de compromettre un compte client ou administrateur sur l'API Kechbus par dictionnaire.
+    </p>
+    <pre>sourcetype="kechbus:api:logs" "action=login" "status=failed"
+| stats count as echecs distinct_count(user_id) as utilisateurs_vises by src_ip
+| where echecs > 5
+| eval alert_level="High", description="Suspicion de Brute Force : Seuil critique d'échecs dépassé."</pre>
+
+    <h3>Cas d'Usage 2 : Tentative d'Injection SQL (Couche Réseau / WAF)</h3>
+    <p>
+        <strong>Scénario :</strong> Un utilisateur malveillant injecte des patterns SQL sur les endpoints d'achats de tickets pour contourner la couche Prisma ORM.
+    </p>
+    <pre>sourcetype="aws:waf" action="BLOCK"
+| regex _raw="(?i)(UNION|SELECT|INSERT|DELETE|DROP|--|OR 1=1)"
+| stats count by src_ip, uri, http_method
+| rename count as "Nombre d'attaques SQLi bloquées"</pre>
+
+    <h3>Cas d'Usage 3 : Exfiltration de Jetons et Secrets (Couche Cloud Runtime)</h3>
+    <p>
+        <strong>Scénario :</strong> Compromission d'une clé d'accès ou comportement anormal d'une fonction interne interrogeant de façon itérative le gestionnaire de secrets AWS.
+    </p>
+    <pre>sourcetype="aws:cloudtrail" eventName=GetSecretValue
+| stats count distinct_count(secretName) as secrets_consultes by user, src_ip
+| where count > 10 OR secrets_consultes > 2
+| eval alert_level="Critical", threat_context="Alerte : Comportement anormal d'extraction de secrets de production."</pre>
+
+    <h2>4. Alignement Stratégique avec le Référentiel MITRE ATT&CK</h2>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 25%;">Tactique MITRE</th>
+                <th style="width: 25%;">Technique Référencée</th>
+                <th style="width: 20%;">Source de Données</th>
+                <th style="width: 30%;">Indicateur de Compromission (IoC)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Credential Access</strong><br><small>TA0006</small></td>
+                <td>Brute Force<br><small>T1110</small></td>
+                <td><code>kechbus:api:logs</code></td>
+                <td>Génération de plus de 5 événements d'authentification invalides pour une IP unique en moins de 5 minutes.</td>
+            </tr>
+            <tr>
+                <td><strong>Initial Access</strong><br><small>TA0001</small></td>
+                <td>Exploit Public-Facing Application<br><small>T1190</small></td>
+                <td><code>aws:waf</code> (LocalStack)</td>
+                <td>Blocage systématique de payloads HTTP contenant des structures syntaxiques SQL de type <code>UNION/OR</code>.</td>
+            </tr>
+            <tr>
+                <td><strong>Credential Access</strong><br><small>TA0006</small></td>
+                <td>Steal Application Credentials<br><small>T1528</small></td>
+                <td><code>aws:cloudtrail</code></td>
+                <td>Volume inhabituel d'appels à l'API <code>GetSecretValue</code> ciblant le coffre-fort d'identifiants de production.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>5. Incidents Résolus durant le Déploiement</h2>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 30%;">Incident Rencontré</th>
+                <th style="width: 70%;">Analyse Technique et Mesure Corrective Appliquée</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Blocage d'interprétation Shell Zsh (<code>dquote></code>)</strong></td>
+                <td><strong>Cause :</strong> L'utilisation du caractère d'exclamation (<code>!</code>) au sein du mot de passe de l'environnement Splunk encapsulé dans des guillemets doubles (<code>"</code>) provoquait l'activation intempestive du mécanisme d'expansion de l'historique Zsh.<br><strong>Correction :</strong> Interruption immédiate du processus via la séquence <code>Ctrl + C</code> et modification des délimiteurs par des guillemets simples (<code>'</code>) pour figer la chaîne de caractères et forcer l'évaluation littérale par le terminal du Mac.</td>
+            </tr>
+            <tr>
+                <td><strong>Parasitage de caractères (Syntax Error)</strong></td>
+                <td><strong>Cause :</strong> Introduction accidentelle d'un crochet d'annotation structurel (<code>[</code>) juste avant la désignation de la branche d'image (<code>splunk/splunk:latest</code>), invalidant l'analyse de la commande par l'exécuteur Docker Core.<br><strong>Correction :</strong> Nettoyage strict de la chaîne de commande et réexécution d'une instruction monolithique en une seule ligne continue pour garantir le parsing exact par le démon Docker.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>6. Conclusion Générale du Projet de Fin d'Études</h2>
+    <p>
+        Avec la validation de la <strong>Phase 6 — Centralisation & Règles de Corrélation SIEM</strong>, l'ensemble du cycle de sécurisation de la plateforme <strong>Kechbus Ticket</strong> est désormais achevé. Le pipeline SecOps complet intègre désormais l'analyse de composition logicielle (SCA via Snyk), le durcissement de la configuration d'infrastructure (AWS/LocalStack) et la supervision continue de la sécurité (SIEM Splunk).
+    </p>
+    <p>
+        L'implémentation de ces mécanismes de défense en profondeur atteste de la viabilité industrielle du projet et répond parfaitement aux exigences de sécurité actuelles face aux menaces ciblées (Advanced Persistent Threats) et aux vulnérabilités applicatives courantes.
+    </p>
+
+    <div style="margin-top: 40px; padding-top: 10px; border-top: 1px solid #e2e8f0; font-size: 8.5pt; color: #64748b; text-align: center;">
+        Rapport de Clôture Technique PFE | Date : 02 Juin 2026 | Spécialisation : Information Security | Kechbus Ticket SecOps
+    </div>
+
+</body>
+</html>
